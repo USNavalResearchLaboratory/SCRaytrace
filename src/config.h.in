@@ -1,0 +1,17 @@
+
+#ifndef _CONFIGURATION_HEADER_GUARD_H_
+#define _CONFIGURATION_HEADER_GUARD_H_
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#cmakedefine HAVE_STDINT_H @HAVE_STDINT_H@
+
+/* The size of `long', as computed by sizeof. */
+//#define SIZEOF_INT @SIZEOF_INT@
+
+#cmakedefine Boost_FOUND @Boost_FOUND@
+
+
+#cmakedefine SCRAYTRACE_DATA_DIR "@SCRAYTRACE_DATA_DIR@"
+
+
+#endif
