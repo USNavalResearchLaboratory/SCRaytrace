@@ -3,11 +3,11 @@ Solar Corona Raytracing tools
 
 ## Compiling the source from github
 SCraytrace now uses cmake. To compile the project once cloned from github, run the following:  
-cmake -H. -Bbuild
+cmake -H. -Bbuild  
 cmake --build build -- -j3
 
 For additional testing, you can run the following:  
-cd build
+cd build  
 make test
 
 ## Dependencies
