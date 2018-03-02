@@ -14,3 +14,8 @@ make test
 - boost C++ library
 - cppunit
 
+## To Do
+- Implement ray-tracing of data cube from predictive science
+- Implement SoloHI and WISPR projections
+- Implement a Python wrapper
+- Documentation for the F-Corona/VSF models
