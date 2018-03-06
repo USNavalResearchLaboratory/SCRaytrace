@@ -27,7 +27,7 @@ make test
 Use doxywizard to generate the code documentation. The Doxyfile file is the configuration file.  
 
 ## Gererating the user manual
-The user manual is writen using Docbook.  
+The user manual is writen using Docbook. More details will follow here on how to edit and generate the manual.  
 
 ## To Do
 - Implement ray-tracing of data cube from predictive science
