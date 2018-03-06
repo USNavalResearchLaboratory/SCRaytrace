@@ -19,3 +19,5 @@ make test
 - Implement SoloHI and WISPR projections
 - Implement a Python wrapper
 - Documentation for the F-Corona/VSF models
+- Generate pakage with cmake
+
