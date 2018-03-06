@@ -1,0 +1,1934 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+	  "http://docbook.org/xml/5.0/dtd/docbook.dtd"
+	  [
+	  <!ENTITY myprompt "<prompt xmlns='http://docbook.org/ns/docbook' version='5.0'>[dave@HAL]$ </prompt>">
+	  <!ENTITY idlprompt "<prompt xmlns='http://docbook.org/ns/docbook' version='5.0'>IDL> </prompt>">
+	  ]>
+
+<book  xml:lang="en">
+ 
+
+<info>
+	<title>Raytracing Software for the Simulation of the Solar Corona: User's Guide</title>
+<keywordset><keyword>Solar corona</keyword>
+<keyword>Simulation</keyword>
+<keyword>Ray-Tracing</keyword></keywordset>
+	
+<pubdate>Last revised on Tuesday, April 24, 2012</pubdate>
+	
+<!--	
+<abstract>
+<para>This provides some documentation for a ray-tracing software developed in the solar physics team of the Naval Reasearch Lab.</para>
+-->
+
+
+<!--  <para><link xlink:href="../index.html">Raytrace Software Main Page</link></para> -->
+
+<!--<para><link xlink:href="http://secchi.nrl.navy.mil/wiki/pmwiki.php?n=Main.DataProcessingAndAnalysis">SECCHI-Wiki</link></para>-->
+
+
+<!--<para><link xlink:href="http://secchi.nrl.navy.mil/bugzilla/">Report a Bug with Bugzilla</link></para>-->
+
+<!--<para><date>Tuesday, March 6, 2012</date></para>
+</abstract>-->
+
+
+</info>
+
+
+
+
+<chapter xml:id="latest_news" xreflabel="Latest_News">
+	<title>Latest News</title>
+	
+	<note><para>The latest version of SCRaytrace can be downloaded <link xlink:href="http://secchi.nrl.navy.mil/wiki/pmwiki.php?n=Main.DataProcessingAndAnalysis">here [http://secchi.nrl.navy.mil/wiki/pmwiki.php?n=Main.DataProcessingAndAnalysis]</link></para></note>
+	
+	<!--
+	<variablelist>
+		
+		
+		
+		
+		<varlistentry>
+			<term><date>2009-April-13</date></term>
+			<listitem><variablelist>
+					
+					<varlistentry>
+						<term>New Features:</term>
+						<listitem><itemizedlist>
+								<listitem><para>Implement ModelPosition class to deal with positioning of the models.</para></listitem>
+								<listitem><para>Implement extra positioning parameters for the models.</para></listitem>
+								<listitem><para>Use a common ChangeCoordtoDensity function to calculate the position of a point into the model basis.</para></listitem>
+							</itemizedlist></listitem>
+					</varlistentry>
+					
+					<varlistentry>
+						<term>Bug Fixes:</term>
+						
+						<listitem><itemizedlist>
+								<listitem><para>Fix quiet mode in the scene class, rtthread and buildcloud.</para></listitem>
+								<listitem><para>Fix model 26: density cube with tri-linear interpolation.</para></listitem>
+							</itemizedlist></listitem>
+						
+					</varlistentry></variablelist></listitem>
+		</varlistentry>
+
+		
+		
+	</variablelist>
+	
+-->	
+	
+	
+</chapter>
+
+
+
+
+<chapter xml:id="overview" xreflabel="Overview">
+<title>Overview</title>
+
+
+<para>
+Ray-tracing is a computer technique for generating an image by tracing the path of light through pixels in an image plane and simulating the effects of what it encounters with virtual objects (<link xlink:href="http://en.wikipedia.org/wiki/Ray_tracing_%28graphics%29" >Wikipedia</link>). Here, we apply this technique for the Solar corona. </para>
+
+<para>
+The software implements:
+
+</para>
+
+<itemizedlist mark='bullet'>
+    <listitem>
+        <para>Thomson scattering for the simulation of the K corona <xref linkend="Billings1966"></xref>. 
+        </para>
+    </listitem>
+    <listitem >
+        <para>Mie scattering <xref linkend="vandeHulst1981"></xref><xref linkend="BohrenHuffman1983"></xref>
+        </para>
+    </listitem>
+    <listitem>
+        <para>Volume scattering function <xref linkend="LamyPerrin1986"></xref>
+        </para>
+    </listitem>
+    <listitem>
+        <para>UV emission
+        </para>
+    </listitem>
+</itemizedlist>
+
+	
+
+<para>The engine of the software and the models are written in C++ for processing efficiency. The software can be run using IDL command line or with a graphic user interface (GUI), which gives a quick way to visualize and fit simple CME models directly to data images.</para>
+
+</chapter>
+
+
+
+<chapter xml:id="install" xreflabel="Install">
+<title>Install</title>	
+
+<!--
+<sect1 id="dependencies"><title>Installing dependencies</title>
+	<para>The install of the following packages is optional and will not affect the functioning of <application>SCRaytrace</application> if used through <application>IDL</application>.
+	</para>
+	
+	
+	<para>Before installing <application>SCRaytrace</application> user can install the following packages:
+		<itemizedlist><listitem><para><filename>cfitsio</filename></para></listitem>
+			<listitem><para><filename>CCFITS</filename></para></listitem></itemizedlist>
+		wich can be downloaded at <ulink url="http://heasarc.nasa.gov/fitsio/fitsio.html" />
+	</para>
+	
+</sect1>
+-->
+
+<sect1 xml:id="install.overview"><title>Overview</title>
+<para>For the users using <acronym>SolarSoft</acronym> (<link xlink:href="http://stereo-ssc.nascom.nasa.gov/software.shtml" />), providing that one of the available binary file matches your computer architecture, you should be all set and ready to use SCRaytrace (see <xref linkend="runfromsolarsoft" />).</para>
+
+<para>One caveat of using the <acronym>SolarSoft</acronym> precompiled version is that it only runs in single-thread mode. For people that want to speed up the ray-tracing, a multi-threaded version of the code could be used but it would need to be re-compiled. The multi-threaded version uses the <acronym>boost</acronym> library which has to be installed before compiling <acronym>SCRaytrace</acronym> (<xref linkend="boost.install" />). If you plan to modify the code, it is recommended to install the <acronym>CppUnit</acronym> library (<xref linkend="cppunit.install"/>). The C++ source code is available either from the CVS SSW repository (<xref linkend="installfromcvs" />) or as a tarball package (<xref linkend="installtarcpp" />). </para>
+
+
+
+
+<!--
+<sect2 xml:id="installfromsolarsoft"><title>Installing form <acronym>SolarSoft</acronym></title>
+
+	<para>The <application>SCRaytrace</application> software is distributed in <acronym>SolarSoft</acronym>. It is part of the <acronym>STEREO-SECCHI</acronym> branch. If you are using <acronym>SolarSoft</acronym> then you should be able to run it without any extra installation steps. Nevertheless, <application>SCRaytrace</application> requires a binary file that should be compiled for your architecture. Precompiled libraries are made available via <acronym>SSW</acronym>. <application>SCRaytrace</application> detects your architecture (see <application>rtinitenv.pro</application>) and chose the corresponding library if it exists. If not, an error message is displayed and the software will not work. Anyway, this is were you can be useful to the community: you can still build the binary library from the source (see <xref linkend="checkoutcpp"/> or <xref linkend="installtarcpp"/>  ) and then either add the compiled library to the <acronym>SSW</acronym> <application>SCRaytrace</application> directory tree by 
+yourself, or force the shared object library by setting the <envar>RT_FORCELIBFILE</envar> environment variable (see <application>rtinitenv.pro</application>).</para>
+</sect2>
+-->
+
+</sect1>
+
+
+
+
+<sect1 xml:id="runfromsolarsoft"><title>Running <acronym>SCRaytrace</acronym> from <acronym>SolarSoft</acronym></title>
+<para>For the people having <acronym>SolarSoft</acronym> installed (<link xlink:href="http://stereo-ssc.nascom.nasa.gov/software.shtml" />), <acronym>SCRaytrace</acronym> is available in the secchi branch. In order for <acronym>SCRaytrace</acronym> to work fully, it requires a binary file that should be compiled for your architecture. Precompiled libraries are also available in <acronym>SolarSoft</acronym> and should be automatically detected (see <filename>rtinitenv.pro</filename>). In order to quickly check if <acronym>SCRaytrace</acronym> will work on your machine you can try running <screen>&idlprompt;<userinput>rttest</userinput></screen> in <application>IDL</application>. If the the program does not throw any error, you are all set and you can start to have some fun: <xref linkend="examples" />.</para>
+    
+    
+    
+</sect1>
+
+
+
+<sect1 xml:id="install.optional"><title>Installing optional libraries</title>
+    
+    <sect2  xml:id="boost.install"><title><acronym>Boost</acronym> library for multi-threading</title>
+        
+        <sect3  xml:id="whymultithread"><title>Why using multi-threading ?</title>
+        <para>If you have a multi-core computer you might want to enable multi-threading since it can significantly speed up the raytracing. We measured a factor ~6 speed up from using a single core to an 8-core processor. To enable this feature, the <acronym>boost</acronym> library has to be installed and the C++ code has to be recompiled.</para>
+        </sect3>
+        
+    
+    <sect3 xml:id="installboost"><title>Installing <acronym>boost</acronym></title>
+        <para><acronym>Boost</acronym> is a free peer-reviewed portable C++ source library. Package and install instructions are available at <link xlink:href="http://www.boost.org/" />. If you use linux, you might be able to install it with the package manager that comes with your distribution.</para>
+    </sect3>
+
+        
+   <!--     
+    <sect3 xml:id="compilewithboost"><title>Compiling SCRaytrace with Boost Thread</title>
+        <para>You can follow the same steps presented above in <xref linkend="checkoutcpp" /> or <xref linkend="installtarcpp" />. The only difference is that you now have to tell <command>./configure</command> to use boost-thread as follow:
+            <screen>&myprompt;<userinput>./configure -with-boost-thread</userinput></screen>
+            Optionaly, if boost is not in your search path, you can specify its location by using <option>-with-boost</option>=<optional>dir</optional>.       
+        </para>
+        
+        
+        <para>After compiling by running <command>make</command>, you can check if the program works by running <userinput>src/rtthread</userinput>.</para>
+    </sect3>
+-->
+
+   <!-- 
+    <sect3 xml:id="usingboostinidl"><title>Using multi-threaded SCRaytrace in IDL</title>
+    <para>In IDL, you will first need to set the filename with the full path of the library using multi-threading. To do so, use <command>rtinitenv.pro</command> as followed:
+        <screen>&idlprompt;<userinput>rtinitenv,forcelibthread='/path/to/the/lib/libraytracethread.so'</userinput>
+    </screen>
+    If you compiled the source code in <filename class='directory'>/path/to/scratrace</filename> then the library <filename class='libraryfile'>libraytracethread.so</filename> should be in the subdirectory <filename class='directory'>src/.libs</filename>.
+    </para>
+    
+    <para>To run a raytracing using multi-threading, you need to pass the keywords <option>nbthreads</option><replaceable>=nt</replaceable> and <option>nbchunks</option><replaceable>=nc</replaceable>
+        to either <command>raytracewl.pro</command> or <command>rtraytracewcs.pro</command>, where <replaceable>nt</replaceable> is the number of threads you want to run in paralelle, and <replaceable>nc</replaceable>, the number of chunks you want the image to be divided into. For example, setting <option>nbthreads</option><literal>=4</literal> and <option>nbchunks</option><literal>=8</literal> will divide the image in 8 equal sized parts but run only 4 threads at a time. A new thread will be run as soon as one terminates, as long as there are remaining image chunks to compute. Note that optimizing the speed generally requires couple of trials to find out the best <option>nbthreads</option> and <option>nbchunks</option> parameters for your architechture and the raytracing you are performing. Finally, note also that there is a small computation overhead when multi-threading, this explains why we only obtain a factor 6 speed up when using a 8 core computer. </para>
+    </sect3>
+    
+-->        
+        
+    </sect2>   
+
+
+
+    <sect2  xml:id="cppunit.install"><title><acronym>CppUnit</acronym> library for unit testing</title>
+        <para><acronym>CppUnit</acronym> is a C++ unit testing framework. It is needed if you want to run a <command>make check</command> after compilation, or if you plan to contribute to the C++ code and test your code. Sources and instructions for installing that library can be found at <link xlink:href="http://apps.sourceforge.net/mediawiki/cppunit/index.php?title=Main_Page" />.</para>
+        
+    </sect2>
+
+
+    <sect2  xml:id="automakelibtool"><title><acronym>Automake</acronym> and <acronym>Libtool</acronym></title>
+        <para>For people planning to modify SCRaytrace, the project uses <acronym>Automake</acronym> (<link xlink:href="http://www.gnu.org/software/automake/" />) and <acronym>Libtool</acronym> (<link xlink:href="http://www.gnu.org/software/libtool/" />). These <link xlink:href="http://www.gnu.org/" >GNU</link> softwares generally come standard with any linux distribution.</para>
+        
+    </sect2>
+
+    <sect2  xml:id="doxygen"><title><acronym>Doxygen</acronym> for code documentation</title>
+        <para>The C++ code is documented using <acronym>Doxygen</acronym>: <link xlink:href="http://www.stack.nl/~dimitri/doxygen/"/>. It is strongly recommended that people planning to contribute to SCRaytrace install that software and also document their code.</para>
+        
+    </sect2>
+
+
+
+
+</sect1>
+
+
+
+
+
+    <sect1 xml:id="installtarcpp"><title>Compiling the C++ code from the tarball package</title>
+
+<para>The install follows the classical <acronym>Unix</acronym>/<acronym>Linux</acronym> install steps: <command>./configure</command>, <command>make</command>, <command>make install</command>. Again, if you want to use the multi-threading capability of the code you will have to first install the <acronym>boost</acronym> library: <xref linkend="install.optional"/>.</para> 
+<procedure>
+    <step><para>Download the tarball package: go to <link xlink:href="http://secchi.nrl.navy.mil/wiki/pmwiki.php?n=Main.DataProcessingAndAnalysis"></link> and scroll down to <emphasis role="bold">Solar Corona Ray-Tracing Software</emphasis> section. </para></step>
+<step><para>Expand the package and move to the created directory:
+<screen>
+&myprompt;<userinput>tar -xzf scraytrace-0.1.tar.gz</userinput>
+&myprompt;<userinput>cd scraytrace-0.1</userinput></screen>
+</para></step>
+<step><para>Configure:
+<screen>
+&myprompt;<userinput>./configure</userinput></screen>
+Use <parameter>--help</parameter> to list the <command>./configure</command> options. If some libraries are not located in the standard linux path, you can use the following flags: <parameter>CPPFLAGS</parameter><filename>"=-I/non/standard/dir/include -L/non/standard/dir/libs"</filename> and <parameter>LDFLAGS</parameter><filename>=-L/non/standard/dir/libs</filename>. As well, if you installed <acronym>boost</acronym> in a non standard location, you can use the <parameter>--with-boost</parameter> to specify its location.
+</para></step>
+<step><para>Compile the sources:
+<screen>
+&myprompt;<userinput>make</userinput></screen>
+</para></step>
+<step><para>Optionally, you can check if the compiled programs and libraries work, but this requires that you have the <acronym>CPPUNIT</acronym> library installed: <xref linkend="cppunit.install"/>
+<screen>
+&myprompt;<userinput>make check</userinput></screen>
+</para></step>
+
+<!--
+<step><para>Install the package:
+<screen>
+&myprompt;<userinput>make install</userinput></screen>
+</para></step>
+-->
+<step><para>The compilation creates two shared object libraries:<filename>libraytrace.so</filename> and <filename>libraytracethread.so</filename>. They are located in the <filename>src/.libs</filename>. In order for IDL to see these files, you will have to set the path using <function>rtinitenv.pro</function> as explained in <xref linkend="s2_installidlpro"/>. </para>
+</step>
+
+
+</procedure>
+</sect1>
+
+
+
+
+
+
+
+
+
+
+
+<sect1 xml:id="installfromcvs"><title>Checking out the code from the <application>CVS</application> <acronym>SolarSoft</acronym> secchi branch repository</title>
+	
+	<para>Instructions to check out the secchi branch can be found at <link xlink:href="http://sohowww.nascom.nasa.gov/solarsoft/stereo/secchi/doc/SECCHI_IDL_Guidelines.html"></link></para>
+
+</sect1>
+
+
+	
+	<sect1 xml:id="checkoutcpp"><title>Compiling the C++ checked out of the CVS repository</title>
+	<para>In order to be able to compile the source code coming from the SolarSoft CVS repository you will need the <acronym>libtool</acronym> and <acronym>automake</acronym> GNU softwares: see <xref linkend="automakelibtool"/>. As well, <acronym>boost</acronym> and <acronym>CppUnit</acronym> are strongly recomended: see <xref linkend="install.optional"/></para>
+	
+		<procedure>
+<!--
+			<step>
+				<para>Change dir to a working area of your directory tree:
+<screen>
+&myprompt;<userinput>cd myworkdirectory</userinput></screen>
+				</para>
+			</step>
+-->			
+			<step>
+				<para>Move to the scraytrace directory of the secchi branch:
+					<screen>
+&myprompt;<userinput>cd secchi/cpp/scraytrace</userinput></screen>
+				</para>
+			</step>
+			
+			<step>
+				<para>Generate configure file:</para>
+					<para>Optionally, before the <command>aclocal</command>, you might have to update the Libtool files by making:
+						<screen>
+&myprompt;<userinput>libtoolize --copy --force</userinput></screen>
+				</para>
+					<para>Then proceed to:
+					<screen>
+&myprompt;<userinput>aclocal</userinput>
+&myprompt;<userinput>autoconf</userinput>
+&myprompt;<userinput>automake -a</userinput></screen>
+				</para>
+				
+			</step>
+			
+			
+			<step>
+			    <para>configure and compile</para>
+		<para>
+		<screen>
+&myprompt;<userinput>./configure</userinput>
+&myprompt;<userinput>make</userinput></screen>
+		
+        </para>			
+			</step>
+			
+<!--			
+            <step xml:id="multithreadedinstall">
+                <para>configure: multi-threaded case</para>
+        <para>
+        In order to be able to use the multi-threading ray-tracing capability, you need first to install the <application>boost</application> library, available here: <link xlink:href="http://www.boost.org/"></link>. One instaled, you should be able to configure and compile the same way than shown above. Nevertheless, if you installed boost in a directory that is not in your path, you might need to pass that directory to <command>./configure</command>. Use <command>./configure</command> <option>-help</option> to see the various keywords.
+        
+        </para>         
+            </step>
+-->
+
+			
+			
+			<step>
+				<para>If you have <link xlink:href="http://apps.sourceforge.net/mediawiki/cppunit/index.php?title=Main_Page"><acronym>CppUnit</acronym></link> library installed, then you can test if the compilation was successfull doing:
+					<screen>
+&myprompt;<userinput>make check</userinput>
+<computeroutput>...
+OK (1)
+PASS: testphysics
+===================
+All 11 tests passed
+===================
+...
+&myprompt;</computeroutput></screen>
+				</para>
+				
+			</step>
+			
+			<step>
+			    <para>Generate the code documentation:
+			        <screen>
+&myprompt;<userinput>doxygen Doxyfile</userinput></screen>    
+			    </para>
+			</step>
+			
+			
+			
+<!--
+			<step>
+				<para>Optionally, you can install the software but this step is not really useful. The default installation path is <filename>/usr/local</filename>. It can be changed by setting <parameter>-prefix=PATH</parameter> when calling <command>./configure</command>. 
+					<screen>
+&myprompt;<userinput>make install</userinput></screen>
+				</para>
+				
+			</step>
+-->
+			
+			
+		</procedure>
+		
+		<para>The compiled libraries <filename>libraytrace.so</filename> and  <filename>libraytracethread.so</filename> are located in the subdirectory <filename>src/.libs</filename>.</para>
+	</sect1>
+	
+
+
+
+
+	<sect1 xml:id="s2_installidlpro"><title>Setting the path of the compiled libraries for the <application>IDL</application> routines</title>
+		<procedure> 
+
+		
+			<step>
+				<para>Set the location of the shared libraries. You can use one of the two following options:</para>
+				<itemizedlist>
+					<listitem><para>Set the environment variable <envar>RT_FORCELIBFILE</envar> to the location of the shared library <filename>libraytrace.so</filename>.
+							<screen>
+&myprompt;<userinput>setenv RT_FORCELIBFILE /path/to/the/lib/libraytrace.so</userinput></screen>
+							You can include these lines in your <filename>.tcshrc</filename> or <filename>.bashrc</filename>, depending on your shell. 
+				</para>
+				<para>If you compiled with <acronym>boost</acronym> you also have to set the <envar>RT_FORCELIBTHREAD</envar> to the location of the shared library <filename>libraytracethread.so</filename>.<screen>&myprompt;<userinput>setenv RT_FORCELIBTHREAD /path/to/the/lib/libraytracethread.so</userinput></screen>
+				 Note again that both <filename>libraytrace.so</filename> and <filename>libraytracethread.so</filename> are located in the <filename>src/.libs</filename> directory of the C++ package once you have compiled the code.
+                            
+                </para></listitem>
+			<listitem><para>Run IDL and use the <command>rtinitenv.pro</command>  to set the shared library path
+						<screen>&idlprompt;<userinput>rtinitenv, forcelibfile='/path/to/the/lib/libraytrace.so',
+forcelibthread='/path/to/the/lib/libraytracethread.so'</userinput></screen>
+						
+					</para>				
+				</listitem>
+				</itemizedlist>
+				
+				
+			</step>
+			
+			<step>
+				<para>In order to check that everything works, run <command>rttest</command> under <application>IDL</application>. If the test is successful, you are all set and ready to have fun.
+					<screen>
+&idlprompt;<userinput>rttest</userinput>
+<computeroutput>...
+Test looks good !</computeroutput>
+&idlprompt;</screen>
+				</para>
+			</step>
+			
+			
+		</procedure>
+	</sect1>
+
+
+</chapter>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
+
+<chapter xml:id="raytracing" xreflabel="Raytracing">
+<title>Software Concept</title>
+-->
+
+<!--
+<sect1 xml:id="ray.goal"><title>Goal</title>
+<para>The goal of SCRaytrace is to simulate coronagraph observations of the solar corona.</para>
+</sect1>
+
+<sect1 xml:id="ray.principle"><title>Concept</title>
+<para>We can conceptualize this problem into four components: 1) the light source, which is the Sun, 2) the object that is illuminated by the source, which is the solar corona, 3) the physical process that scatters the light, and 4) the observer or the telescope that collects that light. The first step of a ray-tracing simulation is then to set the parameters defining these four components.
+</para>
+</sect1>
+-->
+
+<!--
+<sect1 xml:id="ray.corona"><title>The models and the physical processes</title>
+<para>The models and the physical processes are tightly linked. For example, the 3D electron density distribution of a model of CME will be ray-traced using the Thomson scattering physics, and a model of dust cloud made of spherical particles will be ray-traced using the Mie scattering physics. All the models are implemented with the same framework so technically, they could be ray-traced using any of the physical process available, even if this does not necessarilly make sense. The user has to check if the model and the physics they use are compatible.</para>
+
+
+<sect2 xml:id="ray.models"><title>The models</title>
+<para>For a complete list and short description of the models available, please refer to the source code documentation here: <link xlink:href="http://secchi.nrl.navy.mil/synomaps/scraytrace/doxy/annotated.html"/>. The models have the class name <classname>CModelXX</classname>, with <classname>XX</classname> the id of the model. </para>
+
+<para>Most of the models are implemented as geometrical functions but it is also possible to pass a density cube with models 25 and 26.</para>
+
+<para>The models are implemented as functions that return the electron density (in the case of Thomson Scattering physics) for a given coordinate position x,y,z of space (<xref linkend="GeometricModel"/>). The function generally will have some extra parameters, here noted   <inlineequation><alt>p</alt><mathphrase><emphasis>p</emphasis></mathphrase></inlineequation>, in order to be able modify the shape, properties and density of the model for example.</para>
+
+    <equation xml:id="GeometricModel">
+    <title>Geometric Model</title>
+    <alt>Ne = f(x,y,z,p)</alt>
+    <mathphrase>Ne = f(x,y,z,<emphasis>p</emphasis>)</mathphrase>
+</equation>
+
+
+</sect2>
+</sect1>-->
+
+
+<!--
+<sect1 xml:id="ray.meth"><title>Raytracing Principle</title>
+
+<sect2 xml:id="ray.meth.meth"><title>Raytracing Methods</title>
+
+<para>There are two methods to perform the raytracing: ray-casting and splating. This software uses ray-casting since its implementation is very simple.</para>
+
+<sect3 xml:id="ray.meth.meth.cast"><title>Ray-Casting</title>
+    <para>Each pixel of the image correspond to a line of sight (LOS). We simply integrate using <xref linkend="eq.losintegTB"/> and <xref linkend="eq.losintegPB"/> in order to obtain the brightness of each pixel of the image.</para>
+
+<figure xml:id="fig.raytracing"><title>Principle of ray-casting.</title>
+    <mediaobject>
+        <imageobject> <imagedata fileref="raytracecomponentsUS.eps" format="EPS" /> </imageobject>
+        <imageobject> <imagedata fileref="raytracecomponentsUS02.png" format="PNG" /> </imageobject>
+        <textobject> <phrase>Figure illustrating the principle of ray-casting</phrase> </textobject>
+    </mediaobject>
+</figure>
+
+</sect3>
+</sect2>
+</sect1>
+
+-->
+
+<!--
+
+</chapter>-->
+
+
+
+
+<chapter xml:id="examples" xreflabel="Mini Tutorial">
+<title>Mini Tutorial</title>	
+	
+
+<sect1 xml:id="commandline">
+<title>Using the Command Line</title>
+<para>
+The raytracing can be performed via the command line of <application>IDL</application>. It is of course less friendly than a graphic interface front end but it provides a way more flexibility, and simulations can be included in a batch script for example. The two main routines are <command>raytracewl</command> and <command>rtraytracewcs</command>. The following few examples show how to use these routines. Please refer to the program headers, they should be up to date with all the parameters and keyword description.
+
+
+<!--<note><para>We recommend that you use <command>rtraytracewcs</command> (see <xref linkend="tut.rtraytracewcs"></xref>) whenever you have a FITS header available. 
+of a data image for which you wish to make some simulations: <command>rtraytracewcs</command> uses directly the information of this header to set the position of the virtual camera and the parameters of its field of view.</para></note>-->
+
+
+
+</para>
+
+
+
+<sect2 xml:id="cl.raytracewl">
+<title><command>raytracewl</command></title>
+<sect3 xml:id="cl.raytracewl.noparam">
+<title>No parameter passing</title>
+<para>
+<example><title>Slab model simulation.</title>
+<programlisting>; -- simulation of a slab, edge-on
+raytracewl,sbt1,sbp1,sne1,imsize=[256,256],losrange=[-30,30],$
+losnbp=128L,modelid=14,neang=[0.,-39.5,-90-12]*!dtor,/c3
+wnd,0,alog10(sbt1.im > 1e-14)
+
+; -- simulation of a slab, face-on
+raytracewl,sbt2,sbp2,sne2,imsize=[256,256],losrange=[-30,30],$
+losnbp=128L,modelid=14,neang=[90.,-39.5,-90-12]*!dtor,/c3
+wnd,1,alog10(sbt2.im > 1e-14)
+</programlisting>
+</example></para>
+
+<simplesect><title>Inputs</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><parameter>sbt1</parameter></term>
+<listitem><para>Total brightness structures containing the image, the simulation parameters and a FITS header.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><parameter>sbp1</parameter></term>
+<listitem><para>Polarized brightness structures containing the image, the simulation parameters and a FITS header.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><parameter>sne1</parameter></term>
+<listitem><para>Integrated Ne structures containing the image, the simulation parameters and a FITS header.</para></listitem>
+</varlistentry>
+</variablelist> 
+</para>
+</simplesect>
+
+
+<simplesect><title>Outputs</title>
+<para>
+<variablelist> 
+<varlistentry>
+<term><parameter>imsize</parameter></term>
+<listitem><para>Size of the image in pixels.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><parameter>losrange</parameter></term>
+<listitem><para>LOS integration range in R_Sun, with the origin at the impact distance. Use the <parameter>frontinteg</parameter> keyword to change the origin to the observer.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><parameter>losnbp</parameter></term>
+<listitem><para>Number of integration points along the LOS, within the LOS range.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><parameter>modelid</parameter></term>
+<listitem><para>ID of the model.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><parameter>neang</parameter></term>
+<listitem><para>Rotation angles applied to the density model, in radian. Rotation order is Z, Y then X. X points up in the image, Y points on the right, and Z is the optical axis. (X,Y,Z) is direct.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><parameter>/c3</parameter></term>
+<listitem><para>Set to the predefined LASCO C3 FOV.</para></listitem>
+</varlistentry>
+
+<!--
+<varlistentry>
+<term>/fake</term>
+<listitem><para>Create a fake LASCO FITS header.</para></listitem>
+</varlistentry>
+-->
+
+</variablelist> 
+</para>
+</simplesect>
+
+</sect3>
+
+
+<sect3 xml:id="ray.rotationorder"><title>Rotation order convention</title>
+	<para>Rotation order convention for the variables <varname>obsang</varname> and <varname>neang</varname> is: 1st: Oz, 2nd: Oy, 3rd: Ox.</para>
+</sect3>
+
+
+<sect3 xml:id="cl.raytracewl.withparam">
+<title>With parameter passing</title>
+<para>
+<example>
+<title>CME model simulation</title>
+<programlisting>raytracewl,sbt1,sbp1,sne1,imsize=[256,256],losrange=[-30,30],$
+losnbp=128L,modelid=54,modparam=[2.,30.*!dtor,12.,0.2,1e6,0,0,0,0.8,0.5],neang=[50.,-39.5,-90-12]*!dtor,/c3
+wnd,0,bytscl(alog10(sbt1.im > 1e-20),-13,-9),/tv
+</programlisting>
+</example>
+</para>
+
+<simplesect><title>Inputs</title>
+<variablelist>
+<varlistentry>
+<term><parameter>modparam</parameter></term>
+<listitem><para>Array of parameter corresponding to the model 54. See <filename>models51to60.cpp</filename> <link xlink:href='http://secchi.nrl.navy.mil/synomaps/scraytrace/doxy/index.html'>here</link> for more details.</para></listitem>
+</varlistentry>
+</variablelist>
+</simplesect>
+</sect3>
+
+
+<sect3 xml:id="cl.raytracewl.denscube">
+<title>With a Density Cube</title>
+<para>
+The model 26 is useful to do a ray-tracing through an electron density cube. The format of the <parameter>modparam</parameter> parameter array is the following (see also the source code):
+
+<orderedlist>
+<listitem><para>x size (sx)</para></listitem>
+<listitem><para>y size (sy)</para></listitem>
+<listitem><para>z size (sz)</para></listitem>
+<listitem><para>xc Sun center in pix</para></listitem>
+<listitem><para>yc Sun center in pix</para></listitem>
+<listitem><para>zc Sun center in pix<note><para>(0,0,0) is at the first vertice of the density cude.</para></note></para></listitem>
+<listitem><para>voxel size in rsun, same for the 3 directions of space</para></listitem>
+<listitem><para>data cube in lexicographical order (x,y,z)</para></listitem>
+</orderedlist>
+</para>
+
+<para>
+We can build a fake electron density cube and make the raytracing for the example. Here we use a parallelopiped slab. Note that model 26 uses trilinear interpolation between neighbor voxels. For no interpolation, use model 25.
+<programlisting>; ---- build the fake density cube
+cube=fltarr(64,64,64)
+cube[32:*,32:*,32:38]=1e4
+; ---- build the parameter array
+modparam=[64,64,64,32,32,32,0.8,reform(cube,64L*64L*64L)]
+; ---- generate the view
+raytracewl,sbt,imsize=[256,256],losnbp=64L,losrange=[-20,20],$$
+modelid=26,modparam=modparam,neang=[90,-80,30]*!dtor,/cor2
+wnd,0,alog10(sbt.im >1e-12 )
+</programlisting>
+</para>
+</sect3>
+
+
+
+
+<!--
+<sect3><title>With a Density Cube: splatting method</title>
+<para>TO BE DONE</para>
+</sect3>
+-->
+
+
+
+<!--
+
+<sect3 xml:id="cl.raytracewl.pfss">
+<title>With a PFSS Extrapolation Density Cube Model</title>
+<para>
+This model (#4) uses density cube from Y.-M Wang potential field source surface extrapolation program. In that example, a default density cube for the CR 1926 is downloaded, so that the parameters are hidden in the command line but appended within the program (see the source code). This simulation is made with a LASCO C1 FOV.
+<programlisting>raytracewl,sbt,imsize=[256,256],losnbp=512L,losrange=[-2,2],$$
+modelid=4,neang=[0,90,0.]*!dtor,/c1
+wnd,0,alog10(sbt.im > 1e-9)
+</programlisting>
+</para>
+</sect3>-->
+
+
+<sect3 xml:id="cl.raytracewl.ssfm">
+<title>With Source Surface Field Map</title>
+<para>
+For model #11, a Carrington map with the position of the neutral line have to be used. Electron density is placed depending on the distance to the neutral line and radial distance to the Sun. This can be used to reproduce the shape of the streamer belt.
+<programlisting>; ---- download the CR2012 SSFM from WSO
+rdtxtmagmap,nsheetmap,crot=2012
+; ---- format parameter array in single row vector
+modparam=reform(nsheetmap,n_elements(nsheetmap))
+; ---- run raytracing
+raytracewl,sbt,imsize=[256,256],losnbp=64L,losrange=[-20,20],modelid=11,modparam=modparam,neang=[0,90,0.]*!dtor,/cor2
+; ---- display total brightness
+wnd,0,alog10(sbt.im > 1e-14)
+</programlisting>
+</para>
+</sect3>
+
+<sect3 xml:id="cl.raytracewl.raddist">
+<title>Overploting Radial Distance</title>
+<para>
+In this example, we show how to plot the radial distance on simulated images. The raytracing program returns an extra parameter <parameter>rho</parameter> which is the impact distance for each LOS/pixel of the image. <command>oplotimpactgrid</command> is then used to overplot that distance on the simulated image.
+<programlisting>raytracewl,sbt1,sbp1,sne1,imsize=[256,256],losrange=[-30,30],$$
+losnbp=128L,modelid=33,modparam=[0.7,2.55,30.,10,.2],neang=[0.,-39.5,-90-12]*!dtor,/c3,/fake,rho=rho
+wnd,0,alog10(sbt1.im > 1e-14)
+oplotimpactgrid,rho,levels=[1,(findgen(7)+2)*4],$$
+c_labels=replicate(1,10),ystyle=5,xstyle=5,c_linestyle=1
+</programlisting>
+</para>
+</sect3>
+</sect2>
+
+
+<sect2 xml:id="tut.rtraytracewcs">
+	<title>Using WCS information from a SECCHI data header: <command>rtraytracewcs</command></title>
+	<sect3><title>Simulation of a CME seen in SECCHI COR2-A</title>	
+<para>
+	For this example, we take the SECCHI COR2-A event of 2007/05/15 23:52:30. A pre-event image taken on 2007/05/15 18:52:30 is subtracted and <command>secchi_prep</command> is used to calibrate both the pre-event and the event images from a triplet of polarized images. The IDL routine <command>rtraytracewcs</command> takes a SECCHI FITS header in input to set the simulation parameters: detector FOV, position and attitude. In the example code shown bellow, we use the GCS CME model, modelid #54. The 3 parameters of the variable <parameter>neang</parameter> allow to set respectively the Carington longitude, latitude and the tilt angle of the CME. The data image and the corresponding simulated image is given in <xref linkend="cor2cme" />
+<programlisting>eventtriplet = path + ['secchi/lz/L0/a/seq/cor2/20070515/20070515_235230_s4c2A.fts',$
+'secchi/lz/L0/a/seq/cor2/20070515/20070515_235243_s4c2A.fts',$
+'secchi/lz/L0/a/seq/cor2/20070515/20070515_235256_s4c2A.fts']
+
+preevtriplet = path + ['secchi/lz/L0/a/seq/cor2/20070515/20070515_215230_s4c2A.fts',$
+'secchi/lz/L0/a/seq/cor2/20070515/20070515_215243_s4c2A.fts',$
+'secchi/lz/L0/a/seq/cor2/20070515/20070515_215256_s4c2A.fts']
+
+secchi_prep,eventtriplet,hdrevent,imevent,/polariz_on,/rotate_on,/PRECOMMCORRECT_ON,/rotinterp_on,/silent
+secchi_prep,preevtriplet,hdrpreev,impreev,/polariz_on,/rotate_on,/PRECOMMCORRECT_ON,/rotinterp_on,/silent
+; ---- display the data image
+m=get_smask(hdrevent)
+wnd,0,alog10(m*(imevent-impreev) &#062; 1e-12 &#060; 1e-10),.25
+
+; -- get the default parameters for model 54
+rtraytracewcs,sbt,sbp,sne,imsize=[512,512],modelid=54,scchead=hdrevent,losnbp=2,losrange=[-20,20],$
+modparam=mp,/usedefault
+
+; -- replace parameters with those from fit
+mp[1]=0.4
+mp[2]=4.
+
+; ---- generate image of model corresponding to the event
+rtraytracewcs,sbt,sbp,sne,imsize=[512,512],modelid=54,scchead=hdrevent,losnbp=128,losrange=[-15,15],$
+modparam=mp,neang=[80.,13.,60]*!dtor
+
+; ---- display the result
+wnd,1,alog10(sbt.im > 1e-11)
+</programlisting>	
+	
+	
+<figure xml:id="cor2cme"><title>Simulation of a CME as seen from SECCHI COR2-A</title>
+		<mediaobject>
+			<imageobject> <imagedata fileref="cor2cmesimuevent.eps" format="EPS" /> </imageobject>
+			<imageobject> <imagedata fileref="cor2cmesimuevent.png" format="PNG" /> </imageobject>
+		</mediaobject><mediaobject>
+			<imageobject> <imagedata fileref="cor2cmesimusimu.eps" format="EPS" /> </imageobject>
+			<imageobject> <imagedata fileref="cor2cmesimusimu.png" format="PNG" /> </imageobject>
+			<textobject> <phrase>Simulation of a CME as seen from SECCHI COR2-A</phrase> </textobject>
+		</mediaobject>
+				</figure>
+	
+	
+</para>
+</sect3>
+	
+
+<sect3 xml:id="cl.rtraytracewcs.comet">
+<title>Simulation of a comet nucleus using WCS and SPICE</title>
+	<para>
+		 In this example, we show how to position a celestial body in space and simulate how it is viewed from a given instrument. In this case, we use comet Encke, which was visible in SECCHI HI1-A images, like in <filename>20070425_121000_s4h1A.fts</filename> for example. 
+		 
+		  
+		 <!--SECCHI HI1-A images showing the comet Encke: <filename>20070425_121000_s4h1A.fts</filename>. The image shown in figure (ref) has been processed with <command>secchi_prep</command> and divided from a median background calculated over the sequence of images surrounding the studied image. 
+		-->
+
+	</para>
+	<para>
+		To access the ephemeris of comet Encke, we use a SPICE kernel that can be downloaded at the NAIF web site. The code sequence needed to initialized the SPICE software, load the Encke ephemeris kernel and calculate the position of its nucleus in Carrington coordinates is shown bellow:
+		<programlisting>load_stereo_spice, errmsg=message, _extra=_extra
+; ---- load the solar system small body ephemeris kernel
+cspice_furnsh,'/user/albert/comets/SPK/wld4826.15'
+; ---- convert image data image date into SPICE compatible format
+utc = anytim2utc(date, /ccsds)
+; ---- define the frames
+origin_to='Sun' 
+frame_from='IAU_SUN' 
+correction='None' 
+origin_from='Encke'
+; ---- compute position
+cspice_spkezr, origin_to, et, frame_from,correction, origin_from, origin, ltime
+; ---- compute position in spherical coordinates
+cspice_reclat,-origin[0:2],rad,lon,lat
+
+; ---- format output
+lonlatrad=[lon,lat,rad/oneau('km')*oneau('rsun')]
+	</programlisting>
+	</para>	
+	<para>
+The model number 58 used here is a simple sphere of density that can positioned whereever needed, using the Carrington position of its center (here passed in the variable <varname>lonlatrad</varname>). So we simulate the position of the comet with a sphere of electron density and using Thomson scattering: this does not make sense from a physics point of view but this is just to illustrate how to position and render small features with the software.
+<programlisting>; ---- prep the data image and get its header
+secchi_prep,'20070425_121000_s4h1A.fts',hdrhi1a,imhi1a,/PRECOMMCORRECT_ON
+; ---- set the parameters of the model
+mp=[1.,0.5,lonlatrad]
+; ---- simulate comet nucleus image as seen from SECCHI HI1A
+rtraytracewcs,sbt,sbp,sne,imsize=[512,512],modelid=58,scchead=hdrhi1a,losnbp=500,losrange=[-130,130],modparam=mp
+; ---- display
+wnd,0,sne.im
+</programlisting>
+	
+
+
+<figure xml:id="encke"><title>Simulation of the comet Encke nucleus image as seen from HI1-A</title>
+	<mediaobject>
+		<imageobject> <imagedata fileref="frame41circ.eps" format="EPS" /> </imageobject>
+		<imageobject> <imagedata fileref="frame41circ.png" format="PNG" /> </imageobject>
+		<textobject> <phrase>Simulation of the comet Encke nucleus image as seen from HI1-A</phrase> </textobject>
+	</mediaobject>
+</figure>
+
+	</para>
+	
+</sect3>
+
+
+
+<sect3 xml:id="ray.coord.wcs"><title>FITS header of the simulated data</title>
+	<para>A FITS header corresponding to the simulated image can be returned by the software. This header is (normally) compliant with the FITS-WCS standard <citation>b2006SPD370307T</citation>. Note that an observation date must be provided in order for the program to be able to calculate the position in different coordinate systems.</para>
+</sect3>
+
+
+<sect3 xml:id="ray.coord.projtype"><title>Projection Type</title>
+	<para>The following projection types are implemented: ARC, SIN, TAN, AZP. See <citation>b2006SPD370307T</citation> and <citation>b2002AA3951077</citation>.</para>
+</sect3>
+
+
+	
+<sect3 xml:id="ray.coord.setcarr"><title>Setting positions in Carrington coordinates</title>
+	<para>It is possible to set the position of the electron density and the observer using the Carrington coordinate system. <varname>hlonlat</varname> is used to set the position of the electron density model and <varname>obslonlat</varname> is used to set the position of the observer. </para>
+</sect3>
+	
+</sect2>
+
+
+
+<!--
+
+<sect2 xml:id="cl.rtwlline">
+	<title>Radial Profiles: <command>rtwlline</command> <emphasis>(Need refactoring)</emphasis></title>
+<para>
+Radial profile along the slab model, edge-on.
+<programlisting>rtwlline,sbt1,sbp1,sne1,imsize=[512,512],losrange=[-30,30],$$
+losnbp=256L,modelid=14,neang=[90.,-39.5,-90-12]*!dtor,/c3,/fake,$$
+angle=-39.5*!dtor,nbpix=250L
+plot,sbt1.im,/ylog,yrange=[1e-13,1e-8]
+</programlisting>
+
+<variablelist>
+<varlistentry>
+<term>angle</term>
+<listitem><para>Polar angle of the profile. Remember that in the raytracing software basis the X axis is upward, the Y axis toward right and the Z axis points from the image plane toward the inside of the display.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>nbpix</term>
+<listitem><para>Number of pixel for the profile. The pixel 0 is always at the center of the Sun.</para></listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+</sect2>
+
+<sect2 xml:id="cl.rtwlcirc">
+	<title>Circular Profiles: <command>rtwlcirc</command> <emphasis>(Need refactoring)</emphasis></title>
+<para>
+Circular profile along the slab model, face-on.
+<programlisting>rtwlcirc,sbt1,sbp1,sne1,imsize=[512,512],losrange=[-30,30],$$
+losnbp=256L,modelid=14,neang=[0.,-39.5,-90-12]*!dtor,/c3,/fake,$$
+radius=100,nbang=360L
+plot,shift(sbt1.im,90),/ylog,yrange=[1e-15,1e-12]
+</programlisting>
+
+<variablelist>
+<varlistentry>
+<term>radius</term>
+<listitem><para>Radius of the circular profile in pixel. The center is at the center of the Sun.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>nbang</term>
+<listitem><para>Number of pixel for the profile. 360 pixels makes 1 pixel per degree.</para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+-->
+
+<sect2 xml:id="buildcloud">
+<title>Electron density cube generation: <command>buildcloud</command></title>
+<para>
+<command>buildcloud</command> generates a density cube for a given model. The cube can be saved in a text file or a binnary file. The example below shows how to build a density cube for model 14. It creates a 64 x 64 x 64 cube of 60 x 60 x 60 R_Sun, the Sun center being at the center of the cube.
+<programlisting>; ---- generate the density cube
+buildcloud,14,cubesidenbpix=64L,cubesidersun=60.,outputtype=2
+; ---- read the cube just created
+rtreadbincube,'cube14.dat',c,szs,orig
+; ---- raytrace it and display
+raytracewl,sbt,imsize=[256,256],losnbp=64L,losrange=[-20,20],modelid=25,modparam=c,neang=[90,-80,30]*!dtor,/c3
+wnd,0,alog10(sbt.im > 1e-14)
+</programlisting>
+</para>
+</sect2>
+
+
+</sect1>
+
+
+
+
+<sect1 xml:id="tutrtsccguicloud">
+<title>Fit of a flux rope on SECCHI data using the IDL-GUI</title>
+<para>We present here <function>rtsccguicloud.pro</function>, an IDL routine that allows to fit manually the GCS CME model to an event observed by STEREO SECCHI instruments.
+</para>
+
+<sect2><title>Demo mode</title>
+	<para>The example described hereafter can be reproduced simply by using the demo mode of <function>rtsccguicloud</function>:
+		<programlisting>rtsccguicloud,/demo
+</programlisting>
+	</para>
+</sect2>
+
+
+
+<sect2 xml:id="tut.guicloud.prep"><title>Preparing the data</title>
+<para>In this example, we will use the CME event of May 15 2007. The fist step is to prepare the images with <function>secchi_prep</function>.
+	<programlisting>; ---- init the event image filenames
+; -- A
+eventtripa=['20070515_235230_s4c2A.fts','20070515_235243_s4c2A.fts','20070515_235256_s4c2A.fts']
+preevtripa=['20070515_182230_s4c2A.fts','20070515_182243_s4c2A.fts','20070515_182256_s4c2A.fts']
+
+; -- B
+eventtripb=['20070515_235230_s4c2B.fts','20070515_235243_s4c2B.fts','20070515_235256_s4c2B.fts']
+preevtripb=['20070515_185230_s4c2B.fts','20070515_185243_s4c2B.fts','20070515_185256_s4c2B.fts']
+
+; -- EUVI images
+euvia=['20070515_235215_n4euA.fts']
+euvib=['20070515_235215_n4euB.fts']
+
+; ---- prep the images
+secchi_prep,eventtripa,hdreventa,imeventa,/polariz_on,/rotate_on,/PRECOMMCORRECT_ON,/rotinterp_on,/silent
+secchi_prep,preevtripa,hdrpreeva,impreeva,/polariz_on,/rotate_on,/PRECOMMCORRECT_ON,/rotinterp_on,/silent
+
+secchi_prep,eventtripb,hdreventb,imeventb,/polariz_on,/rotate_on,/PRECOMMCORRECT_ON,/rotinterp_on,/silent
+secchi_prep,preevtripb,hdrpreevb,impreevb,/polariz_on,/rotate_on,/PRECOMMCORRECT_ON,/rotinterp_on,/silent
+
+; -- get nice mask
+ma=get_smask(hdreventa)
+mb=get_smask(hdreventb)
+
+secchi_prep,eveuvia,heuvia,imeuvia,/PRECOMMCORRECT_ON
+secchi_prep,eveuvib,heuvib,imeuvib,/PRECOMMCORRECT_ON
+
+; ---- format image for display
+ima=bytscl(rebin(alog10(ma*(imeventa-impreeva) &#062; 1e-12 &#060; 1e-10),512,512))
+imb=bytscl(rebin(alog10(mb*(imeventb-impreevb) &#062; 1e-12 &#060; 1e-10),512,512))
+
+imea=alog10(rebin(imeuvia,512,512) &#062; 1)
+imeb=alog10(rebin(imeuvib,512,512) &#062; 1)
+
+; ---- run the GUI
+rtsccguicloud,ima,imb,hdreventa,hdreventb,imeuvia=imea,hdreuvia=heuvia,imeuvib=imeb,hdreuvib=heuvib</programlisting>
+</para>
+	
+</sect2>
+
+<sect2 xml:id="tut.guicloud.manfit">
+	<title>Manual fitting of the flux rope</title>
+	<para>
+		<figure xml:id="fig_guicloudfit"><title>CME event of 2007/05/15 viewed in COR2-A and COR2-B. </title>
+			<mediaobject>
+				<imageobject> <imagedata fileref="cme20070515ABscreen01.eps" format="EPS" /> </imageobject>
+				<imageobject> <imagedata fileref="cme20070515ABscreen01.png" format="PNG" /> </imageobject>
+				<textobject> <phrase>Images of the CME viewed in COR2-A and COR2-B with the CME cloud overplotted.</phrase> </textobject>
+				<caption>The green cloud represent the GCS CME model.</caption>
+			</mediaobject>
+		</figure>
+		
+		<figure xml:id="fig_guicloudsliders"><title>Slider GUI tab.</title>
+			<mediaobject>
+				<imageobject> <imagedata fileref="cme20070515ABgui01.eps" format="EPS" /> </imageobject>
+				<imageobject> <imagedata fileref="cme20070515ABgui01.png" format="PNG" /> </imageobject>
+				<textobject> <phrase>Sliders GUI.</phrase> </textobject>
+				<caption>  <para>   Various sliders allow to change the model parameters<!-- (in green on <xref linkend="fig_guicloudfit" />) --> in order to fit the observations.</para>  </caption>
+			</mediaobject>
+		</figure>
+		
+		<figure xml:id="fig_guieuvi"><title>Source region position on EUVI-A and B.</title>
+			<mediaobject>
+				<imageobject> <imagedata fileref="cme20070515ABeuvi02.eps" format="EPS" /> </imageobject>
+				<imageobject> <imagedata fileref="cme20070515ABeuvi02.png" format="PNG" />  </imageobject>
+				<caption>  <para>The source region position corresponding to the modeled CME is indicated by the star symbol. The plus signs show the orientation of the CME, and its angular extent. The points are plotted in green when they are on the visible side of the Sun, and in gray when they are located in the back side.</para>  </caption>
+			</mediaobject>
+		</figure>
+
+		
+		<figure xml:id="fig_guicloudnbp"><title>Cloud parameters GUI tab.</title>
+			<mediaobject>
+				<imageobject> <imagedata fileref="cme20070515ABgui02.eps" format="EPS" /> </imageobject>
+				<imageobject> <imagedata fileref="cme20070515ABgui02.png" format="PNG" /> </imageobject>
+				<textobject> <phrase>Cloud parameters GUI.</phrase> </textobject>
+				<caption>  <para>This GUI allows to change the number of points displayed in the cloud. </para>  </caption>
+			</mediaobject>
+		</figure>
+
+	
+	
+	</para>
+</sect2>
+
+
+<sect2 xml:id="tut.guicloud.thomview"><title>Generating Thomson scattering views</title>
+	<para>
+		<figure xml:id="fig_guimodelparam"><title>Model parameters GUI tab.</title>
+			<mediaobject>
+				<imageobject> <imagedata fileref="cme20070515ABgui03.eps" format="EPS" /> </imageobject>
+				<imageobject> <imagedata fileref="cme20070515ABgui03.png" format="PNG" /> </imageobject>
+				<textobject> <phrase>Model parameters GUI.</phrase> </textobject>
+				<caption>  <para>This GUI allows to set the parameters of the Thomson scattering renderer. The integration range is in units of Rsun, and its origin is at the impact distance. The LOS number of points are the number of integration points used for each LOS in the integration range: the larger that number, the slower the rendering, but the better the image quality. Finally, the electron density, and the model shell inner and outer thickness allow to set the constant electron density in the CME skin, and the thickness of the skin.  </para>  </caption>
+			</mediaobject>
+		</figure>
+		
+		<figure xml:id="fig_guithomson"><title>Simulated total brightness Thomson scattering images for COR2-A and COR2-B.</title>
+			<mediaobject>
+				<imageobject> <imagedata fileref="cme20070515ABthomson01.eps" format="EPS" /> </imageobject>
+				<imageobject> <imagedata fileref="cme20070515ABthomson01.png" format="PNG" /> </imageobject>
+				<textobject> <phrase>Simulated total brightness Thomson scattering images for COR2-A and COR2-B..</phrase> </textobject>
+				<!--<caption>  <para></para>  </caption>-->
+			</mediaobject>
+		</figure>
+
+	
+	
+	
+	</para>
+</sect2>
+
+
+<sect2 xml:id="tut.guicloud.outputs"><title>Saving the parameters and images of the fit</title>
+	<para>Different keywords of the <function>rtsccguicloud</function> routine allow to access the parameters of the fit, as well as the wireframe and simulated images. Here is an example of call to the program followed by a description of the different keywords. <programlisting>rtsccguicloud,ima,imb,hdra,hdrb,ssim=ssim,sgui=sgui,swire=swire,ocout=oc</programlisting>
+	</para>
+	
+	<para>
+	<variablelist>
+		<varlistentry>
+			<term><varname>ssim</varname></term>
+			<listitem><para>Structure containing the rendered images.</para></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><varname>sgui</varname></term>
+			<listitem><para>Structure containing all the parameters of the program, especially the GUI parameters.</para></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><varname>swire</varname></term>
+			<listitem><para>Structure containing the rendered wireframes, as well as all the parameters used to compute the rendered views.</para></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><varname>ocout</varname></term>
+			<listitem><para>Contains the 3D point positions of the wireframe.</para></listitem>
+		</varlistentry>
+	    </variablelist> 
+	</para>
+	
+	
+</sect2>
+
+
+
+<sect2 xml:id="tut.guicloud.automfit"><title>Automatic fit of the model position.</title>
+	<para>It is posible to determine semi-automaticaly the position and direction of the CME, assuming the GCS morphology of the CME. The first step consists in defining the contour of the observed CME leading edge. This is the purpose of the <guilabel>Contour</guilabel> tab of the GUI. Press the <guilabel>Draw Contour</guilabel> button in this tab and then start by drawing the contour of the CME seen in A, using the mouse. Once the contour is satisfiying, press the right button of the mouse to exit. You can then draw the contour of the CME viewed from B now. Press the right button to exit once done.</para>
+	
+	
+	<para>The <guilabel>Eval. Fit</guilabel> button computes the merit function that compares the model contour to the user drawn contour. If there is a perfect match, the merit function gives 100%, and if there is no match, it gives 0%. The result is displayed below the button and two windows are open showing the relative positions of the different contours.  </para>
+	
+	<para>The <guilabel>Auto Fit</guilabel> tab allows you to run the optimizer. Note that the optimizer plays only on the longitude, latitude and height of the model, the other parameters remain fixed. Indeed, the tilt angle, aspect ratio and half angle parameters are not sensitive enough (large deviation -> small change of the merit function) so the optimizer will not converge quickly enough and/or the solution will not be unique. </para>
+</sect2>
+
+
+
+
+<sect2 xml:id="tut.guicloud.sensitivity"><title>Sensitivity analysis.</title>
+	<para>The tab <guilabel>Sensit.</guilabel> allows you to perform a sensitivity analysis on the different model parameters.
+	
+		<figure xml:id="fig_sensity"><title>GUI tab used to perform sensitivity analysis.</title>
+			<mediaobject>
+				<imageobject> <imagedata fileref="cme20070515ABgui04.eps" format="EPS" /> </imageobject>
+				<imageobject> <imagedata fileref="cme20070515ABgui04.png" format="PNG" /> </imageobject>
+				<textobject> <phrase>GUI tab used to perform sensitivity analysis.</phrase> </textobject>
+				<!--<caption>  <para></para>  </caption>-->
+			</mediaobject>
+		</figure>
+		The edit box allows you to enter the range of variation for the analysis. In the example of <xref linkend="fig_sensity"/>, it is set to plus or minus 10%. Each following buttons allows you to run the analysis for each of the model parameters. In the example, it has been ran for the longitude and the latitude. The outcome of the analysis are given below. The first and second displayed numbers are the deviation, in units of the corresponding parameter. In the case of the longitude and the latitude it is then in degrees. The two following numbers are the number of steps. The step is hard wired in the software, it cannot be changed, for now. For the longitude and latitude, the step is set to 0.1 degrees. The two following numbers are the value of the merit function, in each direction. It should be equal aproxymately to the max of the merit function minus the percentage set in the sensitivity range. Finally, the last number shows the sensitivity range, which in this case is 10%.</para>
+	
+</sect2>
+
+</sect1>
+
+
+
+
+
+
+
+
+
+
+
+<sect1 xml:id="concept"><title>Software concept overview</title>
+
+
+<sect2 xml:id="ray.units"><title>Units</title>
+<para>SCRaytrace measures the distances in Solar radii, and the angles in radians. One solar radius is taken to be 6.955x10<superscript>8</superscript> meters.</para>
+
+</sect2>
+
+
+
+
+<sect2 xml:id="raycoord">
+    <title>Coordinate Systems</title>
+    
+    
+    <para>All the coordinate systems are direct and orthonormal. <xref linkend="coordsys"/> shows a summary of the 3 coordinate systems used in the software. ABS is the absolute coordinate system. It is placed at the center of the Sun, represented by the yellow circle here. NPS is the coordinate system of the model and OBS is the one for the observer.</para>
+    
+    <figure xml:id="coordsys"><title>Overview of the three coordinate systems used in SCRaytrace. </title>
+        <mediaobject>
+            <imageobject> <imagedata fileref="coordsys01.eps" format="EPS" /> </imageobject>
+            <imageobject> <imagedata fileref="coordsys01.png" format="PNG" /> </imageobject>
+            <textobject> <phrase>Coordinate systems.</phrase> </textobject>
+        </mediaobject>
+    </figure>
+    
+    
+    
+    <sect3 xml:id="ray.coord.over.abs"><title>Abolute coordinate system: ABS</title>
+        <para>This is the coordinate system that is the reference for all the other systems described bellow: translation and rotation of the other coordinate systems will be calculated with respect to this one. The origin is at the center of the Sun.
+            <variablelist>
+                <varlistentry>
+                    <term>Ox</term>
+                    <listitem><para>Points to Solar North.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Oy</term>
+                    <listitem><para>Points to Carrington longitude and latitude (270&#176;,0).</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Oz</term>
+                    <listitem><para>Points to Carrington longitude and latitude (0,0).</para></listitem>
+                </varlistentry>
+            </variablelist>         
+        </para>
+    </sect3>
+    
+    <sect3 xml:id="ray.coord.over.nps"><title>Model coordinate system: NPS</title>
+        <para>Defines the position and orientation of a model, like an electron density cube for example, with respect to the absolute coordinate system ABS.</para>
+    </sect3>
+    
+    <sect3 xml:id="ray.coord.over.obs"><title>Observer coordinate system: OBS</title>
+        <para>Defines the position and orientation of the observer with respect to the absolute coordinate system. We use the convention of optics for the axis orientation:
+            
+            <variablelist>
+                <varlistentry>
+                    <term>Ox</term>
+                    <listitem><para>Vertical axis of the camera detector.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Oy</term>
+                    <listitem><para>Horizontal axis of the camera detector.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Oz</term>
+                    <listitem><para>Optical axis of the telescope, going out of the camera.</para></listitem>
+                </varlistentry>
+            </variablelist> 
+            
+        </para>
+    </sect3>
+</sect2>
+
+
+<sect2 xml:id="ray.sun"><title>The Sun</title>
+<para>No spectrum is used and its radiance is supposed to be unity. For the Thomson scattering physics the default limb darkening coefficient is set to 0.58, but it can be overwritten by the user.</para>
+
+</sect2>
+
+
+
+<sect2 xml:id="ray.observer"><title>Observer</title>
+<para>The main intrinsic parameters of the observing instrument are the size in pixel of the virtual detector and the angular resolution of one pixel or plate-scale. A projection type can also be chosen. The position and the orientation in space of the instrument also have to be defined.</para>
+</sect2>
+
+
+
+    <sect2 xml:id="ray.meth.type"><title>Model Representation</title>
+<para>The software can use two types of model representations: geometrical functions and density cubes.</para>
+
+<sect3 xml:id="ray.meth.type.geoo"><title>Geometric Model</title>
+    <para>The model is defined by a geometrical function that gives the electron density (in the case of Thomson Scattering physics for example) for a given coordinate position x,y,z of space (<xref linkend="GeometricModel"/>). The geometrical function generally will have some extra parameters, noted  <inlineequation><alt>p</alt><mathphrase><emphasis>p</emphasis></mathphrase></inlineequation>, in order to be able modify the shape and density of the model for example.</para>
+
+
+    <equation xml:id="GeometricModel">
+    <title>Geometric Model</title>
+    <alt>Ne = f(x,y,z,p)</alt>
+    <mathphrase>Ne = f(x,y,z,<emphasis>p</emphasis>)</mathphrase>
+</equation>
+
+</sect3>
+
+<sect3 xml:id="ray.meth.type.cube"><title>Density Cube</title>
+<para>The electron density is given by a three-dimensional density cube. Each voxel of the cube contains the value of the electron density for that region of space. The advantage of the density cube is that it can contain the representation of a complex structure which could not be simply defined by a geometrical function. On the other hand, if a higher resolution is needed, to represent the fine details of a coronal structure for example, the amount of memory necessary to store the density cube could be a problem.
+</para>
+</sect3>
+
+</sect2>
+
+
+
+<sect2 xml:id="ray.physics"><title>Physical process</title>
+<para>Thomson scattering physics needs the electron density in electrons.cm<superscript>-3</superscript>. For the other types of physics, please refer to the source code documentation available at  <link xlink:href="http://secchi.nrl.navy.mil/synomaps/scraytrace/doxy/annotated.html"/>. The name of the classes for the various physical processes implemented are <classname>PhysicsName</classname>, with <classname>Name</classname> the name of the physics.</para>
+
+
+
+<sect3 xml:id="ray.meth.thom"><title>Thomson Scattering</title>
+<para>
+    The K corona component we observe in white light is the result of Thomson scattering of the photospheric light by the electrons of the corona <citation>Minaert</citation>, <citation>Van De Hulst</citation>, <citation>Billings</citation>. That light is polarized. The equations <xref linkend="eq.losintegTB"/> and <xref linkend="eq.losintegPB"/> give the total and polarized brightness scattered from the solar photosphere by a localized electron density and integrated along the lines of sight (LOS) of an observer. SCRaytrace provides an implementation of these equations.
+</para>
+
+
+
+
+<equation xml:id="eq.losintegTB">
+    <title>Total brightness</title>
+    <mediaobject>
+        <imageobject role="html">
+            <imagedata fileref="losintegTB.gif" format="GIF"/>
+        </imageobject>
+        <textobject role="tex"><phrase>B = C \int_{\mathrm{LoS}} Ne(x,y,z) f(x,y,z) ~dl</phrase></textobject>
+    </mediaobject>
+</equation>
+
+<equation xml:id="eq.losintegPB">
+    <title>Polarized brightness</title>
+    <mediaobject>
+        <imageobject role="html">
+            <imagedata fileref="losintegPB.png" format="PNG"/>
+        </imageobject>
+        <textobject role="tex"><phrase>pB = C \int_{\mathrm{LoS}} Ne(x,y,z) g(x,y,z) ~dl</phrase></textobject>
+    </mediaobject>
+</equation>
+
+
+
+</sect3>
+
+
+
+
+
+
+</sect2>
+
+
+
+
+</sect1>
+
+
+
+
+
+
+
+
+
+
+</chapter>
+
+
+
+
+
+
+
+<chapter xml:id="newmodel" xreflabel="Implementing new models">
+	<title>Implementing new models</title>	
+	
+	<sect1 xml:id="newmodel.intro"><title>Introduction</title>
+	
+<para>The creation of a new electron density model involves editing several source files.</para>
+</sect1>
+
+<sect1 xml:id="newmodel.implement"><title>Implementation of a new model</title>
+
+
+	<sect2 xml:id="AddingCFile"><title>Adding the model code in the C++ file</title>
+<para>The models are in the files <filename>modelsXXtoYY.cpp</filename>, with [XX,YY] the range of model numbers. To avoid having a big file that would require a too long compilation time, the models are grouped 10 by 10. In this example we will add the model 57. The first step is to edit the file <filename>models51to60.cpp</filename>. We can add the following code:
+<programlisting><![CDATA[
+//! Density 57: constant and uniform density
+float CModel57::Density(const Cvec &v)
+{
+	return unifdens;
+} 
+float CModel57::Density(const Cvec &v,float &temperature)
+{
+	temperature=uniftemp;
+	return unifdens;
+} 
+
+//! Inititialization of the parameters for the Model 57
+void CModel57::initParam(float* pparam)
+{
+	unifdens=pparam[0]; // - constant density, specified by the user
+}
+
+//! Returns the default parameters of the model
+void CModel57::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase) 
+{
+	flagcase=0;
+	vp.push_back(moddefparam("","constant and uniform density","","")); 
+	vp.push_back(moddefparam("unifdens","1.","Constant density","electron/cm^3"));    
+	return;
+}]]></programlisting>
+and then edit also the header file <filename>models51to60.h</filename>:
+<programlisting><![CDATA[
+//! Constant and uniform density
+class CModel57 : public CModelBase 
+{
+  public:
+	float Density(const Cvec &v); 
+	float Density(const Cvec &v,float &temperature); 
+	void initParam(float* pparam);
+	void dumpDefaultParamForIDL(std::vector<moddefparam>&,int&);
+  protected:
+	float unifdens;
+	float uniftemp;
+};]]></programlisting>
+The new density model class <classname>CModel57</classname> should derive from the virtual class <classname>CModelBase</classname>. <methodname>Density</methodname> is the density model method that returns the electron density depending on the point of space noted <varname>v</varname>. <varname>pparam</varname> is an array that can contain extra parameters to compute the density. A temperature can also be passed and used for the calculation: this parameter has been implemented for compatibility with a raytracing software in the radiometric spectrum range. Note that the density model is the simplest your can defined: it just returns a user defined constant density, whatever the position in space. Note also that the <methodname>initParam</methodname> method is useful when some preliminary calculation has to be done a single time at the initialization of the model (instantiation of the class). The results can be re-used each time the model is called, avoiding recalculating the parameters. The 
+<methodname>dumpDefaultParamForIDL</methodname> method returns the default parameters for IDL: see <xref linkend="DefaultParamC" /> for a complete explanation.
+</para>
+
+</sect2>
+
+
+<sect2 xml:id="newmodel.register"><title>Registering the model</title>
+<para>We need now to register the model in the <methodname>modelselect</methodname> method of the <classname>CModelBase</classname> class. Edit <filename>CModelBase.cc</filename> and insert the lines shown in between the /////// comment separators.
+<programlisting><![CDATA[
+ case 56 :
+      CModel56 *pmodel56;
+      pmodel56 = new CModel56;
+      pmod= (CModelBase*) pmodel56;
+      return pmod;
+      break;
+
+///////////////////////////////////////////////////////
+ case 57 :
+      CModel57 *pmodel57;
+      pmodel57 = new CModel57;
+      pmod= (CModelBase*) pmodel57;
+      return pmod;
+      break;
+///////////////////////////////////////////////////////
+
+      // -----------------------------------
+      // |    REGISTER NEW DENSITIES HERE    |
+      // -----------------------------------
+
+  default : 
+      std::cout << "Model ID out of range: model 1 used by default." << std::endl;
+      pmodel1 = new CModel01;
+      pmod= (CModelBase*) pmodel1;
+...
+]]></programlisting>
+We register the model classes in this <methodname>modelselect</methodname> method because the main raytracing program engine only knows the <classname>CModelBase</classname> class. The user selects the model by passing the model registration number (here 57) to <methodname>modelselect</methodname> which returns a pointer to the corresponding density model <methodname>Density</methodname> method. This step is just done once at the initialization and avoid that selection step each time <methodname>Density</methodname> is called.
+</para>
+
+</sect2>
+
+<sect2 xml:id="newmodel.compile"><title>Compile and Test</title>
+<para>You can now compile the C++ code using <command>make</command> and try to use the new model using the following:<screen>
+&idlprompt;<userinput>print,getdensity([4.,0,0],57,modparam=[1.])</userinput>
+<computeroutput>% Compiled module: GETDENSITY.
+Seconds ellapsed :
+     0.011713028
+      1.00000</computeroutput></screen>
+The program <function>getdensity</function> returns the value of the density at a point of the space, here [4.,0,0] in this case. The value returned is 1 since we passed 1 in the model parameter array <parameter>modparam</parameter>.
+  </para>
+
+</sect2>
+</sect1>
+	
+
+<!--
+<sect1 id="new:registgui"><title>Registering the new model in the frontend GUI</title>
+<para>TO BE DONE</para>
+</sect1>
+-->
+
+
+	
+	
+<sect1 xml:id="DefaultParamC">
+		<title>Defining the default parameters in the C code</title>
+		<para>
+			The default parameters of a model can be set by redefining the virtual method <methodname>dumpDefaultParamForIDL</methodname>, derived from <classname>CModelBase</classname> class. We show here 3 examples of implementation.
+		</para>
+		
+		<sect2 xml:id="DefaultParamC.noparam">
+			<title>No parameters needed</title>
+			<para>
+				The code in <xref linkend="example-noparameters" /> is from <filename>models01to10.cc</filename>. That model does not require any parameter. Only a description of the model is passed in the second field of structure <varname remap="structname">moddefparam</varname>. <important><para>The model description is optional. If implemented, it should always be in the first element of the array <varname>vp</varname>, and the first field of structure <varname remap="structname">moddefparam</varname> should be empty.</para></important> The variable <varname>flagcase</varname> is a binary flag: LSB set to 1: the parameters are undefined: that's the default value if <methodname>dumpDefaultParamForIDL</methodname> is not overwritten. Bit 1 set to 1: won't be included in the frontend: can be useful if the model is obsolete or is still under construction. Bit 2 set to 1: No parameters are needed: <varname>modparam</varname> can remain undefined.
+			</para>
+			
+			<example xml:id="example-noparameters">
+				<title>No parameters needed.</title>
+				<programlisting><![CDATA[
+void CModel01::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase) {
+	flagcase=0x4;
+	vp.push_back(moddefparam("","M.Guhathakurta model, frozen parameters.","","")); 
+	return;
+}
+]]></programlisting>
+				</example>
+				
+				
+			</sect2>
+			
+			
+			<sect2 xml:id="DefaultParamC.paramneeded">
+				<title>Default parameters needed</title>
+				<para>
+					<xref linkend="example-parametersneeded" /> shows code from density model 33, defined in <filename>models31to40.cc</filename>. The first element of array <varname>vp</varname> is the model description. The rest of the rows defines the default parameters. Field 1 of <varname remap="structname">moddefparam</varname> is the parameter name. Field 2 is the default value, which should always be a <type>float</type> or an array of <type>float</type>. Field 3 is a description of the parameter. Field 4 is the units of the parameters. See also <varname remap="structname">moddefparam</varname> definition in the code.
+				</para>
+				
+				<example xml:id="example-parametersneeded">
+					<title>Definition of default parameters needed.</title>
+					<programlisting><![CDATA[
+void CModel33::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase) {       
+	flagcase=0;
+	vp.push_back(moddefparam("","Tube shell model.","",""));        
+	vp.push_back(moddefparam("d0","0.7","FULL thickness of shell.","Rsun"));        
+	vp.push_back(moddefparam("rb","2.55","Dist to bottom of structure.","Rsun"));   
+	vp.push_back(moddefparam("alpha","0.52","Angle between axis and foot.","rad")); 
+	vp.push_back(moddefparam("rf","10","Dist junction line-circle.","Rsun"));       
+	vp.push_back(moddefparam("ratio","0.2","ratio of tube radius to height","Rsun")); 
+	return;
+}
+]]></programlisting>
+					</example>
+					
+				</sect2>
+				
+				
+				<sect2 xml:id="DefaultParamC.paramprog">
+					<title>Default parameters generated by a program</title>
+					<para>
+						<xref linkend="example-progneeded" /> if from density model 25 in <filename>models21to30.cc</filename>.
+						As explain above, the first element of <varname>vp</varname> is the description of the density. The following elements (in <xref linkend="example-progneeded" /> there is only one) defines parameters and variables. Field 1 is the name of the variable. Field 2 can be either hard coded value or an IDL instruction, as in this example. Field 3 is a description of the parameter. Field 4 is not used.
+					</para>
+					
+					<para>
+						The line following the parameter definition gives the name of the variable that will contain the model parameter array. Field 1 is that variable name. Field 2 must be empty in order that the parser interprets properly that line. Fields 3 and 4 are unused.
+					</para>
+					
+					<para>
+						The following lines contain a sequence of IDL code that generates the model parameter array. As explained in the previous paragraph, there should be an assignment of the variable given in the line preceeding the code sequence: in <xref linkend="example-progneeded" /> it is <varname>mp</varname>. Parameters that has been assigned in the parameter definition section (see two paragraph above) of the <varname>vp</varname> array can be included in the code sequence. They must be preceeded by the dollar sign so it will be interpreted properly by the model default parameter array parser <filename>parsemoddefparam.pro</filename>. For example, the parameter <varname>cubefile</varname> is passed to the <function>loaddenscube</function> in <xref linkend="example-progneeded" />.
+					</para>
+					
+					
+					<example xml:id="example-progneeded">
+						<title>The default parameters are generated by a sequence of IDL instructions.</title>
+						<programlisting><![CDATA[
+void CModel25::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase) {       
+	flagcase=0;
+	vp.push_back(moddefparam("","Density cube.","",""));    
+	vp.push_back(moddefparam("cubefile","getenv('RT_PATH')+get_delim()+'testcube.fts'","Filename of the density cube","")); 
+	vp.push_back(moddefparam("mp","","",""));       
+	vp.push_back(moddefparam("","mp=loaddenscube($cubefile)","Load the density cube.","")); 
+return;
+}
+							]]></programlisting>
+						</example>
+					</sect2>
+				</sect1>
+
+	
+				<sect1>
+					<title>Getting the model default parameters from IDL</title>
+					
+					<sect2 xml:id="newmodel.def.simple"><title>The simple way</title>
+<para>The simplest way to assign the default parameters corresponding to a model is to use the <parameter>/usedefault</parameter> keyword to the <function>raytracewl</function> IDL function. The following example shows the method for the model 25:
+<screen>
+&idlprompt;<userinput>raytracewl,modelid=25,/usedefault,modparam=mp</userinput></screen>
+The variable <varname>mp</varname> will contain the model default parameters and can be reused in an other call to <function>raytracewl</function>.
+
+</para>
+
+
+</sect2>
+
+<sect2 xml:id="newmodel.def.detail"><title>The detailed way</title>
+
+					<para>
+						Building the default parameters from IDL is done using two programs: <filename>getmoddefparam.pro</filename> and <filename>parsemoddefparam.pro</filename>. The <xref linkend="example-getdefparam" /> shows the code to build the default parameters for the model 25. The parameter vector from the C code is given in <xref linkend="example-progneeded" />. <function>getmoddefparam</function> just fetch the model parameters from the C routine and store it in the structure <varname>s</varname>. Then <function>parsemoddefparam</function> parse that structure <varname>s</varname> and build the model parameter array noted <varname>mparam</varname> in the example. The rest of the code <xref linkend="example-progneeded" /> build an image and display it.
+					</para>
+					
+					<para>
+						The keyword <varname>filepro</varname> for function <function>parsemoddefparam</function> is optional. You can set that keyword to the filename of the IDL function that will build the model parameter array: <programlisting>mparam=buildmodel25param(sv)</programlisting>
+					</para>
+					
+					<para>
+						The output variable <varname>sv</varname> is a structure that contains the different parameters needed to build <varname>mparam</varname>. You can modify the values of that structure and reuse <function>buildmodel25param</function> to generate <varname>mparam</varname> with a different set of parameters. In the case of <xref linkend="example-progneeded" />, it would load a different density cube for example.
+					</para>
+					
+					
+					<para>
+						<example xml:id="example-getdefparam">
+							<title>Getting the default parameters from IDL.</title>
+							<programlisting>
+getmoddefparam,25,s
+mparam=parsemoddefparam(s,sv,filepro='buildmodel25param.pro')
+raytracewl,sbt,modparam=mparam,modelid=25,imsize=[128,128],/c2,$
+neang=[30.,0,20]*!dtor,losrange=[-10,10],losnbp=128
+wnd,0,alog10(sbt.im > 1e-12)
+						</programlisting>
+						</example>
+						
+					</para>
+					</sect2>
+				</sect1>
+</chapter>
+
+
+
+<chapter xml:id="guide" xreflabel="Quick Reference to Raytrace Programs">
+<title>Quick Reference to Raytrace Programs</title>	
+
+<para>
+For a description of the program parameters, please refer to the program listing header. This list is non exhaustive. <!--If I have time I might generate a <acronym>Doxygen</acronym> documentation for the <acronym>IDL</acronym> program but I still have to modify each of the headers to comply with <acronym>Doxygen</acronym> syntax.-->
+
+
+<variablelist>
+
+<varlistentry>
+<term><function>buildcloud</function></term>
+<listitem><para>Build a density cube file from a model in different formats.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>getdensity</function></term>
+<listitem><para>Get the density of a model at a given point of space.</para></listitem>
+</varlistentry>
+
+<!--<varlistentry>
+<term><function>getmoddefparam</function></term>
+<listitem><para>Get the model default parameter structure. Need to process that structure with <function>parsemoddefparam</function> to obtain the <varname>modparam</varname> array. The <varname>modparam</varname> array serves as an input for <function>raytracewl</function> for example.</para></listitem>
+</varlistentry>-->
+
+<varlistentry>
+<term><function>loaddenscube</function></term>
+<listitem><para>Load and format a fits file density cube. The output is a <varname>modparam</varname> formated density cube.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>oplotimpactgrid</function></term>
+<listitem><para>Overplot impact parameter or r parameter on an image from raytracing.</para></listitem>
+</varlistentry>
+
+<!--<varlistentry>
+<term><function>parsemoddefparam</function></term>
+<listitem><para>Parse the model param structure returned by <function>getmoddefparam</function>.</para></listitem>
+</varlistentry>-->
+
+<varlistentry>
+<term><function>raytracewl</function></term>
+<listitem><para>Main raytracing program to generate an image. Does not use WCS standard. For raytracing that complies with WCS use <function>rtraytracewcs</function>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>rtraytracewcs</function></term>
+<listitem><para>Main raytracing program to generate an image. Uses WCS standard. Useful to generate simulated images for SECCHI data.</para></listitem>
+</varlistentry>
+
+<!--<varlistentry>
+<term><function>rotmat</function></term>
+<listitem><para>Compute a rotation matrix.</para></listitem>
+</varlistentry>-->
+
+<!--<varlistentry>
+<term><function>rtdenscube</function></term>
+<listitem><para>Raytracing program to generate an image from a density cube using splatting method.</para></listitem>
+</varlistentry>-->
+
+<varlistentry>
+<term><function>rtdisp</function></term>
+<listitem><para>To display an image from raytrace.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>rtdumpversion</function></term>
+<listitem><para>Simply prints the compilation time and version of the library.</para></listitem>
+</varlistentry>
+
+<!--
+<varlistentry>
+<term><function>rtfrontend</function></term>
+<listitem><para>Runs the graphic user interface front-end.</para></listitem>
+</varlistentry>
+-->
+<!--
+<varlistentry>
+<term><function>rtgetprojection</function></term>
+<listitem><para>Compute the projection of a point in space on the image. Does not comply WCS standard. Use <function>rtcloud</function> instead.</para></listitem>
+</varlistentry>-->
+
+<varlistentry>
+<term><function>rtcloud</function></term>
+<listitem><para>Compute the projection of a set of points on the image plane.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>rtsccguicloud</function></term>
+<listitem><para>GUI useful to fit SECCHI data.</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><function>rtreadbincube</function></term>
+<listitem><para>Read a binary density cube generated by <function>buildcloud</function>.</para></listitem>
+</varlistentry>
+
+<!--<varlistentry>
+<term><function>rtrotmat2lonlatroll</function></term>
+<listitem><para>Convert a rotation matrix to heliographic projected longitude and latitude and instrument roll angle.</para></listitem>
+</varlistentry>-->
+
+<varlistentry>
+<term><function>rttest</function></term>
+<listitem><para>Runs simple test to check if SCRaytrace is properly installed.</para></listitem>
+</varlistentry>
+<!--
+<varlistentry>
+<term><function>rtwlcirc</function></term>
+<listitem><para>Raytracing following a circular profile. Does not comply with WCS standard yet.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>rtwlline</function></term>
+<listitem><para>Raytracing following a radial profile. Does not comply with WCS standard yet.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><function>rtwlseg</function></term>
+<listitem><para>Raytracing following a user defined straight line segment. Does not comply with WCS standard yet.</para></listitem>
+</varlistentry>-->
+
+
+</variablelist> 
+</para>
+
+
+
+
+
+<!--
+<para>Describe all the Raytrace package main commands one by one.</para>
+<para>Test of an inline equation: <inlineequation><inlinemediaobject>
+		<imageobject role="html">
+			<imagedata fileref="toto.png" format="PNG"/>
+		</imageobject>
+		<textobject role="tex"><phrase>E = Mc^2</phrase></textobject>
+	</inlinemediaobject></inlineequation> Does that work ?
+
+
+</para>
+
+<equation>
+	<title>A TeX Equation</title>
+	<mediaobject>
+		<imageobject role="html">
+			<imagedata fileref="texmath.png" format="PNG"/>
+		</imageobject>
+		<textobject role="tex"><phrase>C = \alpha + \beta Y^{\gamma} 
+				+ \epsilon</phrase></textobject>
+	</mediaobject>
+</equation>
+
+<equation>
+	<title>A second TeX Equation</title>
+	<mediaobject>
+		<imageobject role="html">
+			<imagedata fileref="texmath2.png" format="PNG"/>
+		</imageobject>
+		<textobject role="tex"><phrase>\alpha=3\cos(\theta)</phrase></textobject>
+	</mediaobject>
+</equation>
+
+-->
+
+
+</chapter>
+
+
+
+
+
+<bibliography xml:id="biblio">
+<title>The Bibliography</title>
+
+<biblioentry xml:id="b1997adass6230V">
+<authorgroup>
+	<author><personname>D. Vibert</personname></author>
+	<author><personname>A. Llebaria</personname></author>
+	<author><personname>T. Netter</personname></author>
+	<author><personname>L. Balard</personname></author>
+	<author><personname>P. Lamy</personname></author>
+</authorgroup>
+
+<title>Synthetic Images of the Solar Corona from Octree Representation of 3-D Electron Distributions</title>
+
+<publisher>
+	<publishername>ASP Conf. Ser. 125: Astronomical Data Analysis Software and Systems VI</publishername>
+</publisher>
+
+	<pagenums>230-+</pagenums><date>1997</date>
+</biblioentry>
+
+
+<biblioentry xml:id="b2006SPD370307T">
+	<authorgroup>
+		<author><personname>W.T. Thompson</personname></author>
+	</authorgroup>
+	
+	<title>Coordinate Systems for Solar Image Data</title>
+	
+	<publisher>
+		<publishername>A&#038;A</publishername>
+	</publisher>
+	
+	<volumenum>449</volumenum><pagenums>791-803</pagenums><date>2006</date>
+</biblioentry>
+
+<biblioentry xml:id="b2002AA3951077">
+	<authorgroup>
+		<author><personname>M.R. Calabretta</personname></author>
+		<author><personname>E.W. Greisen</personname></author>
+	</authorgroup>
+	
+	<title>Representation of celestial coordinates in FITS</title>
+	
+	<publisher>
+		<publishername>A&#038;A</publishername>
+	</publisher>
+	
+	<volumenum>395</volumenum><pagenums>1077-1122</pagenums><date>2002</date>
+</biblioentry>
+
+
+
+
+<biblioentry xml:id="RotProteinStruct">
+	<authorgroup>
+		<author><personname>C. Alvarado</personname></author>
+		<author><personname>K. Kazerounian</personname></author>
+	</authorgroup>
+	
+	<title>On the rotation operators in protein structure simulations</title>
+	
+	<publisher>
+		<publishername>Protein Engineering</publishername>
+	</publisher>
+	
+	<volumenum>16</volumenum><issuenum>10</issuenum><pagenums>717-720</pagenums><date>2003</date>
+</biblioentry>
+
+
+
+
+<biblioentry xml:id="agate91">
+	<authorgroup>
+		<author><personname>M. Agate</personname></author>
+		<author><personname>R.L. Grimsdale</personname></author>
+		<author><personname>P.F. Lister</personname></author>
+	</authorgroup>
+	
+	<title>The HERO Algorithm for Ray Tracing Octrees</title>
+	
+	<publisher>
+		<publishername>Springer-Verlag</publishername>
+	</publisher>
+	
+	<date>1991</date>
+</biblioentry>
+
+
+
+
+
+<biblioentry xml:id="revelles2000">
+	<authorgroup>
+		<author><personname>J. Revelles</personname></author>
+		<author><personname>C. Ure&#241;a</personname></author>
+		<author><personname>M. Lastra</personname></author>
+	</authorgroup>
+	
+	<title>An Efficient Parametric Algorithm for Octree Traversal</title>
+	
+	<publisher>
+		<publishername>The 8th International Conference in Central Europe on Computer Graphics, Visualization and Interactive Media</publishername>
+	</publisher>
+	
+	<pagenums>212-219</pagenums><date>2000</date>
+</biblioentry>
+
+
+
+
+<biblioentry xml:id="vandeHulst1981">
+    <authorgroup>
+        <author><personname>H. C. van de Hulst</personname></author>
+    </authorgroup>
+    
+    <title>Light Scattering by Small Particles</title>
+    
+    <publisher>
+        <publishername>Dover</publishername>
+    </publisher>
+    
+    <date>1981</date>
+</biblioentry>
+
+
+<biblioentry xml:id="BohrenHuffman1983">
+    <authorgroup>
+        <author><personname>C. F. Bohren</personname></author>
+        <author><personname>D. R. Huffman</personname></author>
+    </authorgroup>
+    
+    <title>Absorption and Scattering of Light by Small Particles</title>
+    
+    <publisher>
+        <publishername>Wiley-VCH</publishername>
+    </publisher>
+    
+    <date>2004</date>
+</biblioentry>
+
+
+<biblioentry xml:id="LamyPerrin1986">
+    <authorgroup>
+        <author><personname>P. L. Lamy</personname></author>
+        <author><personname>J.-M. Perrin</personname></author>
+    </authorgroup>
+    
+    <title>Volume scattering function and space distribution of the interplanetary dust cloud</title>
+    
+    <publisher>
+        <publishername>A and A</publishername>
+    </publisher>
+    
+    <pagenums>269-286</pagenums><date>1986</date>
+</biblioentry>
+
+
+
+<biblioentry xml:id="Billings1966">
+    <authorgroup>
+        <author><personname>D. E. Billings</personname></author>
+    </authorgroup>
+    
+    <title>A guide to the solar corona</title>
+    
+    <publisher>
+        <publishername>New York: Academic Press</publishername>
+    </publisher>
+    
+    <date>1966</date>
+</biblioentry>
+
+
+
+
+</bibliography>
+
+
+
+
+
+
+
+</book>
