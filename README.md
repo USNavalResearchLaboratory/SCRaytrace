@@ -14,6 +14,12 @@ make test
 - boost C++ library
 - cppunit
 
+## Generating code documentation with Doxygen
+Use doxywizard to generate the code documentation. The Doxyfile file is the configuration file.  
+
+## Gererating the user manual
+The user manual is writen using the Docbook.  
+
 ## To Do
 - Implement ray-tracing of data cube from predictive science
 - Implement SoloHI and WISPR projections
