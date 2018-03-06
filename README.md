@@ -14,7 +14,7 @@ make test
 - boost C++ library
 - cppunit
 
-## Generating code documentation with Doxygen
+## Generating the code documentation with Doxygen
 Use doxywizard to generate the code documentation. The Doxyfile file is the configuration file.  
 
 ## Gererating the user manual
