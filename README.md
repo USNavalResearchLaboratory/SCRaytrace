@@ -5,7 +5,7 @@ Solar Corona Raytracing tools
 - src: C++ source code.
 - data: data files used by the C++ code.
 - python: python wrappers. Empty for now...
-- idl: IDL wrappers. Empty for now. We will see if we transfer the SolarSoft sources in here.
+- idl: IDL wrappers. Empty for now. We will see if we transfer the SolarSoft sources in here maybe, which would allow collaborating on developping and updating these files.
 - docbook: Docbook source files for the user manual.
 
 ## Compiling the sources
