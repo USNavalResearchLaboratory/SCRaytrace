@@ -29,10 +29,5 @@ Use doxywizard to generate the code documentation. The Doxyfile file is the conf
 ## Gererating the user manual
 The user manual is writen using Docbook. More details will follow here on how to edit and generate the manual.  
 
-## To Do
-- Implement ray-tracing of data cube from predictive science
-- Implement SoloHI and WISPR projections
-- Implement a Python wrapper
-- Documentation for the F-Corona/VSF models
-- Generate pakage with cmake
+
 
