@@ -19,6 +19,9 @@ For additional testing, you can run the following:
 cd build  
 make test
 
+## Clean up the build
+rm -rf build  
+
 ## Dependencies
 - boost C++ library
 - cppunit
