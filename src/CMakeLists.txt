@@ -11,27 +11,34 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS}) 
 endif()
 
-find_library(BoostThread libboost_thread.so)
+find_library(BoostThread libboost_thread.so HINTS ~/soft/lib)
 
 
 # ---- find cppunit
 find_path(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h
     /usr/local/include
-    /usr/include)
+    /usr/include
+    ~/soft/include)
+
 find_library(CPPUNIT_LIBRARY cppunit
                ${CPPUNIT_INCLUDE_DIR}/../lib
                /usr/local/lib
                /usr/lib)
+
 find_library(CPPUNIT_DEBUG_LIBRARY cppunit
                ${CPPUNIT_INCLUDE_DIR}/../lib
                /usr/local/lib
                /usr/lib)
+
 if(CPPUNIT_INCLUDE_DIR)
   if(CPPUNIT_LIBRARY)
+    message("Found cppunit")
     set(CPPUNIT_FOUND "YES")
     set(CPPUNIT_LIBRARIES ${CPPUNIT_LIBRARY} ${CMAKE_DL_LIBS})
     set(CPPUNIT_DEBUG_LIBRARIES ${CPPUNIT_DEBUG_LIBRARY}
 ${CMAKE_DL_LIBS})
+  else(CPPUNIT_LIBRARY)
+    message("cppunit not found")
   endif(CPPUNIT_LIBRARY)
 endif(CPPUNIT_INCLUDE_DIR)
 
