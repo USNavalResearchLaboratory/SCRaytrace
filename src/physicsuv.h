@@ -21,7 +21,7 @@ public:
     float calcEmissivity(const unsigned int &kline,const float &te);
 
     bool computeRadiation(const Cvec &vs,const float &r,const float &rho,float &btout,float &bpout,float &neout);
-    void getConstFactors(float &btf,float &bpf,float &nef);
+    void getConstFactors(float &btf,float &bpf,float &nef, float rho);
 
     //! Set the parameter of the physics model
     void setParam(float *phyparam)

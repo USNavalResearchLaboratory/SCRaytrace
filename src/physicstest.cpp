@@ -73,6 +73,10 @@ void PhysicsTest :: generalTests (void)
     // -- test physicsVSF constructor
     PhysicsVSF vsf;
 
+    // -- test physicsVSFVaryDist constructor
+    PhysicsVSFVaryDist vsfvd;
+    
+    
 //    pvsf = physicsSelect(VSF);
 //      delete pvsf;
 

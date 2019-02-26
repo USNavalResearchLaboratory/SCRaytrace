@@ -31,21 +31,23 @@ protected:
 };
 
 
-//! F-corona and zodiacal light dust density model (Leinart 1976 fan model)
+//! F-corona and zodiacal light dust density model (Leinert 1976 fan model)
 class CModel73 : public CModelBase
 {
 public:
     float Density(const Cvec &v);
+//     void initDensityConstFactors(const Cvec &vlos_inDens);
     void initParam(float* pparam);
     void dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase);
 protected:
+    float sinBeta;           //!> Beta: angle plane of symmetry - Observer LOS. See Fig 1 of Lamy, Perrin
     float C;                 //!> density constant factor
     float dustFreeLimit;     //!> dust free zone limit in Rsun
     float decreaseFactor;    //!> density decrease factor in the dust free zone
 };
 
 
-//! F-corona and zodiacal light dust density model (Leinart 1976 fan model), with onion shape decrease bellow 15 Rsun
+//! F-corona and zodiacal light dust density model (Leinert 1976 fan model), with onion shape decrease bellow 15 Rsun
 class CModel74 : public CModelBase
 {
 public:
@@ -96,7 +98,7 @@ protected:
 };
 
 
-//! F-corona and zodiacal light dust density model (Leinart 1976 fan model), with dust enhancement from Kobayashi (Icarus 201 (2009) pp395-405), and others
+//! F-corona and zodiacal light dust density model (Leinert 1976 fan model), with dust enhancement from Kobayashi (Icarus 201 (2009) pp395-405), and others
 class CModel77 : public CModelBase
 {
 public:
@@ -121,25 +123,25 @@ protected:
 };
 
 
-//! Football model
+
+/** F-corona and zodiacal light dust density model: DIRBE.  
+ * See page 9 of "Light Scattering by solar system dust: image reconstruction of the lunar sunrise sketches drawn by the apollo 17 crew", Niklas Siipola, Master's thesis, University of Oulu, Spring 2017
+ * 
+ */
 class CModel78 : public CModelBase
 {
 public:
     float Density(const Cvec &v);
     void initParam(float* pparam);
-    void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
-
+    void dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase);
 protected:
-//     float alpha;        //!> Semi angular width
-//     float R;            //!> Major radius
-//     float r_out;        //!> Minor outer radius
-//     float r_in;         //!> Minor inner radius
-//     float height;       //!> Height of the axis center
-//     float dens;         //!> density
-
-
+    float C;                 //!> density constant factor
+    float dustFreeLimit;     //!> dust free zone limit in Rsun
+    float decreaseFactor;    //!> density decrease factor in the dust free zone
+    static const float BETA = 4.14;
+    static const float GAMMA = 0.942;
+    static const float MU = 0.189;
 };
-
 
 
 

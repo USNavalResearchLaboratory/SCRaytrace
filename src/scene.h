@@ -45,54 +45,78 @@ class Scene
     friend class PhysicsMie;
     friend class PhysicsIsotropic;
     friend class PhysicsVSF;
+    friend class PhysicsVSFVaryDist;
 
+    friend class CModelBase;
+    friend class CModel73;
+    
     Scene();
+    
     ~Scene()
     {
-        delete pmod,pphy;
+        delete pmod, pphy;
     }
+    
+    
     //! Compute the image with multi-threading for each pixel
     void computeImagebyRay(float *btot,float *bpol,float *netot,const unsigned int nbthread);
+    
     //! Compute the image with multi-threading by chunk of the image
     void computeImagebyChunk(float *btot,float *bpol,float *netot,const unsigned int nbthread,const unsigned int nbchunk);
+    
+    
     void setabs(Cbasis abs)
     {
         this->abs=abs;
     };
+    
+    
     void setobs(Cbasis obs)
     {
         this->obs=obs;
         std::cout << "obs : " << obs << std::endl;
     };
 
+    
     //! Set the density model to be used
     //! \param modelid the id of the model
     //! \param *pmodparam points to the vector of parameters
     void setDensityModel(int modelid,float *pmodparam)
     {
         delete pmod;
-        pmod=modelselect(modelid);
+        pmod = modelselect(modelid);
         pmod->initParam(pmodparam);
-        pphy->setParentScene(this);
+        pmod->setParentScene(this);
     };
 
+    
     void setNeonly(int neonly)
     {
         this->neonly=(bool)neonly;
     };
+    
+    
     void setQuiet(int quiet)
     {
         this->quiet=(bool)quiet;
     };
+    
+    
     void setFrontInteg(int frontinteg)
     {
         this->frontinteg=(bool)frontinteg;
     };
+    
+    
     void setPhysics(PhysicsType phytype);
+    
+    
     string getPhysics()
     {
         return pphy->getPhysics();
     };
+    
+    
     void setPhysicsParam(float *phyparam) {pphy->setParam(phyparam);};
     void printPhysicsParam() {pphy->printParam();};
     void setFracMax(float fracmax);
@@ -100,6 +124,7 @@ class Scene
     void setRunFracMaxOff() { runfracmax = false;};
     void setRunDumpIntegOn(float *pintegrand) { this->pintegrand = pintegrand;
                                                 runDumpInteg = true;};
+                                                
     void setRunDumpIntegOff() { runDumpInteg = false;};
     void setDumpIntegrand(bool flagrunDumpInteg, float *pintegrand);
 
@@ -129,6 +154,9 @@ private:
             qlos=orthoproj(obs.o,vlosabs,abs.o);
         }
 
+        // -- Pass the LOS unit vector to the model. This is needed for some models.
+//         pphy->initDensityModel(vlosabs);
+        
         // -- init LOS integration parameters
         Cvec vlosstep=vlosabs * los.ds;
         Cvec vs=qlos + vlosabs * los.sstart;
@@ -138,30 +166,30 @@ private:
         for (unsigned int k=0;k<los.nbp;k++,vs+=vlosstep)
         {
             // -- dist Sun cntr - LOS current pos
-            float r=vs.norm();
+            float r = vs.norm();
 
             // -- no integration within and behind the Sun
             // if ( (r <= 1.001) || (rho <= 1.001 && (vs-obs.o).mag() > sqrt(obs.o.mag()*obs.o.mag()-rho*rho))) continue;
 
             // -- Compute radiation of the volume element depending on chosen physics
             //    Also call the density in here.
-            flagnull=pphy->computeRadiation(vs,r,rho,btout,bpout,neout);
+            flagnull = pphy->computeRadiation(vs,r,rho,btout,bpout,neout);
 
             if (flagnull) continue;
 
-            netot[pos]+=neout;
+            netot[pos] += neout;
             if (neonly) continue;
 
-            btot[pos] +=btout;
-            bpol[pos] +=bpout;
+            btot[pos] += btout;
+            bpol[pos] += bpout;
         }
 
         // ---- multiply by the integral constant factor, depending on the physics
-        float btf,bpf,nef;
-        pphy->getConstFactors(btf,bpf,nef);
-        btot[pos]  *=btf;
-        bpol[pos]  *=bpf;
-        netot[pos] *=nef;
+        float btf, bpf, nef;
+        pphy->getConstFactors(btf, bpf, nef, rho);
+        btot[pos]  *= btf;
+        bpol[pos]  *= bpf;
+        netot[pos] *= nef;
     }
 
     //! Compute distance to the fraction of total brightness
@@ -196,7 +224,7 @@ private:
 
         // -- get the integral constant factor
         float btf,bpf,nef;
-        pphy->getConstFactors(btf,bpf,nef);
+        pphy->getConstFactors(btf, bpf, nef, rho);
         
         // -- define a bucket where we will add up the contribution up until the requested fraction of the total
         float bucket = 0.;
@@ -234,10 +262,6 @@ private:
     //! Same as losinteg but save all the integration points in an array
     inline void losintegDumpIntegrand(const unsigned int &i,const unsigned int &j)
     {
-      // -- get integrals constant factors
-        float btf,bpf,nef;
-        pphy->getConstFactors(btf,bpf,nef);
-
       
         Cvec vlosobs=camera.ij2los(float(i),float(j));
         Cvec vlosabs=obs.ui * vlosobs;
@@ -247,6 +271,10 @@ private:
 
         // -- compute rho : dist LOS - Sun cntr: impact parameter
         float rho=psldist(obs.o,vlosabs,abs.o);
+
+        // -- get integrals constant factors
+        float btf,bpf,nef;
+        pphy->getConstFactors(btf, bpf, nef, rho);
 
         // -- origin of the LOS: observer by default
         Cvec qlos;

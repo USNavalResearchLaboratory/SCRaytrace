@@ -198,7 +198,7 @@ bool PhysicsUV::computeRadiation(const Cvec &vs,const float &r,const float &rho,
 }
 
 
-void PhysicsUV::getConstFactors(float &btf,float &bpf,float &nef)
+void PhysicsUV::getConstFactors(float &btf,float &bpf,float &nef, float rho)
 {
     btf=pparentscene->los.ds;
     bpf=btf;

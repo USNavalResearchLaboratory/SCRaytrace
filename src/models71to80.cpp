@@ -3,10 +3,12 @@
 //
 
 #include "models71to80.h"
+#include "constant.h"
 #include <cmath>
 #include <string>
 #include <fstream>
 #include "config.h"
+#include "scene.h"
 
 float CModel71::Density(const Cvec &v)
 {
@@ -61,23 +63,37 @@ void CModel72::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase
 // Density 73: Fan model
 float CModel73::Density(const Cvec &v)
 {
-  // ---- compute BetaPi, the elevation above the ecliptic plane
-  //      which is assumed to be the (O,y,z) plane.
-  float betapi = atan2(v[0],sqrt(v[1] * v[1] + v[2] * v[2]));
-  float absSinBetaPi = fabs(sin(betapi));
-  // -- Lamy Perrin 1986
-  //   float dens = C / v.mag() * exp(-3.5 * pow(absSinBetaPi, 0.775 + 0.624 * absSinBetaPi));
+    // ---- compute BetaPi, the elevation above the plane of symmetry
+    //      which is assumed to be the (O,y,z) plane. See Lamy Perrin 1986, Fig 1
+    float absSinBetaPi = fabs(v[0] / v.mag());
+    float betapi = asin(absSinBetaPi);
   
-  // -- Leinart 1976
-  float dens = C / v.mag() * exp(-2.6 * pow(absSinBetaPi,1.3));
+    // -- Express obs.o in the density reference frame
+    Cvec obsPos_inNe = ChangetoDensityCoord(pparentscene->modelposition, pparentscene->obs.o);
   
-  // -- Leinart 1978
-  //   float dens = C * pow(v.mag(), -1.3) * exp(-2.1 * absSinBetaPi);
+    // -- Compute vector OV
+    Cvec OV = v - obsPos_inNe;
+    
+    // -- Compute beta angle: see Lamy Perrin 1986, Fig 1
+    sinBeta = fabs(sin(atan2(OV[0], sqrt(OV[1] * OV[1] + OV[2] * OV[2]))));
+  
+    // -- Lamy Perrin 1986, page 282, section 7.1
+    float dens = C / v.mag() * exp(-3.5 * pow(absSinBetaPi, 0.775 + 0.624 * sinBeta));
+    
+    // -- Leinert 1976, A&A 47, pp 221-230. See Eq. 3, p. 225
+//     float dens = C / v.mag() * exp(-2.6 * pow(absSinBetaPi, 1.3));
 
-  if (v.mag() <= dustFreeLimit) dens *= decreaseFactor;
+//     float dens = C / pow(v.mag(), 1.3) * exp(-2.1 * absSinBetaPi);
+
+//     float dens = C / v.mag() * exp(-4. * exp( pow(absSinBetaPi, 1.3)));
+
+    
+    
+//     if (v.mag() <= dustFreeLimit) dens *= decreaseFactor;
   
-  return dens;
+    return dens;
 }
+
 
 // Inititialization of the parameters
 void CModel73::initParam(float* pparam)
@@ -87,10 +103,10 @@ void CModel73::initParam(float* pparam)
     decreaseFactor = pparam[2];  // -- factor decrease 
 }
 
-void CModel73::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase)
+void CModel73::dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase)
 {
     flagcase = 0;
-    vp.push_back(moddefparam("", "Mie scattering testing", "", ""));
+    vp.push_back(moddefparam("", "Fan model from Lamy Perrin 1986", "", ""));
     vp.push_back(moddefparam("C", "1.", "Density", "particules/cm^3"));
     vp.push_back(moddefparam("dustFreeLimit", "5.", "Dust free zone limit", "Rsun"));
     vp.push_back(moddefparam("decreaseFactor", "0.9", "Density decrease in the dust free zone", ""));
@@ -374,32 +390,51 @@ void CModel77::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase
 
 
 
-// Density 78: football model
-float CModel78::Density(const Cvec &v)
-{ 
 
-    float dens;
-    dens = 0.;
+
+
+// Density 78: 
+float CModel78::Density(const Cvec &v)
+{
+
+    // See Niklas Siipola's Master's thesis for definition of these quantities
+    float zeta = fabs(v[0] / v.mag());
+    float g;
+    if (zeta < MU) {
+     g = 0.5 * zeta * zeta / MU;
+    } else {
+     g = zeta - MU / 2;   
+    }
   
-    return dens;
+  // -- model based on DIRBE, from Niklas Siipola's Master's thesis
+  //    1.13E-7 m^-3: dust density at 1AU
+  //    1e-6: Converts m^-3 to cm^-3
+  //    RSUN_CM^3: converts cm^-3 to Rsun^03
+  float dens = C * 1.13e-7 * 1e-6 * RSUN_CM * pow(v.mag(), -1.34) * exp(-BETA * pow(g, GAMMA) );
+  
+  
+//   if (v.mag() <= dustFreeLimit) dens *= decreaseFactor;
+  
+  return dens;
 }
 
 // Inititialization of the parameters
 void CModel78::initParam(float* pparam)
 {
-//    alpha  = pparam[0];     // 
-
+    C = pparam[0];               // -- constant factor
+    dustFreeLimit = pparam[1];   // -- dust free zone limit in Rsun
+    decreaseFactor = pparam[2];  // -- factor decrease 
 }
-
 
 void CModel78::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase)
 {
     flagcase = 0;
-    vp.push_back(moddefparam("", "Football", "", ""));
+    vp.push_back(moddefparam("", "F Corona model based on DIRBE", "", ""));
+    vp.push_back(moddefparam("C", "1.", "Density", "particules/cm^3"));
+    vp.push_back(moddefparam("dustFreeLimit", "5.", "Dust free zone limit", "Rsun"));
+    vp.push_back(moddefparam("decreaseFactor", "0.9", "Density decrease in the dust free zone", ""));
     return;
 }
-
-
 
 
 

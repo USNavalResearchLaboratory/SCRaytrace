@@ -8,7 +8,7 @@
 
 
 //! Projection types
-enum ProjType {ARC,TAN,SIN,AZP};
+enum ProjType {ARC, TAN, SIN, AZP};
 
 class Camera;
 class Scene;
@@ -98,11 +98,11 @@ public:
     {
       switch (projtypecode)
       {
-	      case 1 : projtype=ARC;break;
-	      case 2 : projtype=TAN;break;
-	      case 3 : projtype=SIN;break;
-	      case 4 : projtype=AZP;break;
-	      default : projtype=ARC;
+	      case 1 : projtype = ARC; break;
+	      case 2 : projtype = TAN; break;
+	      case 3 : projtype = SIN; break;
+	      case 4 : projtype = AZP; break;
+	      default : projtype = ARC;
       }
     };
     ProjType getProjType() const {return projtype;};

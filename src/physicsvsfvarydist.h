@@ -1,7 +1,7 @@
 // $Id$
 
-#ifndef PHYSICSVSF_H
-#define PHYSICSVSF_H
+#ifndef PHYSICSVSFVARYDIST_H
+#define PHYSICSVSFVARYDIST_H
 
 #include <string>
 
@@ -10,23 +10,28 @@
 #include "constant.h"
 
 /**
-Volume Scattering Function, for F-corona and zodiacal light
+Volume Scattering Function, for F-corona and zodiacal light, varying with distance as described in Lamy & Perrin 1986
 */
-class PhysicsVSF : public PhysicsBase
+class PhysicsVSFVaryDist : public PhysicsBase
 {
 public:
-    PhysicsVSF();
+    PhysicsVSFVaryDist();
 
-    ~PhysicsVSF();
+    ~PhysicsVSFVaryDist();
 
     bool computeRadiation(const Cvec &vs,const float &r,const float &rho,float &btout,float &bpout,float &neout);
 
+    
+    //! Returns the constant factor of the integration
     void getConstFactors(float &btf,float &bpf,float &nef, float rho);
     
     
+    void initDensityModel(const Cvec &obsPos);
+
+        
   private:
     static const std::string filename;    //!> filename of the VSF
-    float *ang,*vsf;
+    float *ang, *vsf;
     int nbsamp;
 };
 

@@ -3,27 +3,27 @@
 #include <fstream>
 
 #include "config.h"
-#include "physicsvsf.h"
+#include "physicsvsfvarydist.h"
 #include "rtmiscfunc.h"
 #include "Cvec.h"
 #include "scene.h"
 
-// const std::string PhysicsVSF::filename = SCRAYTRACE_DATA_DIR "/binsilicate_n100_s1_5_trimmed.dat";
-const std::string PhysicsVSF::filename = SCRAYTRACE_DATA_DIR "/VSFLamyPerrinPlaneofSymInterp06.dat";
+
+const std::string PhysicsVSFVaryDist::filename = SCRAYTRACE_DATA_DIR "/VSFLamyPerrinPlaneofSymInterp06.dat";
 
 
-PhysicsVSF::PhysicsVSF()
+PhysicsVSFVaryDist::PhysicsVSFVaryDist()
 {
-  physicsName="VSF for zodiacal light simulation";  
+  physicsName="VSF for zodiacal light simulation. VSF varies with distance. Validity is within 0.3AU to 1AU.";  
   printvar(physicsName);
+  
+  printvar(RSUN)
   
   // ---- open file containing the LamyPerrin VSF
   //      See Lamy and Perrin, A&A 163, pp269-286 (1986).
    ifstream file;
    file.open( filename.c_str(), ios_base::in | ios_base::binary);
 
-//    file.open("/home/thernis/work/mie/VSFLamyPerrinPlaneofSymInterp06.dat",ios_base::in |ios_base::binary);
-  
   // -- First record is the size of the data
   int *pnbsamp;
   pnbsamp = new int;
@@ -47,31 +47,37 @@ PhysicsVSF::PhysicsVSF()
   printvar(ang[0]);
   printvar(vsf[0]);
   
-  
-  
 }
 
 
 
-PhysicsVSF::~PhysicsVSF()
+PhysicsVSFVaryDist::~PhysicsVSFVaryDist()
 {
   delete[] ang,vsf;
 }
 
 
+// void PhysicsVSFVaryDist::initDensityModel(const Cvec &vlosabs)
+// {
+//     // Transform obsPos from abs to density coordinate system
+//     Cvec vlos_inDens;
+//     vlos_inDens = ChangetoDensityCoord(pparentscene->modelposition, vlosabs);
+//     pparentscene->pmod->initDensityConstFactors(vlos_inDens);
+// }
 
 
-bool PhysicsVSF::computeRadiation(const Cvec &vs,const float &r,const float &rho,float &btout,float &bpout,float &density)
+
+bool PhysicsVSFVaryDist::computeRadiation(const Cvec &vs,const float &r,const float &rho,float &btout,float &bpout,float &density)
 {
     // -- compute density at point vs
-    density = pparentscene->pmod->Density(ChangetoDensityCoord(pparentscene->modelposition,vs));
+    density = pparentscene->pmod->Density(ChangetoDensityCoord(pparentscene->modelposition, vs));
     
     // ---- compute elongation
     // -- compute distance observer - point of LOS
     Cvec vl = vs - pparentscene->obs.o;
     float l = vl.mag();
 
-    float cosAlpha = pscal(vs,vl) / (r * l);
+    float cosAlpha = pscal(vs, vl) / (r * l);
     if (cosAlpha > 1.) cosAlpha = 1.;
     if (cosAlpha < -1.) cosAlpha = -1.;
     float theta = acos(-cosAlpha);
@@ -82,8 +88,10 @@ bool PhysicsVSF::computeRadiation(const Cvec &vs,const float &r,const float &rho
     idx = (unsigned int) (float(nbsamp-1) * theta / PI);
     if (idx > (nbsamp-1)) idx = nbsamp-1;
     
-    btout = density * vsf[idx] / ( r * r );
+    btout = density * pow(pparentscene->obs.o.mag() / ONEAU_RSUN, -0.3) * vsf[idx] / ( r * r );
     bpout = vsf[idx];
+    
+//     cout << "idx : " << idx << ", theta [deg] : " << theta * 180 / PI << ", vsf : " << vsf[idx] << endl;
      
     return 0;
 }
@@ -100,8 +108,9 @@ bool PhysicsVSF::computeRadiation(const Cvec &vs,const float &r,const float &rho
  * 
  * 
  */
-void PhysicsVSF::getConstFactors(float &btf,float &bpf,float &nef, float rho)
+void PhysicsVSFVaryDist::getConstFactors(float &btf,float &bpf,float &nef, float rho)
 {
+   
     float ds = pparentscene->los.ds;
     btf = ds * RSUN_CM * RSUN * RSUN * 1361;
     bpf = ds;

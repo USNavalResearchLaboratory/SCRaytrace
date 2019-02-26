@@ -39,7 +39,7 @@ bool PhysicsMie::computeRadiation(const Cvec &vs,const float &r,const float &rho
 
 
 
-void PhysicsMie::getConstFactors(float &btf,float &bpf,float &nef)
+void PhysicsMie::getConstFactors(float &btf,float &bpf,float &nef, float rho)
 {
     float ds = pparentscene->los.ds;
      btf = PI * 0.5 * ds / (k * k);

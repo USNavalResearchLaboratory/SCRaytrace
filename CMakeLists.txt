@@ -10,8 +10,8 @@ add_subdirectory(data)
 
 
 set (scraytrace_VERSION_MAJOR 2)
-set (scraytrace_VERSION_MINOR 5)
-set (scraytrace_VERSION_PATCH 2)
+set (scraytrace_VERSION_MINOR 6)
+set (scraytrace_VERSION_PATCH 0)
 
 
 

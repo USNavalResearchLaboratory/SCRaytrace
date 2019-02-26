@@ -20,6 +20,7 @@
 #include "physicsthomson.h"
 #include "physicsuv.h"
 #include "physicsvsf.h"
+#include "physicsvsfvarydist.h"
 
 
 //! Unit tests for the Physics classes

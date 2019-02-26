@@ -5,7 +5,7 @@
 #ifndef _CLOS_H_
 #define _CLOS_H_
 
-//! Line Of Sight definition
+//! Line Of Sight integration definition
 class Clos
 {
 	public:
@@ -20,10 +20,10 @@ class Clos
 	
 	public:
 		// Clos variables
-	  	int nbp;
-  		float sstart;
-  		float send;
-  		float ds;
+	  	int nbp;        //!> Number of steps along the LOS
+  		float sstart;   //!> Start position distance from reference point (Obs or Plane of Sky)
+  		float send;     //!> End position distance from reference point (Obs or Plane of Sky)
+  		float ds;       //!> Integration step along the LOS
 	
 };
 

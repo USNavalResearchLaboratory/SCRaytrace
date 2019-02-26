@@ -85,7 +85,8 @@ add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp
     sun.h sun.cpp camera.h camera.cpp physicsbase.h physicsbase.cpp 
     physicsthomson.h physicsthomson.cpp physicsuv.h physicsuv.cpp 
     physicsisotropic.h physicsisotropic.cpp physicsmie.h physicsmie.cpp 
-    miehps.h miehps.cpp physicsvsf.cpp physicsvsf.h)
+    miehps.h miehps.cpp physicsvsf.cpp physicsvsf.h 
+    physicsvsfvarydist.cpp physicsvsfvarydist.h)
 target_link_libraries(raytracethread raytrace ${BoostThread})
 # target_link_libraries(raytracethread raytrace "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
 # target_link_libraries(raytracethread raytrace  ${Boost_THREAD_LIBRARY} )

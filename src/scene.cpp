@@ -213,6 +213,8 @@ void Scene::computeImagebyChunk(float *btot,float *bpol,float *netot,const unsig
     this->bpol=bpol;
     this->netot=netot;
 
+    cout << "Obs dist to sun [Rsun] "<< obs.o.mag() << endl;
+    cout << "1 AU [Rsun] "<< ONEAU_RSUN << endl;
 
     boost::thread *pthread=new boost::thread[nbthread];
     pisrunning=new bool[nbthread];

@@ -19,7 +19,7 @@
 //! one astronomical unit, in m
 #define ONEAU_M 149597870691
 //! one astronomical unit, in Rsun
-#define ONEAU_RSUN ONEAU_M / RSUN_M
+#define ONEAU_RSUN (ONEAU_M / RSUN_M)
 
 //! Useful to print variables
 #define printvar(X) std::cout << #X << " : " << X << std::endl;

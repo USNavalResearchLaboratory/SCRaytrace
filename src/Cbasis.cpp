@@ -96,9 +96,6 @@ std::ostream& operator << (std::ostream& os,const Cbasis& c) {
 
 Cvec ChangeBase(const Cvec &v,const Cbasis &baseinit,const Cbasis &basedest) { 
   return (basedest.u*(baseinit.o-basedest.o+(baseinit.ui*v)));
-
-//  return ((basedest.u*(baseinit.o-basedest.o+(baseinit.ui*(v+baseinit.translation))))-basedest.translation);
-
 }
 
 

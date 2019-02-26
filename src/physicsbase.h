@@ -12,7 +12,7 @@ using std::endl;
 #include "CModelBase.h"
              
 //! Enumerate the different types of physics available
-enum PhysicsType {THOMSON,UV,MIE,ISOTROPIC,VSF};
+enum PhysicsType {THOMSON, UV, MIE, ISOTROPIC, VSF, VSFVARYDIST};
 
 //! Forward declaration of class Scene
 class Scene;
@@ -26,20 +26,37 @@ class PhysicsBase{
 
     virtual ~PhysicsBase() {};
 
-    //! Compute the radiation for the given physics, geometry, model
-    virtual bool computeRadiation(const Cvec &vs,const float &r,const float &rho,float &btout,float &bpout,float &neout) {return 1;}
+    
+    //! Compute the radiation for the given physics, geometry, model    
+    virtual bool computeRadiation(const Cvec &vs,   /**< [in] Point on the LOS, in Abs coordinates. */
+                                  const float &r,   /**< [in] Distance LOS position to Sun center. */
+                                  const float &rho, /**< [in] Impact parameter. */
+                                  float &btout,     /**< [out] Total brightness. */
+                                  float &bpout,     /**< [out] Polarized brightness. */
+                                  float &neout)     /**< [out] Density. */
+    {return 1;}
 
-    virtual void getConstFactors(float &btf,float &bpf,float &nef)
+    
+    //! Return the integration constant factor
+    virtual void getConstFactors(float &btf,float &bpf,float &nef, float rho)
     {
         btf=1.;
         bpf=1.;
         nef=1.;
     };
+
+    
+    /** Perform Model density initialization tasks. Some model need the position of the observer.
+     * \param vlosabs Line of sight unit vector, in the abs coordinate system.
+     */
+//     virtual void initDensityModel(const Cvec &vlosabs) {};
+    
+    
     string getPhysics(){return physicsName;}
     virtual void setParam(float *phyparam) {};
     virtual void printParam() {std::cout << "No PhyParam." << std::endl;};
 
-    void setParentScene(Scene *pparentscene) {this->pparentscene=pparentscene;}
+    void setParentScene(Scene *pparentscene) {this->pparentscene=pparentscene;};
         
   protected:
     string physicsName;

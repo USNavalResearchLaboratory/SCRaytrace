@@ -29,7 +29,7 @@ bool PhysicsIsotropic::computeRadiation(const Cvec &vs,const float &r,const floa
     return 0;
 }
 
-void PhysicsIsotropic::getConstFactors(float &btf,float &bpf,float &nef)
+void PhysicsIsotropic::getConstFactors(float &btf,float &bpf,float &nef, float rho)
 {
     float ds = pparentscene->los.ds / 4 / PI;
     btf=ds;

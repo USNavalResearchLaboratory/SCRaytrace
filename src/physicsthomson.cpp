@@ -23,7 +23,7 @@ bool PhysicsThomson::computeRadiation(const Cvec &vs,const float &r,const float 
     return 0;
 }
 
-void PhysicsThomson::getConstFactors(float &btf,float &bpf,float &nef)
+void PhysicsThomson::getConstFactors(float &btf,float &bpf,float &nef, float rho)
 {
     btf = pparentscene->csun.getConstfactor() * pparentscene->los.ds;
     bpf = btf;

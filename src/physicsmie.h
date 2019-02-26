@@ -21,7 +21,7 @@ public:
 
     bool computeRadiation(const Cvec &vs,const float &r,const float &rho,float &btot,float &bpol,float &neout);
 
-    void getConstFactors(float &btf,float &bpf,float &nef);
+    void getConstFactors(float &btf,float &bpf,float &nef, float rho);
 
     
     //! Set the parameter of the physics model
