@@ -22,7 +22,10 @@ For additional testing, you can run the following:
 `make test`
 
 ## Clean up the build
-`rm -rf build`  
+`rm -rf build` 
+
+or maybe try  
+`make clean`
 
 ## Dependencies
 ### C++ only
@@ -39,6 +42,8 @@ For additional testing, you can run the following:
 Run  
 `doxygen Doxyfile`
 
+The doc can be viewed in your browser here:  
+`doxygen/html/index.html`
 
 ## Gererating the user manual
 The first user manual was writen in Docbook but we are working on rewriting it using Sphinx and ReStructuredText.
@@ -47,3 +52,5 @@ To generate the Sphinx documentation:
 `cd sphinx`  
 `make html`
 
+The doc can be viewed in your browser here:  
+`sphinx/build/html/index.html`
