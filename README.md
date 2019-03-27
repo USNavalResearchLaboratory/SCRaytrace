@@ -7,30 +7,53 @@ Solar Corona Raytracing tools
 - python: python wrappers. Empty for now...
 - idl: IDL wrappers. Empty for now. We will see if we transfer the SolarSoft IDL sources in here maybe, which would allow collaborative development, things that was not possible so far.
 - docbook: Docbook source files for the user manual.
+- sphinx: sphinx documentation
+- doxygen: doxygen code documentation
+
+## Cloning the repository
+`git clone https://github.com/DrRaytrace/SCRaytrace.git`
 
 ## Compiling the sources
 SCraytrace now uses cmake. To compile the project once cloned from github, run the following:  
-cmake -H. -Bbuild  
-cmake --build build -- -j3
+`cmake -H. -Bbuild`  
+`cmake --build build -- -j3`
 
 The compiled code will be generated in the build folder.  
 
 For additional testing, you can run the following:  
-cd build  
-make test
+`cd build`  
+`make test`
 
 ## Clean up the build
-rm -rf build  
+`rm -rf build` 
+
+or maybe try  
+`make clean`
 
 ## Dependencies
+### C++ only
 - boost C++ library
-- cppunit
+- cppunit (will need to be replaced by boost unit test instead)
+
+### Documentation
+- doxygen
+- dot/graphviz
+- sphinx
+
 
 ## Generating the code documentation with Doxygen
-Use doxywizard to generate the code documentation. The Doxyfile file is the configuration file.  
+Run  
+`doxygen Doxyfile`
+
+The doc can be viewed in your browser here:  
+`doxygen/html/index.html`
 
 ## Gererating the user manual
-The user manual is writen using Docbook. More details will follow here on how to edit and generate the manual.  
+The first user manual was writen in Docbook but we are working on rewriting it using Sphinx and ReStructuredText.
 
+To generate the Sphinx documentation:  
+`cd sphinx`  
+`make html`
 
-
+The doc can be viewed in your browser here:  
+`sphinx/build/html/index.html`
