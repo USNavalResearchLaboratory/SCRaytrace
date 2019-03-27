@@ -7,9 +7,10 @@ Welcome to SCRaytrace's documentation!
 ======================================
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
-   test
+    FCorona
+    test
 
    
 

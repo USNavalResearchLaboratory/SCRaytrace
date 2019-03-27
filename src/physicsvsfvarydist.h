@@ -10,7 +10,10 @@
 #include "constant.h"
 
 /**
-Volume Scattering Function, for F-corona and zodiacal light, varying with distance as described in Lamy & Perrin 1986
+Volume Scattering Function, for F-corona and zodiacal light, varying with distance as described in Lamy & Perrin 1986.
+
+Caveat: The VSF is valid down to 5 deg elongation from the Sun center.
+
 */
 class PhysicsVSFVaryDist : public PhysicsBase
 {
