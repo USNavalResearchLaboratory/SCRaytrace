@@ -1,24 +1,26 @@
 
-
-
 set(Boost_USE_STATIC_LIBS OFF) 
 set(Boost_USE_MULTITHREADED ON)  
 set(Boost_USE_STATIC_RUNTIME OFF) 
+
 
 find_package(Boost 1.49.0 COMPONENTS thread)
 
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS}) 
+    message("Boost include directory: ${Boost_INCLUDE_DIRS}")
 endif()
 
-find_library(BoostThread libboost_thread.so HINTS ~/soft/lib)
+find_library(BoostThread libboost_thread.dylib libboost_thread.so HINTS ~/local/lib ~/soft/lib)
+
 
 
 # ---- find cppunit
 find_path(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h
     /usr/local/include
     /usr/include
-    ~/soft/include)
+    ~/soft/include
+    ~/local/include)
 
 find_library(CPPUNIT_LIBRARY cppunit
                ${CPPUNIT_INCLUDE_DIR}/../lib

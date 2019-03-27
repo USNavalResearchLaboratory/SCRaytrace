@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
+# ---- Avoids warning with new policy when compiling on Mac OSX
+set(CMAKE_MACOSX_RPATH 1)
+
 project(scraytrace)
 enable_testing()
 
