@@ -10,6 +10,9 @@ Solar Corona Raytracing tools
 - sphinx: sphinx documentation
 - doxygen: doxygen code documentation
 
+## Cloning the repository
+`git clone https://github.com/DrRaytrace/SCRaytrace.git`
+
 ## Compiling the sources
 SCraytrace now uses cmake. To compile the project once cloned from github, run the following:  
 `cmake -H. -Bbuild`  
@@ -30,7 +33,7 @@ or maybe try
 ## Dependencies
 ### C++ only
 - boost C++ library
-- cppunit
+- cppunit (will need to be replaced by boost unit test instead)
 
 ### Documentation
 - doxygen
