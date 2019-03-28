@@ -32,7 +32,10 @@ or maybe try
 
 ## Dependencies
 ### C++ only
-- boost C++ library
+- boost (C++ library)
+    - thread
+    - unit_test_framework
+    - bind.hpp
 - cppunit (will need to be replaced by boost unit test instead)
 
 ### Documentation

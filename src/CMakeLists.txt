@@ -4,7 +4,8 @@ set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF) 
 
 
-find_package(Boost 1.49.0 COMPONENTS thread)
+find_package(Boost 1.67.0 COMPONENTS thread unit_test_framework)
+
 
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS}) 
@@ -12,37 +13,59 @@ if(Boost_FOUND)
 endif()
 
 find_library(BoostThread libboost_thread.dylib libboost_thread.so HINTS ~/local/lib ~/soft/lib)
+find_library(BoostTest libboost_unit_test_framework.dylib libboost_unit_test_framework.so HINTS ~/local/lib ~/soft/lib)
+
+# ---- SCRaytrace requires boost/bind.hpp
+find_file(BoostBind NAMES bind.hpp PATHS
+      ${Boost_INCLUDE_DIRS}/boost)
+
+if(BoostBind)
+    message("Found boost/bind.hpp")
+else()
+    message(FATAL_ERROR "${PROJECT_NAME} requires boost/bind.hpp")
+endif()
+
+
+# ---- SCRaytrace requires boost/test/unit_test.hpp
+find_file(BoostUnitTest NAMES unit_test.hpp PATHS
+      ${Boost_INCLUDE_DIRS}/boost/test)
+
+if(BoostUnitTest)
+    message("Found boost/test/unit_test.hpp")
+else()
+    message(FATAL_ERROR "${PROJECT_NAME} requires boost/test/unit_test.hpp")
+endif()
 
 
 
 # ---- find cppunit
-find_path(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h
-    /usr/local/include
-    /usr/include
-    ~/soft/include
-    ~/local/include)
-
-find_library(CPPUNIT_LIBRARY cppunit
-               ${CPPUNIT_INCLUDE_DIR}/../lib
-               /usr/local/lib
-               /usr/lib)
-
-find_library(CPPUNIT_DEBUG_LIBRARY cppunit
-               ${CPPUNIT_INCLUDE_DIR}/../lib
-               /usr/local/lib
-               /usr/lib)
-
-if(CPPUNIT_INCLUDE_DIR)
-  if(CPPUNIT_LIBRARY)
-    message("Found cppunit")
-    set(CPPUNIT_FOUND "YES")
-    set(CPPUNIT_LIBRARIES ${CPPUNIT_LIBRARY} ${CMAKE_DL_LIBS})
-    set(CPPUNIT_DEBUG_LIBRARIES ${CPPUNIT_DEBUG_LIBRARY}
-${CMAKE_DL_LIBS})
-  else(CPPUNIT_LIBRARY)
-    message("cppunit not found")
-  endif(CPPUNIT_LIBRARY)
-endif(CPPUNIT_INCLUDE_DIR)
+# find_path(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h
+#     /usr/local/include
+#     /usr/include
+#     ~/soft/include
+#     ~/local/include)
+# 
+# find_library(CPPUNIT_LIBRARY cppunit
+#                ${CPPUNIT_INCLUDE_DIR}/../lib
+#                /usr/local/lib
+#                /usr/lib)
+# 
+# find_library(CPPUNIT_DEBUG_LIBRARY cppunit
+#                ${CPPUNIT_INCLUDE_DIR}/../lib
+#                /usr/local/lib
+#                /usr/lib)
+# 
+# if(CPPUNIT_INCLUDE_DIR)
+#   if(CPPUNIT_LIBRARY)
+#     message("Found cppunit")
+#     set(CPPUNIT_FOUND "YES")
+#     set(CPPUNIT_LIBRARIES ${CPPUNIT_LIBRARY} ${CMAKE_DL_LIBS})
+#     set(CPPUNIT_DEBUG_LIBRARIES ${CPPUNIT_DEBUG_LIBRARY}
+# ${CMAKE_DL_LIBS})
+#   else(CPPUNIT_LIBRARY)
+#     message("cppunit not found")
+#   endif(CPPUNIT_LIBRARY)
+# endif(CPPUNIT_INCLUDE_DIR)
 
 set(SCRAYTRACE_DATA_DIR "${CMAKE_SOURCE_DIR}/data")
 
@@ -110,51 +133,57 @@ target_link_libraries(rtthread raytracethread)
 # target_link_libraries(hpsmie raytrace raytracethread "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
 
 # ---- tests
-add_executable(testcuvemission cuvemissiontest.cpp cuvemissiontest.h testsuite.cpp)
-target_link_libraries(testcuvemission raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-add_executable(testmodel26 model26test.cpp model26test.h testsuite.cpp)
-target_link_libraries(testmodel26 raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-add_executable(testmodel67 model67test.cpp model67test.h testsuite.cpp)
-target_link_libraries(testmodel67 raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-add_executable(testmodel77 model77test.cpp model77test.h testsuite.cpp)
-target_link_libraries(testmodel77 raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-add_executable(testrtmiscfunc rtmiscfunctest.cpp rtmiscfunctest.h rtmiscfunc.h testsuite.cpp)
-target_link_libraries(testrtmiscfunc raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-add_executable(testcvec cvectest.h cvectest.cpp testsuite.cpp)
-target_link_libraries(testcvec raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-add_executable(testsun suntest.h suntest.cpp testsuite.cpp)
-target_link_libraries(testsun raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-add_executable(testcamera cameratest.h cameratest.cpp testsuite.cpp)
-target_link_libraries(testcamera raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-add_executable(testCbasis Cbasistest.h Cbasistest.cpp testsuite.cpp)
-target_link_libraries(testCbasis raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-add_executable(testscene scenetest.h scenetest.cpp testsuite.cpp)
-target_link_libraries(testscene raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-add_executable(testphysics physicstest.h physicstest.cpp  testsuite.cpp)
-target_link_libraries(testphysics raytrace raytracethread ${CPPUNIT_LIBRARIES})
-
-
-add_test(NAME testcuvemission COMMAND testcuvemission)
-add_test(NAME testmodel26 COMMAND testmodel26)
-add_test(NAME testmodel67 COMMAND testmodel67)
-add_test(NAME testmodel77 COMMAND testmodel77)
-add_test(NAME testrtmiscfunc COMMAND testrtmiscfunc)
-add_test(NAME testcvec COMMAND testcvec)
-add_test(NAME testsun COMMAND testsun)
-add_test(NAME testcamera COMMAND testcamera)
-add_test(NAME testCbasis COMMAND testCbasis)
-add_test(NAME testscene COMMAND testscene)
-add_test(NAME testphysics COMMAND testphysics)
+# add_executable(testcuvemission cuvemissiontest.cpp cuvemissiontest.h testsuite.cpp)
+# target_link_libraries(testcuvemission raytrace raytracethread ${CPPUNIT_LIBRARIES})
+# 
+# add_executable(testmodel26 model26test.cpp model26test.h testsuite.cpp)
+# target_link_libraries(testmodel26 raytrace raytracethread ${CPPUNIT_LIBRARIES})
+# 
+# add_executable(testmodel67 model67test.cpp model67test.h testsuite.cpp)
+# target_link_libraries(testmodel67 raytrace raytracethread ${CPPUNIT_LIBRARIES})
+# 
+# add_executable(testmodel77 model77test.cpp model77test.h testsuite.cpp)
+# target_link_libraries(testmodel77 raytrace raytracethread ${CPPUNIT_LIBRARIES})
+# 
+# add_executable(testrtmiscfunc rtmiscfunctest.cpp rtmiscfunctest.h rtmiscfunc.h testsuite.cpp)
+# target_link_libraries(testrtmiscfunc raytrace raytracethread ${CPPUNIT_LIBRARIES})
+# 
+# add_executable(testcvec cvectest.h cvectest.cpp testsuite.cpp)
+# target_link_libraries(testcvec raytrace raytracethread ${CPPUNIT_LIBRARIES})
+# 
+# add_executable(testsun suntest.h suntest.cpp testsuite.cpp)
+# target_link_libraries(testsun raytrace raytracethread ${CPPUNIT_LIBRARIES})
+# 
+# add_executable(testcamera cameratest.h cameratest.cpp testsuite.cpp)
+# target_link_libraries(testcamera raytrace raytracethread ${CPPUNIT_LIBRARIES})
+# 
+# add_executable(testCbasis Cbasistest.h Cbasistest.cpp testsuite.cpp)
+# target_link_libraries(testCbasis raytrace raytracethread ${CPPUNIT_LIBRARIES})
+# 
+# add_executable(testscene scenetest.h scenetest.cpp testsuite.cpp)
+# target_link_libraries(testscene raytrace raytracethread ${CPPUNIT_LIBRARIES})
+# 
+# add_executable(testphysics physicstest.h physicstest.cpp  testsuite.cpp)
+# target_link_libraries(testphysics raytrace raytracethread ${CPPUNIT_LIBRARIES})
 
 
+add_executable(testboosttest boostTestTest.cpp)
+target_link_libraries(testboosttest  ${BoostTest})
+
+
+
+# add_test(NAME testcuvemission COMMAND testcuvemission)
+# add_test(NAME testmodel26 COMMAND testmodel26)
+# add_test(NAME testmodel67 COMMAND testmodel67)
+# add_test(NAME testmodel77 COMMAND testmodel77)
+# add_test(NAME testrtmiscfunc COMMAND testrtmiscfunc)
+# add_test(NAME testcvec COMMAND testcvec)
+# add_test(NAME testsun COMMAND testsun)
+# add_test(NAME testcamera COMMAND testcamera)
+# add_test(NAME testCbasis COMMAND testCbasis)
+# add_test(NAME testscene COMMAND testscene)
+# add_test(NAME testphysics COMMAND testphysics)
+
+
+add_test(NAME boostTestTest COMMAND testboosttest)
 
