@@ -138,9 +138,9 @@ protected:
     float C;                 //!> density constant factor
     float dustFreeLimit;     //!> dust free zone limit in Rsun
     float decreaseFactor;    //!> density decrease factor in the dust free zone
-    static const float BETA = 4.14;
-    static const float GAMMA = 0.942;
-    static const float MU = 0.189;
+    static const float BETA;
+    static const float GAMMA;
+    static const float MU;
 };
 
 

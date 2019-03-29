@@ -66,7 +66,7 @@ class Mie
 		
 		complex<double> Cot(complex<double> mx);
 		
-		double calcPi(double mu);
+		void calcPi(double mu);
 		double Tau(double mu,int n);
 		void calcChi(double x,int n);
 		void calcPsi(double x,int n);
@@ -75,7 +75,7 @@ class Mie
 		void calcR();
 		void calcAnBn();
 
-		complex<double> calcSi(double theta);
+		void calcSi(double theta);
 		void calcQscaQext();
 };
 

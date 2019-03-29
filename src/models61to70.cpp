@@ -272,7 +272,8 @@ this->pparam=pparam;
 // Destructor
 CModel65::~CModel65()
 {
-delete ModelSaitoPolar,ModelSaitoEquat;
+    delete ModelSaitoPolar;
+    delete ModelSaitoEquat;
 }
 
 

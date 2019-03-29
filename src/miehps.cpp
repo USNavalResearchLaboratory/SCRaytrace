@@ -90,7 +90,8 @@ double Mie::getX(){
 	return x;
 }
 
-double Mie::calcPi(double mu){
+
+void Mie::calcPi(double mu){
 	double s=0.0,t=0.0;
 	
 	pi[0]=0.0;
@@ -102,6 +103,7 @@ double Mie::calcPi(double mu){
 		pi[i+1]=s+t+t/(double)i;
 	}
 }
+
 
 double Mie::Tau(double mu,int n){
 	if(n==0){
@@ -175,7 +177,7 @@ void Mie::calcAnBn(){
 	}
 }
 
-complex<double> Mie::calcSi(double theta){
+void Mie::calcSi(double theta){
 	double mu=cos(theta);
 	double tau;
 	double fn;

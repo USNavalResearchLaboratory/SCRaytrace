@@ -144,7 +144,9 @@ int rtthreadtest()
   // ---- run raytracing
   scene.computeImagebyRay(btot,bpol,netot,2);
 
-  delete [] btot,bpol,netot;
+    delete[] btot;
+    delete[] bpol;
+    delete[] netot;
 
   std::cout << "Yo ! " << std::endl;
 

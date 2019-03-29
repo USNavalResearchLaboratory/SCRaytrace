@@ -53,7 +53,8 @@ PhysicsVSFVaryDist::PhysicsVSFVaryDist()
 
 PhysicsVSFVaryDist::~PhysicsVSFVaryDist()
 {
-  delete[] ang,vsf;
+    delete[] ang;
+    delete[] vsf;
 }
 
 

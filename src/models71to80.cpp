@@ -367,7 +367,8 @@ float CModel77::getEnhanceFactor(float r)
 // -- destructor
 CModel77::~CModel77()
 {
-  delete[] rsun, enhanceFactor;
+    delete[] rsun;
+    delete[] enhanceFactor;
 }
 
 
@@ -393,7 +394,11 @@ void CModel77::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase
 
 
 
-// Density 78: 
+// Density 78:
+const float CModel78::BETA = 4.14;
+const float CModel78::GAMMA = 0.942;
+const float CModel78::MU = 0.189;
+
 float CModel78::Density(const Cvec &v)
 {
 

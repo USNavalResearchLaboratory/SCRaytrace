@@ -55,7 +55,8 @@ PhysicsVSF::PhysicsVSF()
 
 PhysicsVSF::~PhysicsVSF()
 {
-  delete[] ang,vsf;
+    delete[] ang;
+    delete[] vsf;
 }
 
 

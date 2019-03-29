@@ -54,7 +54,8 @@ class Scene
     
     ~Scene()
     {
-        delete pmod, pphy;
+        delete pmod;
+        delete pphy;
     }
     
     
