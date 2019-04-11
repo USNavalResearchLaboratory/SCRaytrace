@@ -1,4 +1,3 @@
-// $Id: main.cpp,v 1.12 2010-09-17 15:24:43 thernis Exp $
 
 #include <iostream>
 #include <fstream>
@@ -473,35 +472,3 @@ cout << "No CCfits" << endl;
     return 0;
 }
 
-
-/*
-* $Log: main.cpp,v $
-* Revision 1.12  2010-09-17 15:24:43  thernis
-* Cast values in atan2 function to avoid compilation crash in Solaris
-*
-* Revision 1.11  2010-08-16 20:43:45  colaninn
-* Added cstdlib and algorithm
-*
-* Revision 1.10  2009/02/09 20:51:11  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.9  2008/09/23 14:08:12  thernis
-* - add new testing models, - implement integration in front of the instrument
-*
-* Revision 1.8  2007/07/20 21:45:38  thernis
-* Show if CCfits was used or not
-*
-* Revision 1.7  2007/07/19 19:52:13  thernis
-* Implement test for second degree polynomial root calculation testing
-*
-* Revision 1.6  2007/07/10 21:15:57  thernis
-* Implement raytracing of a cloud of points.
-*
-* Revision 1.5  2007/05/14 17:19:40  thernis
-* Add CVS id and log in all files
-*
-*/
