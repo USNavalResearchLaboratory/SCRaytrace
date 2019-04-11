@@ -1968,6 +1968,17 @@ return 1;
 }
 
 
+
+extern "C" int testParamPass(int param) {
+//     int* pparam=(int*) argv[0];
+    
+    cout << "Param : " << param * 2 << " Hello ! " << endl;
+ 
+    return EXIT_SUCCESS;;   
+}
+
+
+
 /*
 * $Log: raytrace.cpp,v $
 * Revision 1.19  2010-09-17 15:23:55  thernis

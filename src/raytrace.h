@@ -355,6 +355,10 @@ void dumpBuildInfo();
 extern "C" int dumpbuildinfo(int argc,void **argv);
 
 
+//! Test function for interfacing with Python
+extern "C" int testParamPass(int param);
+
+
 //! Compute the origin of the LOS, depending what the user specified
 inline void calcqlos(const int &pofinteg,const int &frontinteg,const Cbasis &obs,const Cvec &vlosabs,const Cbasis &abs,Cbasis &poi,Cvec &qlos) {
 

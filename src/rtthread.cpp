@@ -1,8 +1,4 @@
-/*
- *  rtthread.cpp
- *  $Id: rtthread.cpp,v 1.7 2010-09-17 15:22:56 thernis Exp $
- *
- */
+
 #include <iostream>
 #include <cstdlib>
 #include "rtthread.h"
@@ -14,7 +10,43 @@
 
 
 
-int rtthread(int sx,int sy,float fovpix,float *obspos,float *obsang,float *nepos,float *neang,int losnbp,float *losrange,int modelid,float *btot,float *bpol,float *netot,float *pmodparam,float *crpix,int quiet,int neonly,float *hlonlat,float occrad,float limbdark,float *obslonlat,int obslonlatflag,unsigned int projtypecode,float pv2_1,float *pc,int frontinteg,unsigned int nbthreads,unsigned int nbchunk,float *nerotcntr,float *nerotang,float *netranslation,int *nerotaxis,int physics,float *phyparam,float fracmax,int runDumpInteg, float *pIntegrand)
+extern "C" int rtthread(int sx,
+                        int sy,
+                        float fovpix,
+                        float *obspos,
+                        float *obsang,
+                        float *nepos,
+                        float *neang,
+                        int losnbp,
+                        float *losrange,
+                        int modelid,
+                        float *btot,
+                        float *bpol,
+                        float *netot,
+                        float *pmodparam,
+                        float *crpix,
+                        int quiet,
+                        int neonly,
+                        float *hlonlat,
+                        float occrad,
+                        float limbdark,
+                        float *obslonlat,
+                        int obslonlatflag,
+                        unsigned int projtypecode,
+                        float pv2_1,
+                        float *pc,
+                        int frontinteg,
+                        unsigned int nbthreads,
+                        unsigned int nbchunk,
+                        float *nerotcntr,
+                        float *nerotang,
+                        float *netranslation,
+                        int *nerotaxis,
+                        int physics,
+                        float *phyparam,
+                        float fracmax,
+                        int runDumpInteg, 
+                        float *pIntegrand)
 {
   if (quiet!=1) {
   std::cout << "In rtthread..." << std::endl;
@@ -107,9 +139,6 @@ int rtthread(int sx,int sy,float fovpix,float *obspos,float *obsang,float *nepos
 
 
 
-
-
-
 int rtthreadtest()
 {
   // ---- setup the scene
@@ -151,6 +180,38 @@ int rtthreadtest()
   std::cout << "Yo ! " << std::endl;
 
   return EXIT_SUCCESS;
+}
+
+
+extern "C" void footest()
+{
+    std::cout << "In footest ! " << std::endl;
+    
+}
+
+
+extern "C" void testPassPython(float* array, int N, float f)
+{
+    std::cout << "In testPassPython ! " << f << std::endl;
+    for (int i=0; i<N; i++) 
+        std::cout << i << " " << array[i] << std::endl;
+    
+}
+
+
+
+extern "C" int rtthreadtestExt()
+{
+ 
+    int foo;
+    
+    foo = rtthreadtest();
+    
+    // Try calling an extern C function
+    footest();
+    
+    
+    return EXIT_SUCCESS;
 }
 
 
