@@ -1,8 +1,3 @@
-//
-// C++ Implementation: model67test
-//
-// $Id: model67test.cpp,v 1.1 2009/02/09 20:46:28 thernis Exp $
-//
 
 #include "constant.h"
 #include "Cvec.h"
@@ -168,12 +163,3 @@ cout << "temp : " << temp << endl;
 
 }
 
-
-// $Log: model67test.cpp,v $
-// Revision 1.1  2009/02/09 20:46:28  thernis
-// - Clean up the code
-// - Change CModel::Density prototype
-// - Update documentation
-// - Implement multi-threading using boost thread
-// - Add new models
-//

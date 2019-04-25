@@ -1,4 +1,7 @@
-// $Id$
+/*! \file oonewcallhpsmie.cpp
+ * \brief Command line test of the hpsmie library.
+ *
+ */
 
 #include <iostream>
 #include <cmath>

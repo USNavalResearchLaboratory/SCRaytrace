@@ -1,5 +1,3 @@
-// $Id$
-
 
 #include "constant.h"
 #include "Cvec.h"
@@ -65,6 +63,3 @@ CPPUNIT_ASSERT_DOUBLES_EQUAL((double)2.,(double)dens,1e-3);
 */
 
 }
-
-
-// $Log$

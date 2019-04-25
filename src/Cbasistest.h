@@ -1,3 +1,7 @@
+/*! \file Cbasistest.h 
+ * \brief Test suite for Cbasis.
+ *
+ */
 
 #ifndef CBASISTEST_H
 #define CBASISTEST_H

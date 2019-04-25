@@ -1,4 +1,6 @@
-// $Id$
+/** \file physicsvsfvarydist.h
+ * \brief Implements the Volume Scattering Function physics, that varies with distance to the Sun.
+ */
 
 #ifndef PHYSICSVSFVARYDIST_H
 #define PHYSICSVSFVARYDIST_H

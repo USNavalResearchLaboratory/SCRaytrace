@@ -1,4 +1,7 @@
-
+/** \file cameratest.h
+ * \brief Test suite for the camera class.
+ */
+ 
 #ifndef CAMERATEST_H
 #define CAMERATEST_H
 

@@ -1,4 +1,9 @@
-// $Id: camera.h,v 1.1 2009/02/09 20:46:24 thernis Exp $
+/*! \file camera.h 
+ * \brief Define image resolution, camera projection type
+ *
+ *  
+ */
+
 
 #ifndef CAMERA_H
 #define CAMERA_H

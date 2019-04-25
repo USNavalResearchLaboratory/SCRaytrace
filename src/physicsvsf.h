@@ -1,4 +1,6 @@
-// $Id$
+/** \file physicsvsf.h
+ * \brief Implements the Volume Scattering Function physics, for the modeling of the F corona.
+ */
 
 #ifndef PHYSICSVSF_H
 #define PHYSICSVSF_H

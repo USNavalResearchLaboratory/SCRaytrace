@@ -1,10 +1,6 @@
-//
-// C++ Interface: rtmiscfunc
-//
-// Description: Miscellaneous functions useful for the raytracing and the models
-//
-// $Id: rtmiscfunc.h,v 1.3 2010-09-01 15:34:45 thernis Exp $
-//
+/** \file rtmiscfunc.h
+ * \brief Miscellaneous, useful functions.
+ */
 
 #ifndef RTMISCFUNC_H
 #define RTMISCFUNC_H
@@ -290,18 +286,3 @@ return (m.modelbasis.ui*((m.rotation.ui*(v+m.translation-m.rotation.o))+m.rotati
 #endif
 
 
-
-// $Log: rtmiscfunc.h,v $
-// Revision 1.3  2010-09-01 15:34:45  thernis
-// Clean up
-//
-// Revision 1.2  2009/04/13 21:02:57  thernis
-// - Implement ChangeCoordtoDensity function.
-//
-// Revision 1.1  2009/02/09 20:46:32  thernis
-// - Clean up the code
-// - Change CModel::Density prototype
-// - Update documentation
-// - Implement multi-threading using boost thread
-// - Add new models
-//

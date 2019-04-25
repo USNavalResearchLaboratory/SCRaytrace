@@ -1,7 +1,4 @@
-//
-// C++ Implementation: rtmiscfunctest
-//
-//
+
 #include "rtmiscfunctest.h"
 #include "rtmiscfunc.h"
 #include "Cvec.h"

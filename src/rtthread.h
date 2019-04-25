@@ -1,11 +1,10 @@
-
+/** \file rtthread.h
+ * \brief Interface for multi-threading ray-tracing.
+ */
+ 
 #ifndef RTTHREAD_H
 #define RTTHREAD_H
 
-/** \file rtthread.h
- * \brief Raytrace with threads to speed up on multi-core.
- */
- 
 // All angles are in radian
 // All distances are in Rsun
 extern "C" int rtthread(int sx,                         //!> image size, x axis [in]

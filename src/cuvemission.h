@@ -1,8 +1,9 @@
-//
-// C++ Interface: cuvemission
-//
-// $Id: cuvemission.h,v 1.1 2008-12-12 19:54:04 thernis Exp $
-//
+/*! \file cuvemission.h 
+ * \brief Implementation of UV emission physics.
+ *
+ */
+
+
 #ifndef CUVEMISSION_H
 #define CUVEMISSION_H
 

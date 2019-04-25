@@ -1,8 +1,10 @@
-//
-// C++ Interface: cuvemissiontest
-//
-// $Id: cuvemissiontest.h,v 1.1 2008-12-12 19:54:06 thernis Exp $
-//
+/*! \file cuvemissiontest.cpp
+ * \brief Test of the UV Emission physics
+ *
+ *  
+ */
+
+
 #ifndef CUVEMISSIONTEST_H
 #define CUVEMISSIONTEST_H
 
@@ -33,7 +35,3 @@ private:
 
 #endif
 
-// $Log: cuvemissiontest.h,v $
-// Revision 1.1  2008-12-12 19:54:06  thernis
-// Implement UV emission raytracing
-//

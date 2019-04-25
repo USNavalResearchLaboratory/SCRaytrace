@@ -1,5 +1,6 @@
-// $Id: physicsfcor.h,v 1.1 2010-09-01 19:54:30 thernis Exp $
-
+/** \file physicsfcor.h
+ * \brief Implements the physics for the F corona
+ */
 
 #ifndef PHYSICSFCOR_H
 #define PHYSICSFCOR_H

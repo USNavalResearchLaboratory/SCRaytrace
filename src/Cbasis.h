@@ -1,6 +1,7 @@
-//
-// File: Cbasis.h
-// $Id: Cbasis.h,v 1.6 2009/04/13 20:52:31 thernis Exp $
+/*! \file Cbasis.h 
+ * \brief Definition of the reference frame "basis" with methods to go from one basis to another.
+ *
+ */
 
 #ifndef _CBASIS_H_
 #define _CBASIS_H_
@@ -66,23 +67,3 @@ Cvec ChangeBase(const Cvec &v,const Cbasis &baseinit,const Cbasis &basedest);
 #endif	//_CBASIS_H_
 
 
-/*
-* $Log: Cbasis.h,v $
-* Revision 1.6  2009/04/13 20:52:31  thernis
-* - Cleanup not useful stuff.
-* - Implement method to allow setting user defined rotation order.
-*
-* Revision 1.5  2009/03/06 21:21:19  thernis
-* Add a translation within the coordinate system, not in the absolute coordinate system
-*
-* Revision 1.4  2009/02/09 20:51:02  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.3  2007/05/14 17:19:40  thernis
-* Add CVS id and log in all files
-*
-*/

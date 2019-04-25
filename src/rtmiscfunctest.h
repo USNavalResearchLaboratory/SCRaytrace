@@ -1,7 +1,4 @@
-//
-// C++ Interface: rtmiscfunctest
-//
-//
+
 #ifndef STDRTMISCFUNCTEST_H
 #define STDRTMISCFUNCTEST_H
 

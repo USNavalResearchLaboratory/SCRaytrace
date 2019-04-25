@@ -1,3 +1,4 @@
+
 #include <cmath>
 #include "camera.h"
 #include "Cvec.h"

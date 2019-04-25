@@ -1,8 +1,12 @@
-//
-// C++ Implementation: cuvemissiontest
-//
-// $Id: cuvemissiontest.cpp,v 1.1 2008-12-12 19:54:05 thernis Exp $
-//
+/*! \file cuvemissiontest.cpp
+ * \brief Test of the UV Emission physics
+ *
+ *  
+ */
+
+
+
+
 #include "cuvemissiontest.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION (CUVEmissionTest);
@@ -36,9 +40,3 @@ CPPUNIT_ASSERT_DOUBLES_EQUAL(2.33728e-20,(double)a->calcEmissivity(2,1e5),1e-24)
 }
 
 
-
-
-// $Log: cuvemissiontest.cpp,v $
-// Revision 1.1  2008-12-12 19:54:05  thernis
-// Implement UV emission raytracing
-//

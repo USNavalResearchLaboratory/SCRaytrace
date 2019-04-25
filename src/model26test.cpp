@@ -1,5 +1,3 @@
-// $Id: model26test.cpp,v 1.1 2009/03/17 14:45:12 thernis Exp $
-
 
 #include "constant.h"
 #include "Cvec.h"
@@ -83,8 +81,3 @@ CPPUNIT_ASSERT_DOUBLES_EQUAL((double)2.5,(double)dens,1e-3);
 
 }
 
-
-// $Log: model26test.cpp,v $
-// Revision 1.1  2009/03/17 14:45:12  thernis
-// First commit
-//

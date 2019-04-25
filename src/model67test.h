@@ -1,8 +1,4 @@
-//
-// C++ Interface: model67test
-//
-// $Id: model67test.h,v 1.1 2009/02/09 20:46:29 thernis Exp $
-//
+
 #ifndef MODEL67TEST_H
 #define MODEL67TEST_H
 
@@ -74,12 +70,3 @@ const unsigned int sc=SC;
 
 
 #endif
-
-// $Log: model67test.h,v $
-// Revision 1.1  2009/02/09 20:46:29  thernis
-// - Clean up the code
-// - Change CModel::Density prototype
-// - Update documentation
-// - Implement multi-threading using boost thread
-// - Add new models
-//

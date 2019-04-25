@@ -1,4 +1,6 @@
-// $Id: physicsthomson.h,v 1.1 2010-09-01 19:54:30 thernis Exp $
+/** \file physicsthomson.h
+ * \brief Implement Thomson scattering physics.
+ */
 
 #ifndef PHYSICSTHOMSON_H
 #define PHYSICSTHOMSON_H

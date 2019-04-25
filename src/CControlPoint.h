@@ -1,6 +1,7 @@
-//
-// File: CControlPoint.h
-// $Id: CControlPoint.h,v 1.3 2009/02/09 20:50:58 thernis Exp $
+/*! \file CControlPoint.h
+ * \brief Control point class for NURBS.
+ *
+ */
 
 #ifndef _CCONTROLPOINT_H_
 #define _CCONTROLPOINT_H_
@@ -32,19 +33,4 @@ class CControlPoint
 
 
 #endif	//_CCONTROLPOINT_H_
-
-
-/*
-* $Log: CControlPoint.h,v $
-* Revision 1.3  2009/02/09 20:50:58  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:39  thernis
-* Add CVS id and log in all files
-*
-*/
 

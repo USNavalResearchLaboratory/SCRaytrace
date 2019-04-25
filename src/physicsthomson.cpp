@@ -1,4 +1,3 @@
-// $Id: physicsthomson.cpp,v 1.2 2010-09-17 15:22:56 thernis Exp $
 
 #include "physicsthomson.h"
 #include "rtmiscfunc.h"

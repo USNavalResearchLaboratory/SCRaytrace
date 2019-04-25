@@ -1,9 +1,3 @@
-//
-// C++ Implementation: rtmiscfunc
-//
-// $Id: rtmiscfunc.cpp,v 1.1 2009/02/09 20:46:31 thernis Exp $
-//
-
 
 
 #include "rtmiscfunc.h"

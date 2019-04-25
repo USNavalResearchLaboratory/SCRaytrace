@@ -1,3 +1,9 @@
+/*! \file main.cpp 
+ * \brief Main that can be run from a terminal, for testing purpose.
+ *
+ *  
+ */
+
 
 #include <iostream>
 #include <fstream>

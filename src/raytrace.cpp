@@ -1,8 +1,3 @@
-/***************************************************************************
-*            raytrace.cc
-*
-* $Id: raytrace.cpp,v 1.19 2010-09-17 15:23:55 thernis Exp $
-****************************************************************************/
 
 #include <fstream>
 #include <sstream>
@@ -1978,52 +1973,3 @@ extern "C" int testParamPass(int param) {
 }
 
 
-
-/*
-* $Log: raytrace.cpp,v $
-* Revision 1.19  2010-09-17 15:23:55  thernis
-* Conditional compilation for Solaris where the NAN variable is not available.
-*
-* Revision 1.18  2010-09-08 16:28:54  thernis
-* Include algorithm
-*
-* Revision 1.17  2010-09-01 19:51:18  thernis
-* Implement disttofracmax
-*
-* Revision 1.16  2009/04/13 21:03:56  thernis
-* - Use ModelPosition class.
-* - Implement extra positioning parameters for the models.
-*
-* Revision 1.15  2009/04/02 20:16:35  thernis
-* Fix quiet mode in buildcloud
-*
-* Revision 1.14  2009/03/06 21:23:46  thernis
-* Implement neshift
-*
-* Revision 1.13  2009/02/09 20:51:19  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.12  2008/09/30 18:33:28  thernis
-* Replace include of losinteg.h and losintegadaptstep.h by inline functions.
-*
-* Revision 1.11  2008/09/23 14:08:13  thernis
-* - add new testing models, - implement integration in front of the instrument
-*
-* Revision 1.10  2007/07/23 21:10:22  thernis
-* - Implement progress only quiet mode in rtraytracewcs
-* - Clean up some unuseful comments
-*
-* Revision 1.9  2007/07/19 19:51:02  thernis
-* Implement rtGetCarPosOnDisk
-*
-* Revision 1.8  2007/07/10 21:15:57  thernis
-* Implement raytracing of a cloud of points.
-*
-* Revision 1.7  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

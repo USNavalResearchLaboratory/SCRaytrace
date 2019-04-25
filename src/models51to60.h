@@ -1,7 +1,7 @@
-/***************************************************************************
- *  $Id: models51to60.h,v 1.7 2011-01-21 20:45:10 thernis Exp $
- *
- ****************************************************************************/
+/** \file models51to60.h
+ * \brief Model 51 to 60
+ */
+
 #ifndef MODELS51TO60_H
 #define MODELS51TO60_H
 
@@ -136,29 +136,3 @@ class CModel60 : public CModelBase
 };
 
 #endif
-
-/*
-* $Log: models51to60.h,v $
-* Revision 1.7  2011-01-21 20:45:10  thernis
-* Do some more clean up of model 54
-*
-* Revision 1.6  2011-01-21 15:07:32  thernis
-* Clean up Model 54 code
-*
-* Revision 1.5  2009/02/09 20:51:18  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.4  2007/07/19 19:22:42  thernis
-* Add model 60
-*
-* Revision 1.3  2007/07/10 21:19:01  thernis
-* Implement very simple blob comet models. One is not finished...
-*
-* Revision 1.2  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

@@ -1,4 +1,3 @@
-// $Id: physicsuv.cpp,v 1.2 2010-09-17 15:19:37 thernis Exp $
 
 #include "physicsuv.h"
 #include <cstdio>

@@ -1,12 +1,7 @@
-/***************************************************************************
- *            raytrace.h
- *
- *  $Id: raytrace.h,v 1.16 2010-09-01 19:51:18 thernis Exp $
- ****************************************************************************/
-
 /** \file raytrace.h
- * \brief Contains all the wrappers for IDL
+ * \brief Contains all the wrappers for IDL and Python, plus various useful functions.
  */
+
 #ifndef RAYTRACE_H
 #define RAYTRACE_H
 
@@ -838,42 +833,3 @@ for(unsigned int k=0;k<los.nbp;k++,vs+=vlosstep) {
 
 
 #endif
-
-/*
-* $Log: raytrace.h,v $
-* Revision 1.16  2010-09-01 19:51:18  thernis
-* Implement disttofracmax
-*
-* Revision 1.15  2009/04/13 21:03:57  thernis
-* - Use ModelPosition class.
-* - Implement extra positioning parameters for the models.
-*
-* Revision 1.14  2009/03/06 21:23:46  thernis
-* Implement neshift
-*
-* Revision 1.13  2009/02/23 16:21:15  thernis
-* Fix calculation of brightness in the UV renderer
-*
-* Revision 1.12  2009/02/09 20:51:20  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.11  2008/09/30 18:33:29  thernis
-* Replace include of losinteg.h and losintegadaptstep.h by inline functions.
-*
-* Revision 1.10  2008/09/23 14:08:13  thernis
-* - add new testing models, - implement integration in front of the instrument
-*
-* Revision 1.9  2007/07/19 19:51:03  thernis
-* Implement rtGetCarPosOnDisk
-*
-* Revision 1.8  2007/07/10 21:15:57  thernis
-* Implement raytracing of a cloud of points.
-*
-* Revision 1.7  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

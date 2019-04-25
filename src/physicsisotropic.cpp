@@ -1,4 +1,3 @@
-// $Id$
 
 #include "physicsisotropic.h"
 #include "rtmiscfunc.h"

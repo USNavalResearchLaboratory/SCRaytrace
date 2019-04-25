@@ -1,7 +1,3 @@
-/***************************************************************************
- *  $Id: models11to20.h,v 1.3 2009/02/09 20:51:14 thernis Exp $
- *
- ****************************************************************************/
 #ifndef MODELS11TO20_H
 #define MODELS11TO20_H
 
@@ -129,17 +125,3 @@ class CModel20 : public CModelBase
 };
 
 #endif
-
-/*
-* $Log: models11to20.h,v $
-* Revision 1.3  2009/02/09 20:51:14  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

@@ -1,4 +1,3 @@
-// $Id$
 
 #include "physicsmie.h"
 #include "rtmiscfunc.h"

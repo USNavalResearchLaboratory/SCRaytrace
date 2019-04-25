@@ -1,5 +1,7 @@
-// $Id: sun.h,v 1.2 2010-09-17 15:15:11 thernis Exp $
-
+/** \file sun.h
+ * \brief Defines the Thomson scattering parameters.
+ */
+ 
 #ifndef SUN_H
 #define SUN_H
 

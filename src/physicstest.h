@@ -1,14 +1,7 @@
-//
-// C++ Interface: physicstest
-//
-// Description: 
-//
-//
-// Author:  <>, (C) 2009
-//
-// Copyright: See COPYING file that comes with this distribution
-//
-//
+/** \file physicstest.h
+ * \brief Implement test suite for various physics.
+ */
+
 #ifndef PHYSICSTEST_H
 #define PHYSICSTEST_H
 

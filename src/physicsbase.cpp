@@ -1,4 +1,6 @@
-// $Id: physicsbase.cpp,v 1.1 2010-09-01 19:56:55 thernis Exp $
+/** \file physicsbase.cpp
+ * \brief Selection of the requested physics. Edit this file if a new physics is implemented.
+ */
 
 #include "physicsbase.h"
 #include "physicsthomson.h"

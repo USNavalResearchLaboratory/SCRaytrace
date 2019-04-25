@@ -1,6 +1,3 @@
-//
-// $Id: models71to80.cpp,v 1.1 2010-09-01 19:49:05 thernis Exp $
-//
 
 #include "models71to80.h"
 #include "constant.h"

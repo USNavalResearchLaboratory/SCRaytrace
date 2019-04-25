@@ -128,9 +128,8 @@ target_link_libraries(rtthread raytracethread)
 # target_link_libraries(rtthread ${Boost_THREAD_LIBRARY})
 # target_link_libraries(rtthread "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
 
-# add_executable(hpsmie oonewcallhpsmie.cpp)
-# target_link_libraries(hpsmie raytrace raytracethread "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
-# target_link_libraries(hpsmie raytrace raytracethread "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
+add_executable(hpsmie oonewcallhpsmie.cpp)
+target_link_libraries(hpsmie raytrace raytracethread "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
 
 # ---- tests
 # add_executable(testcuvemission cuvemissiontest.cpp cuvemissiontest.h testsuite.cpp)

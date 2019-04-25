@@ -1,5 +1,3 @@
-// $Id: physicsfcor.cpp,v 1.2 2010-09-17 15:22:56 thernis Exp $
-
 #include "physicsfcor.h"
 #include "rtmiscfunc.h"
 #include "Cvec.h"

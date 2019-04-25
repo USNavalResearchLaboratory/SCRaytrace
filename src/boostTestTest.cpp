@@ -1,4 +1,5 @@
-/*! \brief Test of the Boost unit test framework
+/*! \file boostTestTest.cpp 
+ * \brief Test of the Boost unit test framework
  *
  *  This is just to make sure that it works...
  */

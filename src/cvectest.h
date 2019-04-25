@@ -1,4 +1,7 @@
-// $Id: cvectest.h,v 1.1 2009/02/09 20:46:27 thernis Exp $
+/*! \file cvectest.h 
+ * \brief Test of the Cvec class.
+ *
+ */
 
 #ifndef CVECTEST_H
 #define CVECTEST_H

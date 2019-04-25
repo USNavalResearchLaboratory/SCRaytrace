@@ -1,4 +1,7 @@
-// $Id: model26test.h,v 1.1 2009/03/17 14:45:13 thernis Exp $
+/*! \file model26test.h 
+ * \brief Test suite for model 26.
+ *
+ */
 
 #ifndef MODEL26TEST_H
 #define MODEL26TEST_H
@@ -66,8 +69,3 @@ const float model26Test::pcube[SX*SY*SZ]={   0,0,0 , 0,0,0 , 0,0,0,
 
 
 #endif
-
-// $Log: model26test.h,v $
-// Revision 1.1  2009/03/17 14:45:13  thernis
-// First commit
-//

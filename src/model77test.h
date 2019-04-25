@@ -1,4 +1,3 @@
-// $Id$
 
 #ifndef MODEL77TEST_H
 #define MODEL77TEST_H
@@ -36,5 +35,3 @@ private:
 
 
 #endif
-
-// $Log$

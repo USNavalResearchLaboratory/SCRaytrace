@@ -1,8 +1,9 @@
-/***************************************************************************
- *            constant.h
+/*! \file constant.h 
+ * \brief Defines the constants used in the software.
  *
- *  $Id: constant.h,v 1.3 2009/02/09 20:51:10 thernis Exp $
- ****************************************************************************/
+ *  
+ */
+
 
 #ifndef _CONSTANT_H
 #define _CONSTANT_H
@@ -46,17 +47,3 @@
 
 #endif /* _CONSTANT_H */
 
-
-/*
-* $Log: constant.h,v $
-* Revision 1.3  2009/02/09 20:51:10  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:40  thernis
-* Add CVS id and log in all files
-*
-*/

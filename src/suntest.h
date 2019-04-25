@@ -1,4 +1,4 @@
-// $Id: suntest.h,v 1.1 2009-02-09 20:46:46 thernis Exp $
+
 #ifndef SUNTEST_H
 #define SUNTEST_H
 

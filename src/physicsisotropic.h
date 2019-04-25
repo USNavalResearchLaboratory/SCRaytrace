@@ -1,4 +1,6 @@
-// $Id$
+/** \file physicsisotropic.h
+ * \brief Implement a simple isotropic physics. For testing purpose.
+ */
 
 #ifndef PHYSICSISOTROPIC_H
 #define PHYSICSISOTROPIC_H

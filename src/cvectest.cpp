@@ -1,4 +1,3 @@
-// $Id: cvectest.cpp,v 1.1 2009/02/09 20:46:26 thernis Exp $
 
 #include "cvectest.h"
 CPPUNIT_TEST_SUITE_REGISTRATION (CvecTest);

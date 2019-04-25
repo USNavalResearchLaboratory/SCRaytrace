@@ -1,4 +1,6 @@
-// $Id: scene.h,v 1.5 2010-09-17 15:22:56 thernis Exp $
+/** \file scene.h
+ * \brief Defines the scene: Camera + Sun + Density
+ */
 
 #ifndef SCENE_H
 #define SCENE_H

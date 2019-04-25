@@ -1,4 +1,3 @@
-// $Id: suntest.cpp,v 1.1 2009/02/09 20:46:45 thernis Exp $
 
 #include "suntest.h"
 #include "Cvec.h"

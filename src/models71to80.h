@@ -1,6 +1,7 @@
-//
-// $Id: models71to80.h,v 1.1 2010-09-01 19:49:05 thernis Exp $
-//
+/** \file models71to80.h
+ * \brief Model 71 to 80
+ */
+
 #ifndef MODELS71TO80_H
 #define MODELS71TO80_H
 

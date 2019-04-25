@@ -1,6 +1,3 @@
-//
-// File: Cvec.cc
-// $Id: Cvec.cpp,v 1.5 2009/02/09 20:51:08 thernis Exp $
 
 #include "Cvec.h"
 #include <cassert>
@@ -156,22 +153,3 @@ float Cvec::operator [](const int &i) const {
     return v[i];
 }
 
-
-
-
-/*
-* $Log: Cvec.cpp,v $
-* Revision 1.5  2009/02/09 20:51:08  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.4  2007/07/19 19:32:39  thernis
-* Implement magsqr function
-*
-* Revision 1.3  2007/05/14 17:19:40  thernis
-* Add CVS id and log in all files
-*
-*/

@@ -1,4 +1,3 @@
-// $Id: scene.cpp,v 1.6 2010-09-08 18:21:27 thernis Exp $
 
 #include "config.h"
 

@@ -1,4 +1,3 @@
-// $Id: physicstest.cpp,v 1.1 2010-09-01 19:56:55 thernis Exp $
 
 #include "physicstest.h"
 #include <iostream>
