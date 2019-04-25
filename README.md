@@ -31,8 +31,8 @@ or maybe try
 `make clean`
 
 ## Mac OSX
-On a Mac installation, you may have to change a couple relative paths to be absolute (when executing programs in an iPython or IDL environment):
-`install_name_tool -change libboost_thread.dylib /full/path/to/libboost_thread.dylib libraytracethread.dylib`
+On a Mac installation, you may have to change a couple relative paths to be absolute (when executing programs in an iPython or IDL environment):  
+`install_name_tool -change libboost_thread.dylib /full/path/to/libboost_thread.dylib libraytracethread.dylib`  
 `install_name_tool -change libboost_system.dylib /full/path/to/libboost_system.dylib libboost_thread.dylib`
 
 ## Dependencies
