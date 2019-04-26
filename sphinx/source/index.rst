@@ -11,10 +11,6 @@ Welcome to SCRaytrace's documentation!
 
     SomeSoftwareConcepts
     FCorona
-    test
-
-   
-
 
 
 
