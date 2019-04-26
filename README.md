@@ -4,9 +4,9 @@ Solar Corona Raytracing tools
 ## Project tree structure
 - src: C++ source code.
 - data: data files used by the C++ code.
-- python: python wrappers. Empty for now...
+- python: python wrappers.
 - idl: IDL wrappers. Empty for now. We will see if we transfer the SolarSoft IDL sources in here maybe, which would allow collaborative development, things that was not possible so far.
-- docbook: Docbook source files for the user manual.
+- docbook: Docbook source files for the user manual. [Deprecated. Use Sphinx now. Migration ongoing.]
 - sphinx: sphinx documentation
 - doxygen: doxygen code documentation
 
