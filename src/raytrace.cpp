@@ -83,7 +83,7 @@ int raytracemain(rtparam fp) {
     obslonlatflag=*(fp.obslonlatflag);
     int projtypecode=*(fp.projtypecode);
     float pv2_1=*(fp.pv2_1);
-    unsigned int uvinteg=fp.uvinteg;
+    unsigned int uvinteg=fp.uvinteg;    // kept for backward compatibility but deprecated
     float disttofracmax=fp.disttofracmax;
     float *nerotcntr;
     nerotcntr=fp.pnerotcntr;
@@ -141,7 +141,7 @@ int raytracemain(rtparam fp) {
         cout << "limbdark : " << limbdark << endl;
         cout << "obslonlatflag : " << obslonlatflag << endl;
         cout << "projtype : " << projtypecode << endl;
-        cout << "uvinteg : " << uvinteg << endl;
+//         cout << "uvinteg : " << uvinteg << endl;
         cout << "disttofracmax : " << disttofracmax << endl;
     }
 
@@ -182,17 +182,10 @@ int raytracemain(rtparam fp) {
     float ner,cosomega,sinomega;
     float cossquareomega,sinsquareomega;
     float rhooverr;
-    // -- temperature: not useful in Thomson scattering but declared
-    //    for compatibility of the models with the radio raytracing
-    //float temperature;
 
     float a,b,c,d;
     float logterm;
     float polterm;
-
-    // ---- init UVEmission model if UV raytracing requested
-    CUVEmission *uvemis;
-    if (uvinteg !=0) uvemis=new CUVEmission;
 
     // ---- absolute basis definition
     Cbasis abs(Cvec(0,0,0),0,0,0);
@@ -316,9 +309,7 @@ int raytracemain(rtparam fp) {
                 continue;
 
     // ---- LOS integration
-    if (uvinteg !=0) {
-        losintegUV(pofinteg,frontinteg,obs,vlosabs,abs,poi,los,rho,pmod,pmodparam,modpos,u,constfactor,flagneonly,posbtot,posbpol,posne,uvemis,uvinteg);
-    } else if (adapthres <=0) {
+    if (adapthres <=0) {
         losinteg(pofinteg,frontinteg,obs,vlosabs,abs,poi,los,rho,pmod,pmodparam,modpos,u,constfactor,flagneonly,posbtot,posbpol,posne,plosDepthIn,plosDepthOut,evalDepth);
         } else {
         losintegadaptstep(pofinteg,frontinteg,obs,vlosabs,abs,poi,los,rho,pmod,pmodparam,modpos,u,constfactor,flagneonly,adapthres,maxsubdiv,posbtot,posbpol,posne);
@@ -335,8 +326,7 @@ int raytracemain(rtparam fp) {
     }
 
     delete pmod;
-        if (uvinteg !=0) delete uvemis;
-    return 1;
+    return EXIT_SUCCESS;
 }
 
 
@@ -381,7 +371,7 @@ extern "C" int raytracewl(int argc, void **argv) {
     fp.projtypecode=(int*) argv[32];
     fp.pv2_1=(float*) argv[33];
     fp.pfrontinteg=(int*) argv[34];
-    fp.uvinteg=*((unsigned int*) argv[35]);
+    fp.uvinteg=*((unsigned int*) argv[35]); // kept for backward compatibility but deprecated
     fp.disttofracmax=*((float*) argv[36]);
     fp.pnerotcntr=(float*) argv[37];
     fp.pnerotang=(float*) argv[38];
@@ -439,7 +429,7 @@ int projtypecode=*((int*) argv[32]);
 float pv2_1=*((float*) argv[33]);
 float *pc=(float*) argv[34];
 int *pfrontinteg=(int*) argv[35];
-unsigned int uvinteg=*((unsigned int*) argv[36]);
+unsigned int uvinteg=*((unsigned int*) argv[36]); // kept for backward compatibility but deprecated
 float *nerotcntr=(float*) argv[37];
 float *nerotang=(float*) argv[38];
 float *netranslation=(float*) argv[39];
@@ -493,7 +483,7 @@ if (*quiet == 0) {
     cout << "limbdark : " << limbdark << endl;
     cout << "obslonlatflag : " << obslonlatflag << endl;
     cout << "projtype : " << projtypecode << endl;
-    cout << "uvinteg : " << uvinteg << endl;
+//     cout << "uvinteg : " << uvinteg << endl;
     cout << "crpix : " << crpix[0] << " , " << crpix[1] << endl;
     cout << "pc [0,1,2,3] : " << pc[0];
     for (i=1;i<=3;i++) cout << " , " << pc[i];
@@ -532,17 +522,10 @@ float rho,r,s;
 float ner,cosomega,sinomega;
 float cossquareomega,sinsquareomega;
 float rhooverr;
-    // -- temperature: not useful in Thomson scattering but declared
-    //    for compatibility of the models with the radio raytracing
-//float temperature;
 
 float a,b,c,d;
 float logterm;
 float polterm;
-
-    // ---- init UVEmission model if UV raytracing requested
-    CUVEmission *uvemis;
-    if (uvinteg !=0) uvemis=new CUVEmission;
 
     // ---- absolute basis definition
 Cbasis abs(Cvec(0,0,0),0,0,0);
@@ -632,9 +615,7 @@ Cvec vs,vslospos;
         continue;
 
     // ---- LOS integration
-    if (uvinteg !=0) {
-        losintegUV(pofinteg,frontinteg,obs,vlosabs,abs,poi,los,rho,pmod,pmodparam,modpos,u,constfactor,flagneonly,posbtot,posbpol,posne,uvemis,uvinteg);
-    } else if (adapthres <=0) {
+    if (adapthres <=0) {
         losinteg(pofinteg,frontinteg,obs,vlosabs,abs,poi,los,rho,pmod,pmodparam,modpos,u,constfactor,flagneonly,posbtot,posbpol,posne,plosDepthIn,plosDepthOut,evalDepth);
         } else {
         losintegadaptstep(pofinteg,frontinteg,obs,vlosabs,abs,poi,los,rho,pmod,pmodparam,modpos,u,constfactor,flagneonly,adapthres,maxsubdiv,posbtot,posbpol,posne);
@@ -647,9 +628,7 @@ Cvec vs,vslospos;
     }
     
     delete pmod;
-        if (uvinteg !=0) delete uvemis;
-
-    return 1;
+    return EXIT_SUCCESS;
 
 }
 

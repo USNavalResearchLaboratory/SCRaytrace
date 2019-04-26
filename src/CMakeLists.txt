@@ -89,7 +89,7 @@ add_library(raytrace SHARED Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos
     models41to50.cpp    models41to50.h  models51to60.cpp    models51to60.h  
     models61to70.cpp    models61to70.h  models71to80.cpp    models71to80.h 
     Cdvoxel.cpp Cdvoxel.h Cvoxvert.cpp Cvoxvert.h 
-    rtcloud.cpp rtcloud.h cuvemission.cpp cuvemission.h 
+    rtcloud.cpp rtcloud.h 
     rtmiscfunc.h rtmiscfunc.cpp voxinteg.h ModelPosition.h)
 
 # add_library(raytraceStatic STATIC Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos.cpp    Clos.h 
@@ -101,7 +101,7 @@ add_library(raytrace SHARED Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos
 #     models41to50.cpp    models41to50.h  models51to60.cpp    models51to60.h  
 #     models61to70.cpp    models61to70.h  models71to80.cpp    models71to80.h 
 #     Cdvoxel.cpp Cdvoxel.h Cvoxvert.cpp Cvoxvert.h 
-#     rtcloud.cpp rtcloud.h cuvemission.cpp cuvemission.h 
+#     rtcloud.cpp rtcloud.h 
 #     rtmiscfunc.h rtmiscfunc.cpp voxinteg.h ModelPosition.h)
 # set_target_properties(raytraceStatic PROPERTIES OUTPUT_NAME raytrace_static)
 
@@ -132,9 +132,6 @@ add_executable(hpsmie oonewcallhpsmie.cpp)
 target_link_libraries(hpsmie raytrace raytracethread "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
 
 # ---- tests
-# add_executable(testcuvemission cuvemissiontest.cpp cuvemissiontest.h testsuite.cpp)
-# target_link_libraries(testcuvemission raytrace raytracethread ${CPPUNIT_LIBRARIES})
-# 
 # add_executable(testmodel26 model26test.cpp model26test.h testsuite.cpp)
 # target_link_libraries(testmodel26 raytrace raytracethread ${CPPUNIT_LIBRARIES})
 # 
@@ -171,7 +168,6 @@ target_link_libraries(testboosttest  ${BoostTest})
 
 
 
-# add_test(NAME testcuvemission COMMAND testcuvemission)
 # add_test(NAME testmodel26 COMMAND testmodel26)
 # add_test(NAME testmodel67 COMMAND testmodel67)
 # add_test(NAME testmodel77 COMMAND testmodel77)

@@ -10,7 +10,6 @@
 #include <config.h>
 #endif
 #include "constant.h"
-#include "cuvemission.h"
 #include "Cvec.h"
 #include "Clos.h"
 #include "CModelBase.h"
@@ -683,73 +682,73 @@ for(unsigned int k=0;k<los.nbp;k++,s+=los.ds,vs+=vlosstep) {
 
 
 
-//! Integration along a line of sight for UV light
-inline void losintegUV(const int &pofinteg,
-	const int &frontinteg,
-	const Cbasis &obs,
-	const Cvec &vlosabs,
-	const Cbasis &abs,
-	Cbasis &poi,
-	Clos &los,
-	const float &rho,
-	CModelBase *pmod,
-	float *pmodparam,
-	const ModelPosition &modpos,
-	const float &u,
-	const float &constfactor,
-	const int &flagneonly,
-	float *posbtot,
-	float *posbpol,
-	float *posne,
-	CUVEmission *uvemis,
-	const int &uvinteg) {
-
-// -- Compute the origin of the LOS, depending what the user specified
-Cvec qlos;
-calcqlos(pofinteg,frontinteg,obs,vlosabs,abs,poi,qlos);
-
-
-// -- initialize
-*posbtot=0;
-*posbpol=0;
-*posne=0;
-
-// -- current position on the LOS
-float s=los.sstart;
-Cvec vlosstep=vlosabs * los.ds;
-Cvec vs=qlos + vlosabs * s;
-float temperature;
-
-for(unsigned int k=0;k<los.nbp;k++,s+=los.ds,vs+=vlosstep) {
-
-  // -- dist Sun cntr - LOS current pos
-  float r=vs.norm();
-  
-  // -- integration only in front of the Sun
-  if (rho > LIMBLIMIT || (r > LIMBLIMIT && vs.v[2] > 0.)) {
-    /******************************************/
-    /*            MODEL CALL HERE             */
-    /******************************************/
-    // -- compute Ne    
-//    float ner=pmod->Density(nps.u * (vs + nps.o),temperature);
-    float ner=pmod->Density(ChangetoDensityCoord(modpos,vs),temperature);
-		float uv=uvemis->calcEmissivity(uvinteg,temperature);
-
-    // total density
-    *posne +=ner;
- 
-    *posbpol +=uv;
-    *posbtot +=uv*ner*ner;
-
-  }
-}
-// multiply by the integral constant factor
-*posbtot *=los.ds;
-*posbpol *=los.ds;
-*posne *=RSUN_CM*los.ds;
-
-}
-
+// //! Integration along a line of sight for UV light
+// inline void losintegUV(const int &pofinteg,
+// 	const int &frontinteg,
+// 	const Cbasis &obs,
+// 	const Cvec &vlosabs,
+// 	const Cbasis &abs,
+// 	Cbasis &poi,
+// 	Clos &los,
+// 	const float &rho,
+// 	CModelBase *pmod,
+// 	float *pmodparam,
+// 	const ModelPosition &modpos,
+// 	const float &u,
+// 	const float &constfactor,
+// 	const int &flagneonly,
+// 	float *posbtot,
+// 	float *posbpol,
+// 	float *posne,
+// 	CUVEmission *uvemis,
+// 	const int &uvinteg) {
+// 
+// // -- Compute the origin of the LOS, depending what the user specified
+// Cvec qlos;
+// calcqlos(pofinteg,frontinteg,obs,vlosabs,abs,poi,qlos);
+// 
+// 
+// // -- initialize
+// *posbtot=0;
+// *posbpol=0;
+// *posne=0;
+// 
+// // -- current position on the LOS
+// float s=los.sstart;
+// Cvec vlosstep=vlosabs * los.ds;
+// Cvec vs=qlos + vlosabs * s;
+// float temperature;
+// 
+// for(unsigned int k=0;k<los.nbp;k++,s+=los.ds,vs+=vlosstep) {
+// 
+//   // -- dist Sun cntr - LOS current pos
+//   float r=vs.norm();
+//   
+//   // -- integration only in front of the Sun
+//   if (rho > LIMBLIMIT || (r > LIMBLIMIT && vs.v[2] > 0.)) {
+//     /******************************************/
+//     /*            MODEL CALL HERE             */
+//     /******************************************/
+//     // -- compute Ne    
+// //    float ner=pmod->Density(nps.u * (vs + nps.o),temperature);
+//     float ner=pmod->Density(ChangetoDensityCoord(modpos,vs),temperature);
+// 		float uv=uvemis->calcEmissivity(uvinteg,temperature);
+// 
+//     // total density
+//     *posne +=ner;
+//  
+//     *posbpol +=uv;
+//     *posbtot +=uv*ner*ner;
+// 
+//   }
+// }
+// // multiply by the integral constant factor
+// *posbtot *=los.ds;
+// *posbpol *=los.ds;
+// *posne *=RSUN_CM*los.ds;
+// 
+// }
+// 
 
 
 //! Integration along a line of sight
