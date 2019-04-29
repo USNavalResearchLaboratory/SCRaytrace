@@ -10,7 +10,7 @@
 #include "models21to30.h"
 
 
-//! Full spherical shell, cartesian coordinates
+//! \brief Full spherical shell, cartesian coordinates
 class CModel61 : public CModelBase
 {
   public:
@@ -27,7 +27,8 @@ class CModel61 : public CModelBase
 
 };
 
-//! Spherical blob, spherical coordinates
+
+//! \brief Spherical blob, spherical coordinates
 class CModel62 : public CModelBase
 {
   public:
@@ -41,7 +42,8 @@ class CModel62 : public CModelBase
     float radminusthick;
 };
 
-//! Full spherical shell
+
+//! \brief Full spherical shell
 class CModel63 : public CModelBase
 {
   public:
@@ -55,7 +57,8 @@ class CModel63 : public CModelBase
   float radminusthick;
 };
 
-//! Hollow cylinder
+
+//! \brief Hollow cylinder
 class CModel64 : public CModelBase
 {
   public:
@@ -67,7 +70,8 @@ class CModel64 : public CModelBase
   int flag;
 };
 
-//! Rod filled with density enhancements
+
+//! \brief Rod filled with density enhancements
 //!
 //! - The rod is along the Z axis. 
 //! - Some cylindrical density enhancements are present within the rod.
@@ -89,7 +93,7 @@ class CModel65 : public CModelBase
 };
 
 
-//! Wavy neutral sheet with archimedian spiral: Jokipii model, ApJ 1981.
+//! \brief Wavy neutral sheet with archimedian spiral: Jokipii model, ApJ 1981.
 class CModel66 : public CModelBase
 {
   public:
@@ -109,7 +113,8 @@ CModel21 *ModelSaitoEquat; //!< Radial Ne model
 
 };
 
-//! CCMC irregular spherical density cube.
+
+//! \brief CCMC irregular spherical density cube.
 class CModel67 : public CModelBase
 {
   public:
@@ -133,7 +138,7 @@ class CModel67 : public CModelBase
 };
 
 
-//! Archimedean spiral: r = a + b * theta
+//! \brief Archimedean spiral: r = a + b * theta
 class CModel68 : public CModelBase
 {
   public:
@@ -158,11 +163,10 @@ CModel21 *ModelSaitoEquat; //!< Radial Ne model
 //float SheetThickness; //!< Thickness of the simulated sheet [Rsun]
 //CModel21 *ModelSaitoEquat; //!< Radial Ne model
 
-
 };
 
 
-//! GCS or hollow croissant model, based on CModel54, but with sinusoidal variation of Ne along loop axis direction.
+//! \brief GCS or hollow croissant model, based on CModel54, but with sinusoidal variation of Ne along loop axis direction.
 class CModel69 : public CModelBase
 {
     public:
@@ -177,7 +181,7 @@ class CModel69 : public CModelBase
 
 
 
-//! GCS or hollow croissant model, based on CModel54, but with sinusoidal variation of Ne along loop axis direction, centered on circular part loop axis center.
+//! \brief GCS or hollow croissant model, based on CModel54, but with sinusoidal variation of Ne along loop axis direction, centered on circular part loop axis center.
 class CModel70 : public CModelBase
 {
     public:

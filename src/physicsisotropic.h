@@ -9,8 +9,7 @@
 #include "Cvec.h"
 #include "constant.h"
 
-/**
-Isotropic scattering for testing purpose
+/** \brief Isotropic scattering, for testing purpose
 */
 class PhysicsIsotropic : public PhysicsBase
 {

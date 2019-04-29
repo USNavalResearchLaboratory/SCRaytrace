@@ -13,14 +13,13 @@ using std::endl;
 #include "Cvec.h"
 #include "CModelBase.h"
              
-//! Enumerate the different types of physics available
+//! \brief Enumerate the different types of physics available
 enum PhysicsType {THOMSON, UV, MIE, ISOTROPIC, VSF, VSFVARYDIST};
 
 //! Forward declaration of class Scene
 class Scene;
          
-/**
-Virtual class implementing the physics of the raytracing.
+/** \brief Virtual class implementing the physics of the raytracing.
 */
 class PhysicsBase{
   public:

@@ -8,8 +8,7 @@
 #include "physicsbase.h"
 #include "Cvec.h"
 
-/**
-Thomson scattering physics implementation
+/** \brief Thomson scattering
 */
 class PhysicsThomson : public PhysicsBase
 {

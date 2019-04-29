@@ -9,7 +9,7 @@
 #include <string>
 
 
-//! Leblanc, Dulk, Bougeret electron density model: SolPhy 183: 165-180, 1998
+//! \brief Leblanc, Dulk, Bougeret electron density model: SolPhy 183: 165-180, 1998
 class CModel71 : public CModelBase
 {
 public:
@@ -18,7 +18,7 @@ public:
 };
 
 
-//! Density Mie scattering testing: density varies in C / r
+//! \brief Density Mie scattering testing: density varies in C / r
 class CModel72 : public CModelBase
 {
 public:
@@ -32,7 +32,7 @@ protected:
 };
 
 
-//! F-corona and zodiacal light dust density model (Leinert 1976 fan model)
+//! \brief F-corona and zodiacal light dust density model (Leinert 1976 fan model)
 class CModel73 : public CModelBase
 {
 public:
@@ -48,7 +48,7 @@ protected:
 };
 
 
-//! F-corona and zodiacal light dust density model (Leinert 1976 fan model), with onion shape decrease bellow 15 Rsun
+//! \brief F-corona and zodiacal light dust density model (Leinert 1976 fan model), with onion shape decrease bellow 15 Rsun
 class CModel74 : public CModelBase
 {
 public:
@@ -64,7 +64,7 @@ protected:
 };
 
 
-//! Cylinder model
+//! \brief Cylinder model
 class CModel75 : public CModelBase
 {
 public:
@@ -79,7 +79,8 @@ protected:
     float dens;         //!> density
 };
 
-//! Torus model
+
+//! \brief Torus model
 class CModel76 : public CModelBase
 {
 public:
@@ -99,7 +100,7 @@ protected:
 };
 
 
-//! F-corona and zodiacal light dust density model (Leinert 1976 fan model), with dust enhancement from Kobayashi (Icarus 201 (2009) pp395-405), and others
+//! \brief F-corona and zodiacal light dust density model (Leinert 1976 fan model), with dust enhancement from Kobayashi (Icarus 201 (2009) pp395-405), and others
 class CModel77 : public CModelBase
 {
 public:
@@ -125,7 +126,7 @@ protected:
 
 
 
-/** F-corona and zodiacal light dust density model: DIRBE.  
+/** \brief F-corona and zodiacal light dust density model: DIRBE.  
  * See page 9 of "Light Scattering by solar system dust: image reconstruction of the lunar sunrise sketches drawn by the apollo 17 crew", Niklas Siipola, Master's thesis, University of Oulu, Spring 2017
  * 
  */

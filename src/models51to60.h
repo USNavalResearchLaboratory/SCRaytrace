@@ -7,7 +7,7 @@
 
 #include "CModelBase.h"
 
-//! cme_demi_sphere: for comparison between Marseille and Arnaud's renderers
+//! \brief cme_demi_sphere: for comparison between Marseille and Arnaud's renderers
 //!
 //!  Created on 14/09/2005 by M. Burtin and F. Saez
 class CModel51 : public CModelBase
@@ -16,8 +16,9 @@ class CModel51 : public CModelBase
 	  float Density(const Cvec &v); 
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Tube shell model based on CModel47. Tear drop cross section. Inner density not null.
 
+
+//! \brief Tube shell model based on CModel47. Tear drop cross section. Inner density not null.
 class CModel52 : public CModelBase
 {
 	public:
@@ -28,7 +29,9 @@ class CModel52 : public CModelBase
 	protected:
 		float rb,alpha,rf,rs,rc,halfdist,ratio,neinit,wrapcoeff,ratio1,ratio2,stiffness,skinsigmain,skinsigmafr,ldecdens;
 };
-//! Tube shell model based on CModel45, different cross section radius calculation
+
+
+//! \brief Tube shell model based on CModel45, different cross section radius calculation
 class CModel53 : public CModelBase
 {
 	public:
@@ -42,7 +45,7 @@ class CModel53 : public CModelBase
 };
 
 
-//! GCS model, as published in ApJs Volume 194, Issue 2, article id. 33, 6 pp. (2011)
+//! \brief GCS model, as published in ApJs Volume 194, Issue 2, article id. 33, 6 pp. (2011)
 class CModel54 : public CModelBase
 {
 	public:
@@ -58,7 +61,7 @@ class CModel54 : public CModelBase
 };
 
 
-//! Simple prominence material simulation based on CModel54. The density is placed following the loop axis.
+//! \brief Simple prominence material simulation based on CModel54. The density is placed following the loop axis.
 class CModel55 : public CModelBase
 {
   public:
@@ -70,7 +73,7 @@ class CModel55 : public CModelBase
 };
 
 
-//! Test of a bended streamer slab
+//! \brief Test of a bended streamer slab
 class CModel56 : public CModelBase
 {
   public:
@@ -82,7 +85,7 @@ class CModel56 : public CModelBase
 };
 
 
-//! Constant and uniform density and temperature
+//! \brief Constant and uniform density and temperature
 class CModel57 : public CModelBase
 {
   public:
@@ -95,7 +98,8 @@ class CModel57 : public CModelBase
 		float uniftemp;
 };
 
-//! Blob
+
+//! \brief Blob
 class CModel58 : public CModelBase
 {
   public:
@@ -107,7 +111,8 @@ class CModel58 : public CModelBase
     Cvec c; // center of the blob in cartesian coordinates
 };
 
-//! Blob and tail (not sure this works)
+
+//! \brief Blob and tail (not sure this works)
 class CModel59 : public CModelBase
 {
   public:
@@ -122,7 +127,7 @@ class CModel59 : public CModelBase
 };
 
 
-//! Tube shell model based on CModel54, but the density does not go down to 0 within the shell.
+//! \brief Tube shell model based on CModel54, but the density does not go down to 0 within the shell.
 class CModel60 : public CModelBase
 {
   public:

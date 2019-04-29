@@ -10,8 +10,7 @@
 #include "Cvec.h"
 #include "constant.h"
 
-/**
-UV emission physics implementation
+/** \brief UV emission
 */
 class PhysicsUV : public PhysicsBase
 {

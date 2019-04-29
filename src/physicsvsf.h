@@ -11,8 +11,7 @@
 #include "Cvec.h"
 #include "constant.h"
 
-/**
-Volume Scattering Function, for F-corona and zodiacal light
+/** \brief Volume Scattering Function, for F-corona and zodiacal light
 */
 class PhysicsVSF : public PhysicsBase
 {
