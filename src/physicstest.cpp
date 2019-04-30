@@ -1,5 +1,4 @@
 
-#include "physicstest.h"
 #include <iostream>
 #include <string>
 #include "Cvec.h"
@@ -7,24 +6,45 @@
 #include "scene.h"
 #include "CModelBase.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION (PhysicsTest);
+#include "physicsbase.h"
+#include "physicsthomson.h"
+#include "physicsuv.h"
+#include "physicsvsf.h"
+#include "physicsvsfvarydist.h"
 
-void PhysicsTest :: setUp (void)
-{
-    // ---- set up test environment (initializing objects)
-    puv = physicsSelect(UV);
+
+#define BOOST_TEST_MODULE PhysicsTest
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
+
+
+struct PhysicsTest {
+   PhysicsBase base;
+   PhysicsBase *pthom,*puv;
+
+
+PhysicsTest() { 
+     puv = physicsSelect(UV);
 
 }
 
-void PhysicsTest :: tearDown (void)
-{
-    // ---- cleaning destructor
-    delete puv;
+  ~PhysicsTest() { 
+     delete puv;
 }
 
-void PhysicsTest :: generalTests (void)
-{
-    string s1;
+};
+
+                  
+BOOST_FIXTURE_TEST_SUITE(s, PhysicsTest)
+
+  BOOST_AUTO_TEST_CASE(test_PhysicsTest)
+  {
+      
+   namespace tt = boost::test_tools;
+   
+   BOOST_TEST_MESSAGE("running PhysicsTest");
+   
+       string s1;
     bool flagok;
     float bto,bpo,neo;
     Scene *pscene;
@@ -53,15 +73,11 @@ void PhysicsTest :: generalTests (void)
     pscene->setobs(Cbasis());
     
     s1=base.getPhysics();
-    CPPUNIT_ASSERT (string("Physics Base").compare(s1)==0);
+    BOOST_TEST(string("Physics Base").compare(s1) == 0);
     
     flagok=base.computeRadiation(Cvec(0,0,0),1,1,bto,bpo,neo);
-    CPPUNIT_ASSERT_EQUAL ((bool)1,flagok);
+    BOOST_TEST(1 == flagok);
 
-/*    pscene->setPhysics(FCOR);
-    s1=pscene->getPhysics();
-    CPPUNIT_ASSERT (string("F Corona").compare(s1)==0);*/
-    
     puv->printParam();
     float phyparam=1;
     puv->setParam(&phyparam);
@@ -74,12 +90,9 @@ void PhysicsTest :: generalTests (void)
 
     // -- test physicsVSFVaryDist constructor
     PhysicsVSFVaryDist vsfvd;
-    
-    
-//    pvsf = physicsSelect(VSF);
-//      delete pvsf;
-
-    
-    
+  
+     
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 

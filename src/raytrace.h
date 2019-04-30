@@ -513,24 +513,24 @@ inline bool checkchunkwbsun(float rho,float r0, float r2,float vs0z,float vs2z) 
 
 //! Calculate and return the Thomson scattering geometric functions
 inline void getThomsonGeomFactor(const float &r,const float &rho,float &totterm,float &polterm) {
-    float sinomega=RSUN/r;
-    float sinsquareomega=sinomega*sinomega;
-    float cossquareomega=1-sinsquareomega;
-    float cosomega=sqrt(cossquareomega);
+    float sinomega = RSUN / r;
+    float sinsquareomega = sinomega * sinomega;
+    float cossquareomega = 1 - sinsquareomega;
+    float cosomega = sqrt(cossquareomega);
 
-    float logterm=log((1.+sinomega)/cosomega);
+    float logterm = log((1. + sinomega) / cosomega);
 
-    float a=cosomega*sinsquareomega;
-    float b=-1./8.*(1.-3.*sinsquareomega-cossquareomega*((1.+3.*sinsquareomega)/sinomega)*logterm);
+    float a = cosomega * sinsquareomega;
+    float b = -1. / 8. * (1. - 3. * sinsquareomega - cossquareomega * ((1. + 3. * sinsquareomega) / sinomega) * logterm);
 
-    float c=(4./3.)-cosomega-(cosomega*cossquareomega)/3.;
-    float d=(1./8.)*(5.+sinsquareomega-cossquareomega*((5.-sinsquareomega)/sinomega)*logterm);
+    float c = (4. / 3.) - cosomega - (cosomega * cossquareomega) / 3.;
+    float d = (1. / 8.) * (5. + sinsquareomega - cossquareomega * ((5. - sinsquareomega) / sinomega) * logterm);
 
-    float rhooverr=rho/r;
+    float rhooverr = rho / r;
     // Polarized brightness term
-    polterm=(a+U*(b-a))*rhooverr*rhooverr;
+    polterm=(a + UU * (b - a)) * rhooverr * rhooverr;
     // Total brightness term
-    totterm=(2*(c+U*(d-c))-polterm);
+    totterm=(2 * (c + UU *(d - c)) - polterm);
 
 }
 

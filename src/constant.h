@@ -1,12 +1,12 @@
 /*! \file constant.h 
  * \brief Defines the constants used in the software.
  *
- *  
  */
 
 
 #ifndef _CONSTANT_H
 #define _CONSTANT_H
+
 
 #define PI 3.1415926535897932384626433832795028841971693993751058209749
 #define TWOPI (2*PI)
@@ -35,14 +35,11 @@
 //! Rsun, in Rsun (very useful !)
 #define RSUN 1.
 //! limb darkening
-#define U 0.58
+#define UU 0.58
 //! Thomson scattering integral constant factor 
 #define constfactor(u) (1.24878E-25/(1-u/3)*RSUN_CM)
 //! Minimum electron density
 #define MIN_ELECTRON_DENSITY 1E-1
-
-
-
 
 
 #endif /* _CONSTANT_H */
