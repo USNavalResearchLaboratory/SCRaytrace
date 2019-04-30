@@ -41,8 +41,7 @@ On a Mac installation, you may have to change a couple relative paths to be abso
     - thread
     - unit_test_framework
     - bind.hpp
-- cppunit (will need to be replaced by boost unit test instead)
-
+    
 ### Documentation
 - doxygen
 - dot/graphviz
