@@ -133,8 +133,6 @@ class CModel67 : public CModelBase
 	float *nele;				//!< first elem of the electron density cube
 	float *temp;				//!< first elem of the temperature cube
 
-  friend class model67Test;
-
 };
 
 
