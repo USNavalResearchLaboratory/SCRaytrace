@@ -24,6 +24,10 @@ For additional testing, you can run the following:
 `cd build`  
 `make test`
 
+Individual test:  
+`cd build/src`  
+`./testboosttest --log_level=message`, for example.
+
 ## Clean up the build
 `rm -rf build` 
 
