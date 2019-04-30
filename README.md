@@ -24,6 +24,10 @@ For additional testing, you can run the following:
 `cd build`  
 `make test`
 
+Individual test:  
+`cd build/src`  
+`./testboosttest --log_level=message`, for example.
+
 ## Clean up the build
 `rm -rf build` 
 
@@ -41,8 +45,7 @@ On a Mac installation, you may have to change a couple relative paths to be abso
     - thread
     - unit_test_framework
     - bind.hpp
-- cppunit (will need to be replaced by boost unit test instead)
-
+    
 ### Documentation
 - doxygen
 - dot/graphviz
