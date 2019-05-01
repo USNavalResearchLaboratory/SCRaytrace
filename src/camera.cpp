@@ -3,66 +3,66 @@
 #include "camera.h"
 #include "Cvec.h"
 
-CCD::CCD()
+Detector::Detector()
 {
   sxpix=0;sypix=0;
   sxmm=1.;symm=1.;
 }
 
-CCD::CCD(const unsigned int &sxpix0,const unsigned int &sypix0,const float &sxmm0,const float &symm0)
+Detector::Detector(const unsigned int &sxpix0,const unsigned int &sypix0,const float &sxmm0,const float &symm0)
 {
   sxpix=sxpix0;sypix=sypix0;
   sxmm=sxmm0;symm=symm0;
 }
 
-CCD::CCD(const unsigned int &sxpix0,const unsigned int &sypix0)
+Detector::Detector(const unsigned int &sxpix0,const unsigned int &sypix0)
 {
   sxpix=sxpix0;sypix=sypix0;
 }
 
-CCD::CCD(const CCD &ccd0)
+Detector::Detector(const Detector &detector0)
 {
-  sxpix=ccd0.sxpix;sypix=ccd0.sypix;
-  sxmm=ccd0.sxmm;symm=ccd0.symm;
+  sxpix=detector0.sxpix;sypix=detector0.sypix;
+  sxmm=detector0.sxmm;symm=detector0.symm;
 }
 
-const CCD &CCD::operator=(const CCD &ccd0)
+const Detector &Detector::operator=(const Detector &detector0)
 {
-  if (&ccd0 != this) {
-    sxpix=ccd0.sxpix;sypix=ccd0.sypix;
-    sxmm=ccd0.sxmm;symm=ccd0.symm;
+  if (&detector0 != this) {
+    sxpix=detector0.sxpix;sypix=detector0.sypix;
+    sxmm=detector0.sxmm;symm=detector0.symm;
   }
   return *this;
 }
 
-bool CCD::operator==(const CCD &a) const
+bool Detector::operator==(const Detector &a) const
 {
   return (sxpix==a.sxpix && sypix==a.sypix && sxmm==a.sxmm && symm==a.symm);
 }
 
 
-void CCD::setSizePix(const unsigned int &sxpix0,const unsigned int &sypix0)
+void Detector::setSizePix(const unsigned int &sxpix0,const unsigned int &sypix0)
 {
   sxpix=sxpix0;sypix=sypix0; 
 }
     
-unsigned int CCD::getSizePixX() const
+unsigned int Detector::getSizePixX() const
 {
   return sxpix;
 }
-unsigned int CCD::getSizePixY() const
+unsigned int Detector::getSizePixY() const
 {
   return sypix;
 }
-void CCD::setSizemm(const float &sxmm0,const float &symm0)
+void Detector::setSizemm(const float &sxmm0,const float &symm0)
 {
   sxmm=sxmm0;symm=symm0;
 }
-float CCD::getSizemmX() const
+float Detector::getSizemmX() const
 {
   return sxmm;
 }
-float CCD::getSizemmY() const
+float Detector::getSizemmY() const
 {
   return symm;
 }

@@ -18,15 +18,15 @@ enum ProjType {ARC, TAN, SIN, AZP};
 class Camera;
 class Scene;
 
-//! Defines the CCD characteristics of the Camera
-class CCD{
+//! Defines the Detector characteristics of the Camera
+class Detector{
   public:
-    CCD();
-    CCD(const unsigned int &sxpix0,const unsigned int &sypix0,const float &sxmm0,const float &symm0);
-    CCD(const unsigned int &sxpix0,const unsigned int &sypix0);
-    CCD(const CCD &);
-    const CCD &operator=(const CCD &);
-    bool operator==(const CCD &) const;
+    Detector();
+    Detector(const unsigned int &sxpix0,const unsigned int &sypix0,const float &sxmm0,const float &symm0);
+    Detector(const unsigned int &sxpix0,const unsigned int &sypix0);
+    Detector(const Detector &);
+    const Detector &operator=(const Detector &);
+    bool operator==(const Detector &) const;
 
     void setSizePix(const unsigned int &sxpix0,const unsigned int &sypix0);
     unsigned int getSizePixX() const;
@@ -40,8 +40,8 @@ class CCD{
     friend class Scene;
 	
   protected:
-    unsigned int sxpix,sypix; //!< size of the CCD in pix
-    float sxmm,symm; //!< size of the CCD in mm
+    unsigned int sxpix,sypix; //!< size of the Detector in pix
+    float sxmm,symm; //!< size of the Detector in mm
 };
 
 
@@ -79,11 +79,11 @@ inline float applyinverseprojection(const float &rrr,const ProjType &projtype,co
 //! Defines the instrument optical characteristics
 class Camera{
 public:
-    Camera() {fovpix=0.;projtype=ARC;ccd=CCD();crpix1=0;crpix2=0;pv2_1=0;pc[0]=1;pc[1]=0;pc[2]=0;pc[3]=1;};
-    Camera(const float &fovpix0,const ProjType &projtype0,const CCD &ccd0)
-    {fovpix=fovpix0;projtype=projtype0;ccd=ccd0;crpix1=0;crpix2=0;pv2_1=0;pc[0]=1;pc[1]=0;pc[2]=0;pc[3]=1;};
-    Camera(const float &fovpix0,const ProjType &projtype0,const CCD &ccd0,const float &crpix10,const float &crpix20,const float &pv2_10)
-    {fovpix=fovpix0;projtype=projtype0;ccd=ccd0;crpix1=crpix10;crpix2=crpix20;pv2_1=pv2_10;pc[0]=1;pc[1]=0;pc[2]=0;pc[3]=1;};
+    Camera() {fovpix=0.;projtype=ARC;detector=Detector();crpix1=0;crpix2=0;pv2_1=0;pc[0]=1;pc[1]=0;pc[2]=0;pc[3]=1;};
+    Camera(const float &fovpix0,const ProjType &projtype0,const Detector &detector0)
+    {fovpix=fovpix0;projtype=projtype0;detector=detector0;crpix1=0;crpix2=0;pv2_1=0;pc[0]=1;pc[1]=0;pc[2]=0;pc[3]=1;};
+    Camera(const float &fovpix0,const ProjType &projtype0,const Detector &detector0,const float &crpix10,const float &crpix20,const float &pv2_10)
+    {fovpix=fovpix0;projtype=projtype0;detector=detector0;crpix1=crpix10;crpix2=crpix20;pv2_1=pv2_10;pc[0]=1;pc[1]=0;pc[2]=0;pc[3]=1;};
 	
     void setFovpix(const float &fovpix0) {fovpix=fovpix0;};
     float getFovpix() const {return fovpix;};
@@ -112,8 +112,8 @@ public:
     };
     ProjType getProjType() const {return projtype;};
 
-    void setCCD(const CCD &ccd0) {ccd=ccd0;};
-    CCD getCCD() const {return ccd;};
+    void setDetector(const Detector &detector0) {detector=detector0;};
+    Detector getDetector() const {return detector;};
 
 //! Compute the LOS of a given pixel
 inline Cvec ij2los(const float &i,const float &j)
@@ -138,7 +138,7 @@ inline Cvec ij2los(const float &i,const float &j)
     friend class Scene;
 
 protected:
-  CCD ccd; //!< CCD characteristics
+  Detector detector; //!< Detector characteristics
   float fovpix; //!< fovpix in rad/pix
 	float crpix1,crpix2; //!< Center of the optical axis
   ProjType projtype; //!< projection type

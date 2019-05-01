@@ -25,19 +25,19 @@ struct MyGlobalFixture {
 
 BOOST_TEST_GLOBAL_FIXTURE( MyGlobalFixture );
 
-BOOST_AUTO_TEST_CASE(test_CCD)
+BOOST_AUTO_TEST_CASE(test_Detector)
 {
-  BOOST_TEST_MESSAGE("running test_CCD");
+  BOOST_TEST_MESSAGE("running test_Detector");
   
-  CCD c1;
-  CCD c2;
+  Detector c1;
+  Detector c2;
   
   BOOST_REQUIRE_EQUAL((unsigned int)0, c1.getSizePixX());
   BOOST_REQUIRE_EQUAL((unsigned int)0, c1.getSizePixX());
   BOOST_REQUIRE_CLOSE((float)1., c1.getSizemmX(), 0.001);
   BOOST_REQUIRE_CLOSE((float)1., c1.getSizemmY(), 0.001);
 
-  CCD c3(1024, 1024), c4;
+  Detector c3(1024, 1024), c4;
   BOOST_REQUIRE_EQUAL((unsigned int)1024, c3.getSizePixX());
   BOOST_REQUIRE_EQUAL((unsigned int)1024, c3.getSizePixY());
 
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(test_camera)
   BOOST_REQUIRE_EQUAL((ProjType)ARC, a.getProjType());
   BOOST_REQUIRE_CLOSE((float)0., a.getFovpix(), 0.001);
   bool foo;
-  foo = CCD()==a.getCCD();
+  foo = Detector()==a.getDetector();
   BOOST_TEST(foo);
   
   Camera b;
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE(test_camera)
   b.setProjType(TAN);
   BOOST_REQUIRE_EQUAL((ProjType)TAN, b.getProjType());
 
-  Camera cam(0.01, ARC, CCD(512,512), 256., 255., 1.5);
+  Camera cam(0.01, ARC, Detector(512,512), 256., 255., 1.5);
   BOOST_REQUIRE_CLOSE((float)0.01, cam.getFovpix(), 0.001);
   BOOST_REQUIRE_EQUAL((ProjType)ARC, cam.getProjType());
   BOOST_REQUIRE_CLOSE((float)256, cam.getCrpix1(), 0.001);
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE(test_camera)
   float *pc2 = new float[4];
   pc[0]=1; pc[1]=0; pc[2]=0; pc[3]=1;
 
-  Camera cam2(0.01, ARC, CCD(512,512), 256., 255., 0.);
+  Camera cam2(0.01, ARC, Detector(512,512), 256., 255., 0.);
   Cvec vlosobs0 = cam2.ij2los(256., 255.);
   BOOST_REQUIRE_EQUAL(Cvec(0,0,1), vlosobs0);
 

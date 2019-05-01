@@ -60,7 +60,7 @@ BOOST_FIXTURE_TEST_SUITE(s, SceneTest)
     std::cout << st << std::endl;
     BOOST_TEST(string("UV emission").compare(st) == 0);
     
-    pscene->camera.setCCD(CCD(sx,sy));
+    pscene->camera.setDetector(Detector(sx,sy));
     pscene->camera.setProjType(ARC);
     pscene->camera.setFovpix(0.01);
     pscene->camera.setCrpix(63.5,63.5);

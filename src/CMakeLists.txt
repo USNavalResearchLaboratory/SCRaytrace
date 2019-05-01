@@ -77,7 +77,7 @@ add_library(raytrace SHARED Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos
 
 
 add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp 
-    sun.h sun.cpp camera.h camera.cpp physicsbase.h physicsbase.cpp 
+    camera.h camera.cpp physicsbase.h physicsbase.cpp 
     physicsthomson.h physicsthomson.cpp physicsuv.h physicsuv.cpp 
     physicsisotropic.h physicsisotropic.cpp physicsmie.h physicsmie.cpp 
     miehps.h miehps.cpp physicsvsf.cpp physicsvsf.h 
@@ -116,10 +116,7 @@ target_link_libraries(testrtmiscfunc raytracethread ${BoostTest})
 
 add_executable(testcvec cvectest.cpp)
 target_link_libraries(testcvec raytracethread ${BoostTest})
-# 
-# add_executable(testsun suntest.h suntest.cpp testsuite.cpp)
-# target_link_libraries(testsun raytrace raytracethread ${CPPUNIT_LIBRARIES})
-# 
+
 add_executable(testcamera cameratest.cpp)
 target_link_libraries(testcamera raytracethread ${BoostTest})
 
@@ -143,7 +140,6 @@ add_test(NAME testmodel67 COMMAND testmodel67)
 add_test(NAME testmodel77 COMMAND testmodel77)
 add_test(NAME testrtmiscfunc COMMAND testrtmiscfunc)
 add_test(NAME testcvec COMMAND testcvec)
-# add_test(NAME testsun COMMAND testsun)
 add_test(NAME testcamera COMMAND testcamera)
 add_test(NAME testCbasis COMMAND testCbasis)
 add_test(NAME testscene COMMAND testscene)

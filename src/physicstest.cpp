@@ -53,7 +53,7 @@ BOOST_FIXTURE_TEST_SUITE(s, PhysicsTest)
     base.setParentScene(pscene);
     
     unsigned int sx=256,sy=256;
-    pscene->camera.setCCD(CCD(sx,sy));
+    pscene->camera.setDetector(Detector(sx,sy));
     pscene->camera.setProjType(ARC);
     pscene->camera.setFovpix(0.01);
     pscene->camera.setCrpix(63.5,63.5);

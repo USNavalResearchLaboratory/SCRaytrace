@@ -7,7 +7,7 @@
 
 #include <string>
 #include "camera.h"
-#include "sun.h"
+// #include "sun.h"
 #include "Cbasis.h"
 #include "Cvec.h"
 #include "Clos.h"
@@ -37,7 +37,7 @@ class Scene
     
   public:
     Camera camera;
-    Sun csun;
+//     Sun csun;
     Clos los;
     ModelPosition modelposition; //!< model positioning
 
@@ -164,7 +164,7 @@ private:
         Cvec vlosstep=vlosabs * los.ds;
         Cvec vs=qlos + vlosabs * los.sstart;
         
-        unsigned int pos=i+j*camera.ccd.sxpix;
+        unsigned int pos=i+j*camera.detector.sxpix;
 
         for (unsigned int k=0;k<los.nbp;k++,vs+=vlosstep)
         {
@@ -223,7 +223,7 @@ private:
         Cvec vlosstep=vlosabs * los.ds;
         Cvec vs=qlos + vlosabs * los.sstart;
         
-        unsigned int pos=i+j*camera.ccd.sxpix;
+        unsigned int pos=i+j*camera.detector.sxpix;
 
         // -- get the integral constant factor
         float btf,bpf,nef;
@@ -295,7 +295,7 @@ private:
         Cvec vs=qlos + vlosabs * los.sstart;
         
         // -- compute pixel position in lexicographic ordered output arrays
-        unsigned int pos=i+j*camera.ccd.sxpix;
+        unsigned int pos=i+j*camera.detector.sxpix;
 
         // -- init integral point index for the integrand output array
         unsigned long posIntegrand;
@@ -313,7 +313,7 @@ private:
             flagnull=pphy->computeRadiation(vs,r,rho,btout,bpout,neout);
             
             // -- compute index position in the integrand array
-            posIntegrand = pos + camera.ccd.sxpix * camera.ccd.sypix * k;
+            posIntegrand = pos + camera.detector.sxpix * camera.detector.sypix * k;
             
             pintegrand[posIntegrand] = btout * btf;
 //             pintegrand[posIntegrand] = bpout;

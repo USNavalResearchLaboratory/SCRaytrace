@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "rtthread.h"
-#include "sun.h"
+// #include "sun.h"
 #include "camera.h"
 #include "Cbasis.h"
 #include "scene.h"
@@ -69,7 +69,7 @@ extern "C" int rtthread(int sx,
 	printvar(neonly);
 	printvarnoend(hlonlat[0]);printvarnoend(hlonlat[1]);printvar(hlonlat[2]);
 	printvar(occrad);
-	printvar(limbdark);
+// 	printvar(limbdark);
 	printvarnoend(obslonlat[0]);printvarnoend(obslonlat[1]);printvar(obslonlat[2]);
 	printvar(obslonlatflag);
 	printvar(projtypecode);
@@ -88,13 +88,13 @@ extern "C" int rtthread(int sx,
   // ---- setup the scene
   // -- Camera parameters
   Scene scene;
-  scene.camera.setCCD(CCD(sx,sy));
+  scene.camera.setDetector(Detector(sx,sy));
   scene.camera.setProjType(projtypecode);
   scene.camera.setFovpix(fovpix);
   scene.camera.setCrpix(crpix[0],crpix[1]);
   scene.camera.setPv2_1(pv2_1);
   scene.camera.setPc(pc);
-  scene.csun.setLimbDarkening(limbdark);
+//   scene.csun.setLimbDarkening(limbdark);
   scene.setNeonly(neonly);
   scene.setFrontInteg(frontinteg);
   scene.setQuiet(quiet);
@@ -145,7 +145,7 @@ int rtthreadtest()
   // -- Camera parameters
   unsigned int sx=256,sy=256;
   Scene scene;
-  scene.camera.setCCD(CCD(sx,sy));
+  scene.camera.setDetector(Detector(sx,sy));
   scene.camera.setProjType(ARC);
   scene.camera.setFovpix(0.01);
   scene.camera.setCrpix(63.5,63.5);
