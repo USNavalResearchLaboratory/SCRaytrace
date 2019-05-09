@@ -147,4 +147,24 @@ protected:
 
 
 
+/** \brief Equatorial disk (y, z plane) with uniform density, for test
+ * 
+ */
+class CModel79 : public CModelBase
+{
+public:
+    float Density(const Cvec &v);
+    void initParam(float* pparam);
+    void dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase);
+
+    float C;                 //!> density constant factor
+    float ht;                 //!> half thickness of the disk [Rsun]
+    float r;                //!> radius of the disk
+
+protected:
+    float rsqr;                //!> radius of the disk
+};
+
+
+
 #endif

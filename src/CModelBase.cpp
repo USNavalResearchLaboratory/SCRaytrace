@@ -503,6 +503,12 @@ CModelBase* modelselect(int modelid)
       pmod= (CModelBase*) pmodel78;
       return pmod;
       break;
+    case 79 :
+      CModel79 *pmodel79;
+      pmodel79 = new CModel79;
+      pmod= (CModelBase*) pmodel79;
+      return pmod;
+      break;
 
     // -----------------------------------
     // |    REGISTER NEW DENSITIES HERE    |
