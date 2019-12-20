@@ -4,13 +4,15 @@ set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF) 
 
 
-find_package(Boost 1.67.0 COMPONENTS thread unit_test_framework)
+set(Boost_USE_STATIC_LIBS OFF)
+set(BUILD_SHARED_LIBS ON)
+find_package(Boost 1.67.0 REQUIRED COMPONENTS thread unit_test_framework)
 
 
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS}) 
-    message("Boost include directory: ${Boost_INCLUDE_DIRS}")
-endif()
+# if(Boost_FOUND)
+#     include_directories(${Boost_INCLUDE_DIRS}) 
+#     message("Boost include directory: ${Boost_INCLUDE_DIRS}")
+# endif()
 
 find_library(BoostThread libboost_thread.dylib libboost_thread.so HINTS ~/local/lib ~/soft/lib)
 find_library(BoostTest libboost_unit_test_framework.dylib libboost_unit_test_framework.so HINTS ~/local/lib ~/soft/lib)
@@ -57,7 +59,7 @@ add_library(raytrace SHARED Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos
     models01to10.cpp    models01to10.h  models11to20.cpp    models11to20.h  
     models21to30.cpp    models21to30.h  models31to40.cpp    models31to40.h  
     models41to50.cpp    models41to50.h  models51to60.cpp    models51to60.h  
-    models61to70.cpp    models61to70.h  models71to80.cpp    models71to80.h 
+    models61to70.cpp    models61to70.h  models71to80.cpp    models71to80.h
     Cdvoxel.cpp Cdvoxel.h Cvoxvert.cpp Cvoxvert.h 
     rtcloud.cpp rtcloud.h 
     rtmiscfunc.h rtmiscfunc.cpp voxinteg.h ModelPosition.h)
@@ -82,7 +84,7 @@ add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp
     physicsisotropic.h physicsisotropic.cpp physicsmie.h physicsmie.cpp 
     miehps.h miehps.cpp physicsvsf.cpp physicsvsf.h 
     physicsvsfvarydist.cpp physicsvsfvarydist.h)
-target_link_libraries(raytracethread raytrace ${BoostThread})
+target_link_libraries(raytracethread raytrace  Boost::thread) # ${BoostThread}
 # target_link_libraries(raytracethread raytrace "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
 # target_link_libraries(raytracethread raytrace  ${Boost_THREAD_LIBRARY} )
 
@@ -99,39 +101,39 @@ target_link_libraries(rtthread raytracethread)
 # target_link_libraries(rtthread "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
 
 add_executable(hpsmie oonewcallhpsmie.cpp)
-target_link_libraries(hpsmie raytrace raytracethread "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
+target_link_libraries(hpsmie raytrace raytracethread "-Wl,--whole-archive" Boost::thread ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
 
 # ---- tests
 add_executable(testmodel26 model26test.cpp)
-target_link_libraries(testmodel26 raytracethread ${BoostTest})
+target_link_libraries(testmodel26 raytracethread Boost::unit_test_framework)
 
 add_executable(testmodel67 model67test.cpp )
-target_link_libraries(testmodel67 raytracethread ${BoostTest})
+target_link_libraries(testmodel67 raytracethread Boost::unit_test_framework)
 
 add_executable(testmodel77 model77test.cpp )
-target_link_libraries(testmodel77 raytracethread ${BoostTest})
+target_link_libraries(testmodel77 raytracethread Boost::unit_test_framework)
 
 add_executable(testrtmiscfunc rtmiscfunctest.cpp  rtmiscfunc.h)
-target_link_libraries(testrtmiscfunc raytracethread ${BoostTest})
+target_link_libraries(testrtmiscfunc raytracethread Boost::unit_test_framework)
 
 add_executable(testcvec cvectest.cpp)
-target_link_libraries(testcvec raytracethread ${BoostTest})
+target_link_libraries(testcvec raytracethread Boost::unit_test_framework)
 
 add_executable(testcamera cameratest.cpp)
-target_link_libraries(testcamera raytracethread ${BoostTest})
+target_link_libraries(testcamera raytracethread Boost::unit_test_framework)
 
 add_executable(testCbasis Cbasistest.cpp)
-target_link_libraries(testCbasis raytracethread ${BoostTest})
+target_link_libraries(testCbasis raytracethread Boost::unit_test_framework)
 
 add_executable(testscene scenetest.cpp)
-target_link_libraries(testscene raytracethread ${BoostTest})
+target_link_libraries(testscene raytracethread Boost::unit_test_framework)
 
 add_executable(testphysics physicstest.cpp)
-target_link_libraries(testphysics raytracethread ${BoostTest})
+target_link_libraries(testphysics raytracethread Boost::unit_test_framework)
 
 
 add_executable(testboosttest boostTestTest.cpp)
-target_link_libraries(testboosttest ${BoostTest})
+target_link_libraries(testboosttest Boost::unit_test_framework) # ${BoostTest}
 
 
 

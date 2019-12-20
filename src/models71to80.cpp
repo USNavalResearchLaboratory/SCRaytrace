@@ -84,9 +84,10 @@ float CModel73::Density(const Cvec &v)
     
     //     float dens = C / v.mag() * exp(-4. * exp( pow(absSinBetaPi, 1.3)));
     
-    
-    
-    //     if (v.mag() <= dustFreeLimit) dens *= decreaseFactor;
+    if (v.mag() <= dustFreeStart) {
+        dens *= (v.mag() - dustFreeEnd) / (dustFreeStart - dustFreeEnd);
+        if (dens < 0.) dens = 0.;
+    }
     
     return dens;
 }
@@ -96,8 +97,8 @@ float CModel73::Density(const Cvec &v)
 void CModel73::initParam(float* pparam)
 {
     C = pparam[0];               // -- constant factor
-    dustFreeLimit = pparam[1];   // -- dust free zone limit in Rsun
-    decreaseFactor = pparam[2];  // -- factor decrease 
+    dustFreeStart = pparam[1];   // -- Start of the dust free zone, in Rsun
+    dustFreeEnd = pparam[2];  // -- End of the dust free zone (inner radial dist, where N_dust=0), in Rsun
 }
 
 void CModel73::dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase)
@@ -412,7 +413,8 @@ const std::string CModel77::filename[] = {
         //    1.13E-7 m^-3: dust density at 1AU
         //    1e-6: Converts m^-3 to cm^-3
         //    RSUN_CM^3: converts cm^-3 to Rsun^03
-        float dens = C * 1.13e-7 * 1e-6 * RSUN_CM * pow(v.mag(), -1.34) * exp(-BETA * pow(g, GAMMA) );
+//         float dens = C * 1.13e-7 * 1e-6 * RSUN_CM * pow(v.mag(), -1.34) * exp(-BETA * pow(g, GAMMA) );
+        float dens = C * 1.13e-7 * 1e-6 * RSUN_CM * pow(v.mag(), powerLawExponent) * exp(-BETA * pow(g, GAMMA) );
         
         
         //   if (v.mag() <= dustFreeLimit) dens *= decreaseFactor;
@@ -424,8 +426,10 @@ const std::string CModel77::filename[] = {
     void CModel78::initParam(float* pparam)
     {
         C = pparam[0];               // -- constant factor
-        dustFreeLimit = pparam[1];   // -- dust free zone limit in Rsun
-        decreaseFactor = pparam[2];  // -- factor decrease 
+        powerLawExponent = pparam[1];   // -- power law exponent for density dependance on radial distance. Default is -1.34
+        if (powerLawExponent >= 0.){
+            powerLawExponent = -1.34;
+        }
     }
     
     void CModel78::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase)
@@ -433,8 +437,7 @@ const std::string CModel77::filename[] = {
         flagcase = 0;
         vp.push_back(moddefparam("", "F Corona model based on DIRBE", "", ""));
         vp.push_back(moddefparam("C", "1.", "Density", "particules/cm^3"));
-        vp.push_back(moddefparam("dustFreeLimit", "5.", "Dust free zone limit", "Rsun"));
-        vp.push_back(moddefparam("decreaseFactor", "0.9", "Density decrease in the dust free zone", ""));
+        vp.push_back(moddefparam("powerLawExponent", "-1.34", "Dust free zone limit", "Rsun"));
         return;
     }
     
@@ -478,6 +481,50 @@ const std::string CModel77::filename[] = {
         return;
     }
     
+
     
+float CModel80::Density(const Cvec &v)
+{
+    // ---- compute BetaPi, the elevation above the plane of symmetry
+    //      which is assumed to be the (O,y,z) plane. See Lamy Perrin 1986, Fig 1
+    float beta = v[0] / v.mag();
+    float absSinBetaPi = fabs(beta);
+    float betapi = asin(absSinBetaPi);
+    
+    // -- Express obs.o in the density reference frame
+    Cvec obsPos_inNe = ChangetoDensityCoord(pparentscene->modelposition, pparentscene->obs.o);
+    
+    // -- Compute vector OV
+    Cvec OV = v - obsPos_inNe;
+    
+    // -- Compute beta angle: see Lamy Perrin 1986, Fig 1
+    sinBeta = fabs(sin(atan2(OV[0], sqrt(OV[1] * OV[1] + OV[2] * OV[2]))));
+    
+    // -- Lamy email Sep 11 2019
+//     float dens = C * pow(v.mag(), -1.3) * pow(1 + 5 * sinBeta * sinBeta, -0.65);
+    float dens = C / pow(v.mag(), 1.3) * pow(1 + A * A * absSinBetaPi * absSinBetaPi, -0.65);
+
+    return dens;
+}
+
+
+// Inititialization of the parameters
+void CModel80::initParam(float* pparam)
+{
+    std::cout << "Helluh!!!" << std::endl;
+    C = pparam[0];               // -- constant factor
+    A = pparam[1];               // -- Flattening parameter
+}
+
+
+void CModel80::dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase)
+{
+    flagcase = 0;
+    vp.push_back(moddefparam("", "Lamy model, Sep 2019", "", ""));
+    vp.push_back(moddefparam("C", "1.", "Density", "particules/cm^3"));
+    vp.push_back(moddefparam("A", "4.5", "Flattening (4.5 to 6.5)", "NA"));
+    return;
+}
+
     
     

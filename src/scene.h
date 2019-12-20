@@ -51,6 +51,7 @@ class Scene
 
     friend class CModelBase;
     friend class CModel73;
+    friend class CModel80;
     
     Scene();
     

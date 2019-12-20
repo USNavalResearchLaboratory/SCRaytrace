@@ -44,7 +44,7 @@ BOOST_FIXTURE_TEST_SUITE(s, rtmiscfunctest)
      
    
   
-  short flagout;
+short flagout;
 float idshift;
 unsigned int id;
 float xin;

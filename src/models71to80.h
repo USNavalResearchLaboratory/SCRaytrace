@@ -43,8 +43,8 @@ public:
 protected:
     float sinBeta;           //!> Beta: angle plane of symmetry - Observer LOS. See Fig 1 of Lamy, Perrin
     float C;                 //!> density constant factor
-    float dustFreeLimit;     //!> dust free zone limit in Rsun
-    float decreaseFactor;    //!> density decrease factor in the dust free zone
+    float dustFreeStart;     //!> Start of the dust free zone, in Rsun
+    float dustFreeEnd;       //!> End of the dust free zone (inner radial dist, where N_dust=0), in Rsun
 };
 
 
@@ -138,8 +138,7 @@ public:
     void dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase);
 protected:
     float C;                 //!> density constant factor
-    float dustFreeLimit;     //!> dust free zone limit in Rsun
-    float decreaseFactor;    //!> density decrease factor in the dust free zone
+    float powerLawExponent;     //!> power law exponent for density dependance on radial distance. Default is -1.34
     static const float BETA;
     static const float GAMMA;
     static const float MU;
@@ -163,6 +162,22 @@ public:
 
 protected:
     float rsqr;                //!> radius of the disk
+};
+
+
+
+//! \brief F-corona and zodiacal light dust density. Equation from P.Lamy, email received on Sep 11 2019
+class CModel80 : public CModelBase
+{
+public:
+    float Density(const Cvec &v);
+//     void initDensityConstFactors(const Cvec &vlos_inDens);
+    void initParam(float* pparam);
+    void dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase);
+protected:
+    float sinBeta;           //!> Beta: angle plane of symmetry - Observer LOS. See Fig 1 of Lamy, Perrin
+    float C;                 //!> density constant factor
+    float A;                 //!> Model flattening parameter
 };
 
 
