@@ -113,14 +113,14 @@ class CModel18 : public CModelBase
 	  float Density(const Cvec &v); 
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Sphericaly symmetric Ne, Saito coronal hole density model: Saito, Poland, Munro, SolPhy 55 (1977) pp. 121-134
+//! Sphericaly symmetric Ne, Saito Equatorial hole density model: Saito, Poland, Munro, SolPhy 55 (1977) pp. 121-134
 class CModel19 : public CModelBase
 {
 	public:
 	  float Density(const Cvec &v); 
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Sphericaly symmetric Ne, Saito polar density model
+//! Sphericaly symmetric Ne, Saito polar regions (hole) density model
 class CModel20 : public CModelBase
 {
 	public:

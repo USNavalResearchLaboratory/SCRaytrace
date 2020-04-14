@@ -13,12 +13,12 @@
 // -- density 21
 // Sphericaly symmetric Ne
 //
-// Use the Saito equatorial density model
+// Use the Saito background (equator) density model
 float CModel21::Density(const Cvec &v) {
   float r=v.norm();
   if (r <= 1.05) return 0.;
 
-  // -- coeff for the equatorial density model
+  // -- coeff for the background (equator) density model
   float c1=1.36e6;
   float d1=2.14;
   float c2=1.68e8;
@@ -31,7 +31,7 @@ float CModel21::Density(const Cvec &v) {
 void CModel21::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase)
 {	
 	flagcase=0x4;
-	vp.push_back(moddefparam("","Saito equatorial density.","",""));	
+	vp.push_back(moddefparam("","Saito background (equator) density.","",""));
 	return;
 }
 

@@ -505,7 +505,7 @@ float CModel19::Density(const Cvec &v) {
   float r=v.norm();
   if (r <= 1.05) return 0.;
 
-  // -- coeff for the coronal hole density model
+  // -- coeff for the equatorial hole density model
   float c1=5.27e6;
   float d1=3.30;
   float c2=3.54e6;
@@ -518,7 +518,7 @@ float CModel19::Density(const Cvec &v) {
 void CModel19::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase)
 {	
 	flagcase=0x4;
-	vp.push_back(moddefparam("","Saito coronal hole density.","",""));	
+	vp.push_back(moddefparam("","Saito equatorial hole density.","",""));
 	return;
 }
 
@@ -529,7 +529,7 @@ float CModel20::Density(const Cvec &v) {
   float r=v.norm();
   if (r <= 1.05) return 0.;
 
-  // -- coeff for the polar density model
+  // -- coeff for the polar regions (hole) density model
   float c1=3.15e6;
   float d1=4.71;
   float c2=1.60e6;
@@ -542,7 +542,7 @@ float CModel20::Density(const Cvec &v) {
 void CModel20::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase)
 {	
 	flagcase=0x4;
-	vp.push_back(moddefparam("","Saito polar density","",""));	
+	vp.push_back(moddefparam("","Saito polar regions (hole) density","",""));	
 	return;
 }
 

@@ -9,7 +9,7 @@
 #include "rtmiscfunc.h"
 
 
-//! Sphericaly symmetric Ne, Saito equatorial density model
+//! Sphericaly symmetric Ne, Saito Background (equator) density model
 class CModel21 : public CModelBase
 {
 	public:
