@@ -1,4 +1,6 @@
-// $Id$
+/** \file physicsmie.h
+ * \brief Implements Mie scattering physics.
+ */
 
 #ifndef PHYSICSMIE_H
 #define PHYSICSMIE_H
@@ -9,8 +11,7 @@
 #include "constant.h"
 #include "miehps.h"
 
-/**
-Line of sight integration for Mie scattering
+/** \brief Mie scattering
 */
 class PhysicsMie : public PhysicsBase
 {

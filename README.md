@@ -4,9 +4,9 @@ Solar Corona Raytracing tools
 ## Project tree structure
 - src: C++ source code.
 - data: data files used by the C++ code.
-- python: python wrappers. Empty for now...
+- python: python wrappers.
 - idl: IDL wrappers. Empty for now. We will see if we transfer the SolarSoft IDL sources in here maybe, which would allow collaborative development, things that was not possible so far.
-- docbook: Docbook source files for the user manual.
+- docbook: Docbook source files for the user manual. [Deprecated. Use Sphinx now. Migration ongoing.]
 - sphinx: sphinx documentation
 - doxygen: doxygen code documentation
 
@@ -24,11 +24,20 @@ For additional testing, you can run the following:
 `cd build`  
 `make test`
 
+Individual test:  
+`cd build/src`  
+`./testboosttest --log_level=message`, for example.
+
 ## Clean up the build
 `rm -rf build` 
 
 or maybe try  
 `make clean`
+
+## Mac OSX
+On a Mac installation, you may have to change a couple relative paths to be absolute (when executing programs in an iPython or IDL environment):  
+`install_name_tool -change libboost_thread.dylib /full/path/to/libboost_thread.dylib libraytracethread.dylib`  
+`install_name_tool -change libboost_system.dylib /full/path/to/libboost_system.dylib libboost_thread.dylib`
 
 ## Dependencies
 ### C++ only
@@ -36,8 +45,7 @@ or maybe try
     - thread
     - unit_test_framework
     - bind.hpp
-- cppunit (will need to be replaced by boost unit test instead)
-
+    
 ### Documentation
 - doxygen
 - dot/graphviz

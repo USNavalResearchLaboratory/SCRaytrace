@@ -16,7 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 */
 
-// $Id$
+
+/*! \file miehps.h
+ * \brief Mie scattering from Hans-Peter Schadler. See Hong Du, Applied Optics, 2004, Vol. 43, No. 9, pp. 1951-1956.
+ *
+ *  
+ */
+
 
 #ifndef _MIEHPS_H
 #define _MIEHPS_H

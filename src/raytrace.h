@@ -1,12 +1,7 @@
-/***************************************************************************
- *            raytrace.h
- *
- *  $Id: raytrace.h,v 1.16 2010-09-01 19:51:18 thernis Exp $
- ****************************************************************************/
-
 /** \file raytrace.h
- * \brief Contains all the wrappers for IDL
+ * \brief Contains all the wrappers for IDL and Python, plus various useful functions.
  */
+
 #ifndef RAYTRACE_H
 #define RAYTRACE_H
 
@@ -15,7 +10,6 @@
 #include <config.h>
 #endif
 #include "constant.h"
-#include "cuvemission.h"
 #include "Cvec.h"
 #include "Clos.h"
 #include "CModelBase.h"
@@ -355,6 +349,10 @@ void dumpBuildInfo();
 extern "C" int dumpbuildinfo(int argc,void **argv);
 
 
+//! Test function for interfacing with Python
+extern "C" int testParamPass(int param);
+
+
 //! Compute the origin of the LOS, depending what the user specified
 inline void calcqlos(const int &pofinteg,const int &frontinteg,const Cbasis &obs,const Cvec &vlosabs,const Cbasis &abs,Cbasis &poi,Cvec &qlos) {
 
@@ -515,24 +513,24 @@ inline bool checkchunkwbsun(float rho,float r0, float r2,float vs0z,float vs2z) 
 
 //! Calculate and return the Thomson scattering geometric functions
 inline void getThomsonGeomFactor(const float &r,const float &rho,float &totterm,float &polterm) {
-    float sinomega=RSUN/r;
-    float sinsquareomega=sinomega*sinomega;
-    float cossquareomega=1-sinsquareomega;
-    float cosomega=sqrt(cossquareomega);
+    float sinomega = RSUN / r;
+    float sinsquareomega = sinomega * sinomega;
+    float cossquareomega = 1 - sinsquareomega;
+    float cosomega = sqrt(cossquareomega);
 
-    float logterm=log((1.+sinomega)/cosomega);
+    float logterm = log((1. + sinomega) / cosomega);
 
-    float a=cosomega*sinsquareomega;
-    float b=-1./8.*(1.-3.*sinsquareomega-cossquareomega*((1.+3.*sinsquareomega)/sinomega)*logterm);
+    float a = cosomega * sinsquareomega;
+    float b = -1. / 8. * (1. - 3. * sinsquareomega - cossquareomega * ((1. + 3. * sinsquareomega) / sinomega) * logterm);
 
-    float c=(4./3.)-cosomega-(cosomega*cossquareomega)/3.;
-    float d=(1./8.)*(5.+sinsquareomega-cossquareomega*((5.-sinsquareomega)/sinomega)*logterm);
+    float c = (4. / 3.) - cosomega - (cosomega * cossquareomega) / 3.;
+    float d = (1. / 8.) * (5. + sinsquareomega - cossquareomega * ((5. - sinsquareomega) / sinomega) * logterm);
 
-    float rhooverr=rho/r;
+    float rhooverr = rho / r;
     // Polarized brightness term
-    polterm=(a+U*(b-a))*rhooverr*rhooverr;
+    polterm=(a + UU * (b - a)) * rhooverr * rhooverr;
     // Total brightness term
-    totterm=(2*(c+U*(d-c))-polterm);
+    totterm=(2 * (c + UU *(d - c)) - polterm);
 
 }
 
@@ -684,73 +682,73 @@ for(unsigned int k=0;k<los.nbp;k++,s+=los.ds,vs+=vlosstep) {
 
 
 
-//! Integration along a line of sight for UV light
-inline void losintegUV(const int &pofinteg,
-	const int &frontinteg,
-	const Cbasis &obs,
-	const Cvec &vlosabs,
-	const Cbasis &abs,
-	Cbasis &poi,
-	Clos &los,
-	const float &rho,
-	CModelBase *pmod,
-	float *pmodparam,
-	const ModelPosition &modpos,
-	const float &u,
-	const float &constfactor,
-	const int &flagneonly,
-	float *posbtot,
-	float *posbpol,
-	float *posne,
-	CUVEmission *uvemis,
-	const int &uvinteg) {
-
-// -- Compute the origin of the LOS, depending what the user specified
-Cvec qlos;
-calcqlos(pofinteg,frontinteg,obs,vlosabs,abs,poi,qlos);
-
-
-// -- initialize
-*posbtot=0;
-*posbpol=0;
-*posne=0;
-
-// -- current position on the LOS
-float s=los.sstart;
-Cvec vlosstep=vlosabs * los.ds;
-Cvec vs=qlos + vlosabs * s;
-float temperature;
-
-for(unsigned int k=0;k<los.nbp;k++,s+=los.ds,vs+=vlosstep) {
-
-  // -- dist Sun cntr - LOS current pos
-  float r=vs.norm();
-  
-  // -- integration only in front of the Sun
-  if (rho > LIMBLIMIT || (r > LIMBLIMIT && vs.v[2] > 0.)) {
-    /******************************************/
-    /*            MODEL CALL HERE             */
-    /******************************************/
-    // -- compute Ne    
-//    float ner=pmod->Density(nps.u * (vs + nps.o),temperature);
-    float ner=pmod->Density(ChangetoDensityCoord(modpos,vs),temperature);
-		float uv=uvemis->calcEmissivity(uvinteg,temperature);
-
-    // total density
-    *posne +=ner;
- 
-    *posbpol +=uv;
-    *posbtot +=uv*ner*ner;
-
-  }
-}
-// multiply by the integral constant factor
-*posbtot *=los.ds;
-*posbpol *=los.ds;
-*posne *=RSUN_CM*los.ds;
-
-}
-
+// //! Integration along a line of sight for UV light
+// inline void losintegUV(const int &pofinteg,
+// 	const int &frontinteg,
+// 	const Cbasis &obs,
+// 	const Cvec &vlosabs,
+// 	const Cbasis &abs,
+// 	Cbasis &poi,
+// 	Clos &los,
+// 	const float &rho,
+// 	CModelBase *pmod,
+// 	float *pmodparam,
+// 	const ModelPosition &modpos,
+// 	const float &u,
+// 	const float &constfactor,
+// 	const int &flagneonly,
+// 	float *posbtot,
+// 	float *posbpol,
+// 	float *posne,
+// 	CUVEmission *uvemis,
+// 	const int &uvinteg) {
+// 
+// // -- Compute the origin of the LOS, depending what the user specified
+// Cvec qlos;
+// calcqlos(pofinteg,frontinteg,obs,vlosabs,abs,poi,qlos);
+// 
+// 
+// // -- initialize
+// *posbtot=0;
+// *posbpol=0;
+// *posne=0;
+// 
+// // -- current position on the LOS
+// float s=los.sstart;
+// Cvec vlosstep=vlosabs * los.ds;
+// Cvec vs=qlos + vlosabs * s;
+// float temperature;
+// 
+// for(unsigned int k=0;k<los.nbp;k++,s+=los.ds,vs+=vlosstep) {
+// 
+//   // -- dist Sun cntr - LOS current pos
+//   float r=vs.norm();
+//   
+//   // -- integration only in front of the Sun
+//   if (rho > LIMBLIMIT || (r > LIMBLIMIT && vs.v[2] > 0.)) {
+//     /******************************************/
+//     /*            MODEL CALL HERE             */
+//     /******************************************/
+//     // -- compute Ne    
+// //    float ner=pmod->Density(nps.u * (vs + nps.o),temperature);
+//     float ner=pmod->Density(ChangetoDensityCoord(modpos,vs),temperature);
+// 		float uv=uvemis->calcEmissivity(uvinteg,temperature);
+// 
+//     // total density
+//     *posne +=ner;
+//  
+//     *posbpol +=uv;
+//     *posbtot +=uv*ner*ner;
+// 
+//   }
+// }
+// // multiply by the integral constant factor
+// *posbtot *=los.ds;
+// *posbpol *=los.ds;
+// *posne *=RSUN_CM*los.ds;
+// 
+// }
+// 
 
 
 //! Integration along a line of sight
@@ -834,42 +832,3 @@ for(unsigned int k=0;k<los.nbp;k++,vs+=vlosstep) {
 
 
 #endif
-
-/*
-* $Log: raytrace.h,v $
-* Revision 1.16  2010-09-01 19:51:18  thernis
-* Implement disttofracmax
-*
-* Revision 1.15  2009/04/13 21:03:57  thernis
-* - Use ModelPosition class.
-* - Implement extra positioning parameters for the models.
-*
-* Revision 1.14  2009/03/06 21:23:46  thernis
-* Implement neshift
-*
-* Revision 1.13  2009/02/23 16:21:15  thernis
-* Fix calculation of brightness in the UV renderer
-*
-* Revision 1.12  2009/02/09 20:51:20  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.11  2008/09/30 18:33:29  thernis
-* Replace include of losinteg.h and losintegadaptstep.h by inline functions.
-*
-* Revision 1.10  2008/09/23 14:08:13  thernis
-* - add new testing models, - implement integration in front of the instrument
-*
-* Revision 1.9  2007/07/19 19:51:03  thernis
-* Implement rtGetCarPosOnDisk
-*
-* Revision 1.8  2007/07/10 21:15:57  thernis
-* Implement raytracing of a cloud of points.
-*
-* Revision 1.7  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

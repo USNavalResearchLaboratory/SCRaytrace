@@ -1,4 +1,6 @@
-// $Id: physicsbase.h,v 1.1 2010-09-01 19:54:30 thernis Exp $
+/** \file physicsbase.h
+ * \brief Base class for all the physics types.
+ */
 
 #ifndef PHYSICSBASE_H
 #define PHYSICSBASE_H
@@ -11,14 +13,13 @@ using std::endl;
 #include "Cvec.h"
 #include "CModelBase.h"
              
-//! Enumerate the different types of physics available
+//! \brief Enumerate the different types of physics available
 enum PhysicsType {THOMSON, UV, MIE, ISOTROPIC, VSF, VSFVARYDIST};
 
 //! Forward declaration of class Scene
 class Scene;
          
-/**
-Virtual class implementing the physics of the raytracing.
+/** \brief Virtual class implementing the physics of the raytracing.
 */
 class PhysicsBase{
   public:

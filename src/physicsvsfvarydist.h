@@ -1,4 +1,6 @@
-// $Id$
+/** \file physicsvsfvarydist.h
+ * \brief Implements the Volume Scattering Function physics, that varies with distance to the Sun.
+ */
 
 #ifndef PHYSICSVSFVARYDIST_H
 #define PHYSICSVSFVARYDIST_H
@@ -9,8 +11,7 @@
 #include "Cvec.h"
 #include "constant.h"
 
-/**
-Volume Scattering Function, for F-corona and zodiacal light, varying with distance as described in Lamy & Perrin 1986.
+/** \brief Volume Scattering Function, for F-corona and zodiacal light, varying with distance as described in Lamy & Perrin 1986.
 
 Caveat: The VSF is valid down to 5 deg elongation from the Sun center.
 

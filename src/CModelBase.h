@@ -1,6 +1,9 @@
-//
-// File: CModelBase.h
-// $Id: CModelBase.h,v 1.3 2009/02/09 20:51:01 thernis Exp $
+/*! \file CModelBase.h 
+ * \brief Base class for all models
+ *
+ *  
+ */
+
 
 #ifndef _CMODELBASE_H_
 #define _CMODELBASE_H_
@@ -94,16 +97,3 @@ CModelBase* modelselect(int modelid);
 
 
 
-/*
-* $Log: CModelBase.h,v $
-* Revision 1.3  2009/02/09 20:51:01  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:40  thernis
-* Add CVS id and log in all files
-*
-*/

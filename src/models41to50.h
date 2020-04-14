@@ -1,13 +1,9 @@
-/***************************************************************************
- *  $Id: models41to50.h,v 1.3 2009/02/09 20:51:16 thernis Exp $
- *
- ****************************************************************************/
 #ifndef MODELS41TO50_H
 #define MODELS41TO50_H
 
 #include "CModelBase.h"
 
-//! Tube shell model based on CModel33 with extra parameters to set the Ne
+//! \brief Tube shell model based on CModel33 with extra parameters to set the Ne
 class CModel41 : public CModelBase
 {
 	public:
@@ -15,7 +11,9 @@ class CModel41 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Tube shell model based on CModel41 with different axis orientation
+
+
+//! \brief Tube shell model based on CModel41 with different axis orientation
 //!
 //! Transition for thickness at the foot-circle junction
 //!
@@ -29,7 +27,9 @@ class CModel42 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Tube with an helix
+
+
+//! \brief Tube with an helix
 class CModel43 : public CModelBase
 {
 	public:
@@ -37,7 +37,9 @@ class CModel43 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Helicoidal ribbon
+
+
+//! \brief Helicoidal ribbon
 //!
 //! !!!! Changed the axis orientation to facilitate the positioning
 //!      - Oyz is now the plane of the loop
@@ -59,7 +61,9 @@ class CModel44 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Tube shell model based on CModel42 but the shell skin has a gaussian profile.
+
+
+//! \brief Tube shell model based on CModel42 but the shell skin has a gaussian profile.
 //!
 //! The edge factor of CModel42 is replaced by the sigma parameter (well, 
 //! not exactly, see the code) of the gaussian profile.
@@ -77,7 +81,9 @@ class CModel45 : public CModelBase
 	protected:
 		float rb,alpha,rf,ratio,nemin,wrapcoeff,h0,rs,rc,skinsigmain,skinsigmafr;
 };
-//! Tube shell model based on CModel45, with decreasing of density depending on height.
+
+
+//! \brief Tube shell model based on CModel45, with decreasing of density depending on height.
 class CModel47 : public CModelBase
 {
 	public:
@@ -88,7 +94,9 @@ class CModel47 : public CModelBase
 	protected:
 		float rb,alpha,rf,rs,rc,halfdist,ratio,neinit,wrapcoeff,ratio1,ratio2,stiffness,skinsigmain,skinsigmafr,ldecdens;
 };
-//! Spherically symmetric Ne, based on CModel14
+
+
+//! \brief Spherically symmetric Ne, based on CModel14
 //!
 //! Use the Hayes model
 //! - Ne(r)=Sum_k alpha_k * r^(-k) , k=1,2,3,4
@@ -99,7 +107,9 @@ class CModel49 : public CModelBase
 	  float Density(const Cvec &v); 
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Slab model with modulation of the slab FO. Based on CModel38.
+
+
+//! \brief Slab model with modulation of the slab FO. Based on CModel38.
 //!
 //! Spherically symmetric Ne
 //!
@@ -122,16 +132,3 @@ class CModel50 : public CModelBase
 
 #endif
 
-/*
-* $Log: models41to50.h,v $
-* Revision 1.3  2009/02/09 20:51:16  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

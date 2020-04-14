@@ -1,7 +1,8 @@
-/***************************************************************************
- *  $Id: models51to60.cpp,v 1.9 2011-01-21 20:45:10 thernis Exp $
- *
- ****************************************************************************/
+
+/** \file models51to60.cpp
+ * \brief Model 51 to 60
+ */
+
 
 #include "models51to60.h"
 #include <iostream>
@@ -965,39 +966,3 @@ void CModel60::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase
   return;
 }
 
-
-
-
-
-
-/*
-* $Log: models51to60.cpp,v $
-* Revision 1.9  2011-01-21 20:45:10  thernis
-* Do some more clean up of model 54
-*
-* Revision 1.8  2011-01-21 15:07:31  thernis
-* Clean up Model 54 code
-*
-* Revision 1.7  2010-09-01 20:03:05  thernis
-* Overparenthesis of models 53 ad 54. Not sure this is useful...
-*
-* Revision 1.6  2009/02/09 20:51:17  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.5  2008/08/18 18:24:45  thernis
-* Modified some comments in model 54
-*
-* Revision 1.4  2007/07/19 19:22:42  thernis
-* Add model 60
-*
-* Revision 1.3  2007/07/10 21:19:01  thernis
-* Implement very simple blob comet models. One is not finished...
-*
-* Revision 1.2  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

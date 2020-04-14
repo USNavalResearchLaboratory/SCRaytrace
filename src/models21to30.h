@@ -1,7 +1,3 @@
-/***************************************************************************
- *  $Id: models21to30.h,v 1.4 2009/03/17 14:44:44 thernis Exp $
- *
- ****************************************************************************/
 #ifndef MODELS21TO30_H
 #define MODELS21TO30_H
 
@@ -9,14 +5,17 @@
 #include "rtmiscfunc.h"
 
 
-//! Sphericaly symmetric Ne, Saito Background (equator) density model
+
+//! \brief Sphericaly symmetric Ne, Saito Background (equator) density model
 class CModel21 : public CModelBase
 {
 	public:
 	  float Density(const Cvec &v); 
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Same as density 14 but with a modified value of the angular sector
+
+
+//! \brief Same as density 14 but with a modified value of the angular sector
 //!
 //! Streamer slab model
 //!
@@ -30,7 +29,9 @@ class CModel22 : public CModelBase
 	  float Density(const Cvec &v); 
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Same as density 18 but with a modified value of the angular sector
+
+
+//! \brief Same as density 18 but with a modified value of the angular sector
 //!
 //! Streamer slab model
 //!
@@ -47,7 +48,9 @@ class CModel23 : public CModelBase
 		void initParam(float *pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Cylinder model
+
+
+//! \brief Cylinder model
 //!
 //! Use the Hayes model
 //! - Ne(r)=Sum_k alpha_k * r^(-k) , k=1,2,3,4
@@ -58,7 +61,9 @@ class CModel24 : public CModelBase
 	  	float Density(const Cvec &v); 
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Datacube passed in pparam pointer
+
+
+//! \brief Datacube passed in pparam pointer
 //!
 //! the center of a voxel has [.5,.5,.5] coordinates
 //!
@@ -83,7 +88,9 @@ float voxsize;
 long sx,sy;
 
 };
-//! Datacube passed in pparam pointer. Same as density 25 but with trilinear interpolation
+
+
+//! \brief Datacube passed in pparam pointer. Same as density 25 but with trilinear interpolation
 //!
 //! Same as density 25 but with trilinear interpolation
 //!
@@ -110,7 +117,9 @@ float voxsize;
 long sx,sy,sxsy;
 
 };
-//! Spherical Shell Ne density by Dr. Russell Howard
+
+
+//! \brief Spherical Shell Ne density by Dr. Russell Howard
 class CModel27 : public CModelBase
 {
 	public:
@@ -118,7 +127,9 @@ class CModel27 : public CModelBase
 		void initParam(float *pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Cylindrical Shell Ne density By Dr. Russell Howward
+
+
+//! \brief Cylindrical Shell Ne density By Dr. Russell Howward
 class CModel28 : public CModelBase
 {
 	public:
@@ -126,7 +137,9 @@ class CModel28 : public CModelBase
 		void initParam(float *pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Bow Shock Model by Angelos Vourlidas
+
+
+//! \brief Bow Shock Model by Angelos Vourlidas
 class CModel29 : public CModelBase
 {
 	public:
@@ -134,7 +147,9 @@ class CModel29 : public CModelBase
 		void initParam(float *pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Streamer belt simulation with source surface field map
+
+
+//! \brief Streamer belt simulation with source surface field map
 //!
 //! User resolution:
 //! - pparam[0] : longitude size in pix
@@ -155,19 +170,3 @@ class CModel30 : public CModelBase
 
 #endif
 
-/*
-* $Log: models21to30.h,v $
-* Revision 1.4  2009/03/17 14:44:44  thernis
-* Fix bugs in model 26
-*
-* Revision 1.3  2009/02/09 20:51:15  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

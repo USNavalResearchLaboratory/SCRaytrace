@@ -1,6 +1,7 @@
-//
-// File: Cvec.h
-// $Id: Cvec.h,v 1.4 2009/02/09 20:51:08 thernis Exp $
+/*! \file Cvec.h 
+ * \brief 3 elements vector class, with method to act on them.
+ *
+ */
 
 #ifndef _CVEC_H_
 #define _CVEC_H_
@@ -110,9 +111,6 @@ inline Cvec interslplane(const Cvec &psl,const Cvec &vsl,const Cvec &pplane,cons
 }
 
 
-
-
-
 //! vector product
 //Cvec pvect(Cvec a,Cvec b);
 //! distance point - straight line
@@ -129,20 +127,3 @@ inline Cvec interslplane(const Cvec &psl,const Cvec &vsl,const Cvec &pplane,cons
 #endif	//_CVEC_H_
 
 
-
-/*
-* $Log: Cvec.h,v $
-* Revision 1.4  2009/02/09 20:51:08  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.3  2007/07/19 19:32:18  thernis
-* Implement magsqr function
-*
-* Revision 1.2  2007/05/14 17:19:40  thernis
-* Add CVS id and log in all files
-*
-*/

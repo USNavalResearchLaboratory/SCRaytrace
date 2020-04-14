@@ -1,4 +1,6 @@
-// $Id$
+/** \file physicsisotropic.h
+ * \brief Implement a simple isotropic physics. For testing purpose.
+ */
 
 #ifndef PHYSICSISOTROPIC_H
 #define PHYSICSISOTROPIC_H
@@ -7,8 +9,7 @@
 #include "Cvec.h"
 #include "constant.h"
 
-/**
-Isotropic scattering for testing purpose
+/** \brief Isotropic scattering, for testing purpose
 */
 class PhysicsIsotropic : public PhysicsBase
 {

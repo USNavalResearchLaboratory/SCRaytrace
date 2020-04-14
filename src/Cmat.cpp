@@ -1,7 +1,3 @@
-//
-// File: Cmat.cc
-// $Id: Cmat.cpp,v 1.4 2009/03/06 21:22:46 thernis Exp $
-//
 
 #include "Cmat.h"
 
@@ -220,21 +216,3 @@ Cmat const Cmat::inverse()
 	return inv;	
 }
 
-
-
-/*
-* $Log: Cmat.cpp,v $
-* Revision 1.4  2009/03/06 21:22:46  thernis
-* Overload == operator
-*
-* Revision 1.3  2009/02/09 20:51:05  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:40  thernis
-* Add CVS id and log in all files
-*
-*/

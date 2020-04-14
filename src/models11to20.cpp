@@ -1,7 +1,3 @@
-/***************************************************************************
- *  $Id: models11to20.cpp,v 1.3 2009/02/09 20:51:14 thernis Exp $
- *
- ****************************************************************************/
 
 #include "models11to20.h"
 #include <cmath>
@@ -546,17 +542,3 @@ void CModel20::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase
 	return;
 }
 
-
-/*
-* $Log: models11to20.cpp,v $
-* Revision 1.3  2009/02/09 20:51:14  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

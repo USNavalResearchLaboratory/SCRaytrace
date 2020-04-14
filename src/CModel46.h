@@ -1,6 +1,7 @@
-//
-// File: CModel46.h
-// $Id: CModel46.h,v 1.3 2009/02/09 20:50:59 thernis Exp $
+/*! \file CModel46.h
+ * \brief Model using a NURBS skeleton.
+ *
+ */
 
 #ifndef _CMODEL46_H_
 #define _CMODEL46_H_
@@ -31,17 +32,3 @@ class CModel46 : public CModelBase
 #endif	//_CMODEL46_H_
 
 
-
-/*
-* $Log: CModel46.h,v $
-* Revision 1.3  2009/02/09 20:50:59  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:39  thernis
-* Add CVS id and log in all files
-*
-*/

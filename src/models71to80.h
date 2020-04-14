@@ -1,6 +1,7 @@
-//
-// $Id: models71to80.h,v 1.1 2010-09-01 19:49:05 thernis Exp $
-//
+/** \file models71to80.h
+ * \brief Model 71 to 80
+ */
+
 #ifndef MODELS71TO80_H
 #define MODELS71TO80_H
 
@@ -8,7 +9,7 @@
 #include <string>
 
 
-//! Leblanc, Dulk, Bougeret electron density model: SolPhy 183: 165-180, 1998
+//! \brief Leblanc, Dulk, Bougeret electron density model: SolPhy 183: 165-180, 1998
 class CModel71 : public CModelBase
 {
 public:
@@ -17,7 +18,7 @@ public:
 };
 
 
-//! Density Mie scattering testing: density varies in C / r
+//! \brief Density Mie scattering testing: density varies in C / r
 class CModel72 : public CModelBase
 {
 public:
@@ -31,7 +32,7 @@ protected:
 };
 
 
-//! F-corona and zodiacal light dust density model (Leinert 1976 fan model)
+//! \brief F-corona and zodiacal light dust density model (Leinert 1976 fan model)
 class CModel73 : public CModelBase
 {
 public:
@@ -42,12 +43,12 @@ public:
 protected:
     float sinBeta;           //!> Beta: angle plane of symmetry - Observer LOS. See Fig 1 of Lamy, Perrin
     float C;                 //!> density constant factor
-    float dustFreeLimit;     //!> dust free zone limit in Rsun
-    float decreaseFactor;    //!> density decrease factor in the dust free zone
+    float dustFreeStart;     //!> Start of the dust free zone, in Rsun
+    float dustFreeEnd;       //!> End of the dust free zone (inner radial dist, where N_dust=0), in Rsun
 };
 
 
-//! F-corona and zodiacal light dust density model (Leinert 1976 fan model), with onion shape decrease bellow 15 Rsun
+//! \brief F-corona and zodiacal light dust density model (Leinert 1976 fan model), with onion shape decrease bellow 15 Rsun
 class CModel74 : public CModelBase
 {
 public:
@@ -63,7 +64,7 @@ protected:
 };
 
 
-//! Cylinder model
+//! \brief Cylinder model
 class CModel75 : public CModelBase
 {
 public:
@@ -78,7 +79,8 @@ protected:
     float dens;         //!> density
 };
 
-//! Torus model
+
+//! \brief Torus model
 class CModel76 : public CModelBase
 {
 public:
@@ -98,7 +100,7 @@ protected:
 };
 
 
-//! F-corona and zodiacal light dust density model (Leinert 1976 fan model), with dust enhancement from Kobayashi (Icarus 201 (2009) pp395-405), and others
+//! \brief F-corona and zodiacal light dust density model (Leinert 1976 fan model), with dust enhancement from Kobayashi (Icarus 201 (2009) pp395-405), and others
 class CModel77 : public CModelBase
 {
 public:
@@ -124,7 +126,7 @@ protected:
 
 
 
-/** F-corona and zodiacal light dust density model: DIRBE.  
+/** \brief F-corona and zodiacal light dust density model: DIRBE.  
  * See page 9 of "Light Scattering by solar system dust: image reconstruction of the lunar sunrise sketches drawn by the apollo 17 crew", Niklas Siipola, Master's thesis, University of Oulu, Spring 2017
  * 
  */
@@ -136,11 +138,46 @@ public:
     void dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase);
 protected:
     float C;                 //!> density constant factor
-    float dustFreeLimit;     //!> dust free zone limit in Rsun
-    float decreaseFactor;    //!> density decrease factor in the dust free zone
+    float powerLawExponent;     //!> power law exponent for density dependance on radial distance. Default is -1.34
     static const float BETA;
     static const float GAMMA;
     static const float MU;
+};
+
+
+
+/** \brief Equatorial disk (y, z plane) with uniform density, for test
+ * 
+ */
+class CModel79 : public CModelBase
+{
+public:
+    float Density(const Cvec &v);
+    void initParam(float* pparam);
+    void dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase);
+
+    float C;                 //!> density constant factor
+    float ht;                 //!> half thickness of the disk [Rsun]
+    float r;                //!> radius of the disk
+
+protected:
+    float rsqr;                //!> radius of the disk
+};
+
+
+
+//! \brief F-corona and zodiacal light dust density. Equation from P.Lamy, email received on Sep 11 2019
+class CModel80 : public CModelBase
+{
+public:
+    float Density(const Cvec &v);
+//     void initDensityConstFactors(const Cvec &vlos_inDens);
+    void initParam(float* pparam);
+    void dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase);
+protected:
+    float sinBeta;           //!> Beta: angle plane of symmetry - Observer LOS. See Fig 1 of Lamy, Perrin
+    float C;                 //!> density constant factor
+    float A;                 //!> Model flattening parameter
 };
 
 

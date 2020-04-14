@@ -1,6 +1,3 @@
-//
-// $Id: Cbasis.cpp,v 1.10 2009/04/13 20:52:31 thernis Exp $
-
 
 #include "Cbasis.h"
 
@@ -99,35 +96,4 @@ Cvec ChangeBase(const Cvec &v,const Cbasis &baseinit,const Cbasis &basedest) {
 }
 
 
-/*
-* $Log: Cbasis.cpp,v $
-* Revision 1.10  2009/04/13 20:52:31  thernis
-* - Cleanup not useful stuff.
-* - Implement method to allow setting user defined rotation order.
-*
-* Revision 1.9  2009/03/06 21:21:19  thernis
-* Add a translation within the coordinate system, not in the absolute coordinate system
-*
-* Revision 1.8  2009/02/09 20:51:02  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.7  2007/07/20 14:33:41  thernis
-* Got it, there is a 180 deg shift, but not on Hlon
-*
-* Revision 1.6  2007/07/20 14:11:25  thernis
-* Move back to no 180 deg shift: I'm just crazy
-*
-* Revision 1.5  2007/07/19 22:20:09  thernis
-* Shift longitude for Carrington positionning so that the z axis of abs system points to Carrington longitude and latitude 0
-*
-* Revision 1.4  2007/07/19 19:27:04  thernis
-* Change rotation order for the Carrington longitude and latitude
-*
-* Revision 1.3  2007/05/14 17:19:40  thernis
-* Add CVS id and log in all files
-*
-*/
+

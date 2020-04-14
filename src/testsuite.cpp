@@ -1,8 +1,4 @@
-//
-// C++ Implementation: testsuite
-//
-// $Id: testsuite.cpp,v 1.1 2009/02/09 20:46:47 thernis Exp $
-//
+
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/TestResult.h>

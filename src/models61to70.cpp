@@ -1,5 +1,3 @@
-//
-// $Id: models61to70.cpp,v 1.4 2010-09-01 15:33:00 thernis Exp $
 
 #include "models61to70.h"
 #include <iostream>

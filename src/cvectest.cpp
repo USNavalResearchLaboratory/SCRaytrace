@@ -1,23 +1,44 @@
-// $Id: cvectest.cpp,v 1.1 2009/02/09 20:46:26 thernis Exp $
 
-#include "cvectest.h"
-CPPUNIT_TEST_SUITE_REGISTRATION (CvecTest);
+#include "Cvec.h"
 
-void CvecTest :: setUp (void)
-{
+
+#define BOOST_TEST_MODULE CvecTest
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
+
+
+struct CvecTest {
+    Cvec *a, *b, *c;
+
+CvecTest() { 
   a = new Cvec (1, 2, 3);
   b = new Cvec (2, 3, 4);
   c = new Cvec (1, 2, 2);
-}
-
-void CvecTest :: tearDown (void)
-{
-  delete a; delete b;
-}
-
-void CvecTest :: Test (void)
-{
-  CPPUNIT_ASSERT_EQUAL (*a + *b, Cvec(3,5,7));
-  CPPUNIT_ASSERT_EQUAL (c->norm(), float(3.));
 
 }
+
+  ~CvecTest() { 
+ delete a; 
+ delete b;}
+
+};
+
+                  
+BOOST_FIXTURE_TEST_SUITE(s, CvecTest)
+
+  BOOST_AUTO_TEST_CASE(test_Cvec)
+  {
+      
+   namespace tt = boost::test_tools;
+   
+   BOOST_TEST_MESSAGE("running CvecTest");
+     
+   
+     BOOST_TEST((*a + *b) == Cvec(3,5,7));
+  BOOST_TEST(c->norm() == 3.);
+
+     
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+

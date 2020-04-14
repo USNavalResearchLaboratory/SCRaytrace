@@ -12,8 +12,8 @@ add_subdirectory(data)
 #configure_file(data ${CMAKE_CURRENT_BINARY_DIR}/data COPYONLY)
 
 
-set (scraytrace_VERSION_MAJOR 2)
-set (scraytrace_VERSION_MINOR 6)
+set (scraytrace_VERSION_MAJOR 3)
+set (scraytrace_VERSION_MINOR 0)
 set (scraytrace_VERSION_PATCH 0)
 
 

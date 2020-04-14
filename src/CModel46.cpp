@@ -1,6 +1,3 @@
-//
-// File: CModel46.cc
-// $Id: CModel46.cpp,v 1.4 2010-09-17 15:18:11 thernis Exp $
 
 #include "CModel46.h"
 #include <vector>
@@ -88,20 +85,3 @@ void CModel46::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase
 	return;
 }
 
-
-/*
-* $Log: CModel46.cpp,v $
-* Revision 1.4  2010-09-17 15:18:11  thernis
-* Put std:: in front of min_element to avoid compilation problem on Solaris
-*
-* Revision 1.3  2009/02/09 20:50:59  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:39  thernis
-* Add CVS id and log in all files
-*
-*/

@@ -1,4 +1,3 @@
-// $Id: scene.cpp,v 1.6 2010-09-08 18:21:27 thernis Exp $
 
 #include "config.h"
 
@@ -127,8 +126,8 @@ void Scene::losintegchunk(const unsigned int &chunkid,const unsigned int &thread
         }
 
         unsigned int pos=chunkid*chunksize+k;
-        unsigned int i=pos % camera.ccd.sxpix;
-        unsigned int j=pos / camera.ccd.sxpix;
+        unsigned int i=pos % camera.detector.sxpix;
+        unsigned int j=pos / camera.detector.sxpix;
 
         if (runDumpInteg) losintegDumpIntegrand(i,j); else losinteg(i,j);
         if (runfracmax) losintegtofrac(i,j);
@@ -154,7 +153,7 @@ void Scene::computeImagebyRay(float *btot,float *bpol,float *netot,const unsigne
 
     // -- progression
     float progresspercent=0.2;
-    int progressflag=(int) ((float) camera.ccd.sypix * progresspercent);
+    int progressflag=(int) ((float) camera.detector.sypix * progresspercent);
     float progresspass=progresspercent;
 
     boost::thread *pthread=new boost::thread [nbthread];
@@ -167,7 +166,7 @@ void Scene::computeImagebyRay(float *btot,float *bpol,float *netot,const unsigne
 
     unsigned int threadid=0;
 
-    for (unsigned int j=0;j<camera.ccd.sypix;j++)
+    for (unsigned int j=0;j<camera.detector.sypix;j++)
     {
 
         // -- print progression
@@ -175,10 +174,10 @@ void Scene::computeImagebyRay(float *btot,float *bpol,float *netot,const unsigne
         {
             cout << progresspass*100 << "% " << endl;
             progresspass+=progresspercent;
-            progressflag=(int) ((float) camera.ccd.sypix * progresspass);
+            progressflag=(int) ((float) camera.detector.sypix * progresspass);
         }
 
-        for (unsigned int i=0;i<camera.ccd.sxpix;i++)
+        for (unsigned int i=0;i<camera.detector.sxpix;i++)
         {
 
             // ---- wait
@@ -225,7 +224,7 @@ void Scene::computeImagebyChunk(float *btot,float *bpol,float *netot,const unsig
     if (quiet != 1) std::cout << "NB Core : " << pthread[0].hardware_concurrency() << std::endl;
 
     unsigned int threadid=0;
-    nbpix=camera.ccd.sxpix*camera.ccd.sypix;
+    nbpix=camera.detector.sxpix*camera.detector.sypix;
     chunksize=nbpix / nbchunk;
     lastchunkremain=nbpix % nbchunk;
     this->nbchunk=nbchunk;
@@ -288,10 +287,10 @@ void Scene::computeImagebyRay(float *btot,float *bpol,float *netot,const unsigne
 
     // -- progression
     float progresspercent=0.2;
-    int progressflag=(int) ((float) camera.ccd.sypix * progresspercent);
+    int progressflag=(int) ((float) camera.detector.sypix * progresspercent);
     float progresspass=progresspercent;
 
-    for (unsigned int j=0;j<camera.ccd.sypix;j++)
+    for (unsigned int j=0;j<camera.detector.sypix;j++)
     {
 
         // -- print progression
@@ -299,11 +298,11 @@ void Scene::computeImagebyRay(float *btot,float *bpol,float *netot,const unsigne
         {
             cout << progresspass*100 << "% " << endl;
             progresspass+=progresspercent;
-            progressflag=(int) ((float) camera.ccd.sypix * progresspass);
+            progressflag=(int) ((float) camera.detector.sypix * progresspass);
         }
 
-        for (unsigned int i=0;i<camera.ccd.sxpix;i++) losinteg(i,j);
-        if (runfracmax) for (unsigned int i=0;i<camera.ccd.sxpix;i++) losintegtofrac(i,j);
+        for (unsigned int i=0;i<camera.detector.sxpix;i++) losinteg(i,j);
+        if (runfracmax) for (unsigned int i=0;i<camera.detector.sxpix;i++) losintegtofrac(i,j);
     }
 
 }

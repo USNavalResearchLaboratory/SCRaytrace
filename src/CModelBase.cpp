@@ -1,6 +1,10 @@
-//
-// File: CModelBase.cc
-// $Id: CModelBase.cpp,v 1.9 2010-09-01 20:00:47 thernis Exp $
+/*! \file CModelBase.cpp 
+ * \brief Implementation of the base class for all the density models.
+ *  
+ *  Add entry to this file when a new model is created.
+ * 
+ */
+
 
 
 #include "CModelBase.h"
@@ -499,6 +503,18 @@ CModelBase* modelselect(int modelid)
       pmod= (CModelBase*) pmodel78;
       return pmod;
       break;
+    case 79 :
+      CModel79 *pmodel79;
+      pmodel79 = new CModel79;
+      pmod= (CModelBase*) pmodel79;
+      return pmod;
+      break;
+    case 80 :
+      CModel80 *pmodel80;
+      pmodel80 = new CModel80;
+      pmod= (CModelBase*) pmodel80;
+      return pmod;
+      break;
 
     // -----------------------------------
     // |    REGISTER NEW DENSITIES HERE    |
@@ -521,36 +537,3 @@ moddefparam::moddefparam(std::string kw0,std::string def0,std::string desc0,std:
 	units=units0;
 }
 
-
-
-/*
-* $Log: CModelBase.cpp,v $
-* Revision 1.9  2010-09-01 20:00:47  thernis
-* Insert new models.
-*
-* Revision 1.8  2009/02/09 20:51:00  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.7  2008/09/29 14:55:50  thernis
-* Add model 66: Jokipii wavy sheet
-*
-* Revision 1.6  2008/09/23 14:08:11  thernis
-* - add new testing models, - implement integration in front of the instrument
-*
-* Revision 1.5  2008/08/18 18:26:39  thernis
-* Add models 61 to 64
-*
-* Revision 1.4  2007/07/19 19:22:41  thernis
-* Add model 60
-*
-* Revision 1.3  2007/07/10 21:13:27  thernis
-* 2 new models added
-*
-* Revision 1.2  2007/05/14 17:19:40  thernis
-* Add CVS id and log in all files
-*
-*/

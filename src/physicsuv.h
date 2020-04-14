@@ -1,4 +1,6 @@
-// $Id: physicsuv.h,v 1.1 2010-09-01 19:54:30 thernis Exp $
+/** \file physicsuv.h
+ * \brief Implements UV physics.
+ */
 
 #ifndef PHYSICSUV_H
 #define PHYSICSUV_H
@@ -8,8 +10,7 @@
 #include "Cvec.h"
 #include "constant.h"
 
-/**
-UV emission physics implementation
+/** \brief UV emission
 */
 class PhysicsUV : public PhysicsBase
 {

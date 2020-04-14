@@ -1,5 +1,7 @@
-// $Id: rtthreadmain.cpp,v 1.2 2010-08-16 20:44:20 colaninn Exp $
-
+/** \file rtthreadmain.cpp
+ * \brief Provides terminal command line executable for testing the multi-threading.
+ */
+ 
 
 #include <iostream>
 #include "rtthread.h"

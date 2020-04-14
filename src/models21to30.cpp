@@ -1,7 +1,3 @@
-/***************************************************************************
- *  $Id: models21to30.cpp,v 1.8 2009/03/17 14:44:43 thernis Exp $
- *
- ****************************************************************************/
 
 #include "models21to30.h"
 #include <cmath>
@@ -585,33 +581,3 @@ void CModel30::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase
 	
 	return;
 }
-
-
-/*
-* $Log: models21to30.cpp,v $
-* Revision 1.8  2009/03/17 14:44:43  thernis
-* Fix bugs in model 26
-*
-* Revision 1.7  2009/02/09 20:51:14  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.6  2008/09/23 14:08:12  thernis
-* - add new testing models, - implement integration in front of the instrument
-*
-* Revision 1.5  2008/08/18 18:16:15  thernis
-* Change comments in model 25
-*
-* Revision 1.4  2008/08/18 17:22:11  ontivero
-* update model 29
-*
-* Revision 1.3  2007/11/20 20:46:32  thernis
-* Fix rounding problems in model 25
-*
-* Revision 1.2  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

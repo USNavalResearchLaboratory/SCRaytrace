@@ -1,8 +1,3 @@
-//
-// C++ Interface: ModelPosition
-// $Id: ModelPosition.h,v 1.2 2010-09-01 15:29:06 thernis Exp $
-//
-
 
 #ifndef MODELPOSITION_H
 #define MODELPOSITION_H
@@ -31,8 +26,6 @@ public:
   Cvec translation; //!< Translation of the model, defined in the modelbasis coordinate system
 
 };
-
-
 
 
 #endif

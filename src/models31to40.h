@@ -1,13 +1,9 @@
-/***************************************************************************
- *  $Id: models31to40.h,v 1.3 2009/02/09 20:51:16 thernis Exp $
- *
- ****************************************************************************/
 #ifndef MODELS31TO40_H
 #define MODELS31TO40_H
 
 #include "CModelBase.h"
 
-//! Graduated Curved Cylindrical Shell Model
+//! \brief Graduated Curved Cylindrical Shell Model
 //!
 //!       Flux rope model 8/19/04.
 //!
@@ -24,7 +20,9 @@ class CModel31 : public CModelBase
 		void initParam(float *pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Streamer belt simulation with source surface field map: based on density 30
+
+
+//! \brief Streamer belt simulation with source surface field map: based on density 30
 //!
 //! d1 and d2 parameters passed in argument: they are constant (do no depend on r). Useful for circular profile automatic fit (well at least attempt of automatic fit !)
 //!
@@ -45,7 +43,9 @@ class CModel32 : public CModelBase
 	  float Density(const Cvec &v);
 		void initParam(float* pparam);
 };
-//! Tube shell model
+
+
+//! \brief Tube shell model
 class CModel33 : public CModelBase
 {
 	public:
@@ -53,7 +53,9 @@ class CModel33 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Test of a simple density rope
+
+
+//! \brief Test of a simple density rope
 //!
 //! raytracewl,sbt1,imsize=[512,512],losrange=[-15,15],losnbp=100,/c3,modelid=34
 class CModel34 : public CModelBase
@@ -63,7 +65,9 @@ class CModel34 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Density and temperature cubes from S.Gibson and B.Low CME progam model.
+
+
+//! \brief Density and temperature cubes from S.Gibson and B.Low CME progam model.
 //!
 //! See "A time-dependent three-dimementional magnetohydrodynamic model of the coronal mass ejection", S.E.Gibson, B.C.Low, The Astrophiscal Journal, 493:460-473, 1998 January 20.
 //!
@@ -77,7 +81,9 @@ class CModel35 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Streamer belt simulation with source surface field map
+
+
+//! \brief Streamer belt simulation with source surface field map
 //!
 //! User resolution:
 //! - pparam[0] : longitude size in pix
@@ -92,7 +98,9 @@ class CModel36 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Streamer belt simulation with source surface field map: distance from neutral line is given by the magnetic field value
+
+
+//! \brief Streamer belt simulation with source surface field map: distance from neutral line is given by the magnetic field value
 //!
 //! distance from neutral line is given by 
 //! the magnetic field value
@@ -113,7 +121,9 @@ class CModel37 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Slab model, same as density 23 but with modulation of the slab FO
+
+
+//! \brief Slab model, same as density 23 but with modulation of the slab FO
 //!
 //! Streamer slab model
 //!
@@ -133,7 +143,9 @@ class CModel38 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Test of a simple helix
+
+
+//! \brief Test of a simple helix
 //!
 //! raytracewl,sbt1,imsize=[512,512],losrange=[-15,15],losnbp=100,/c3,modelid=34
 class CModel39 : public CModelBase
@@ -143,7 +155,9 @@ class CModel39 : public CModelBase
 		void initParam(float* pparam);
 		void dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase);
 };
-//! Streamer belt simulation with source surface field map
+
+
+//! \brief Streamer belt simulation with source surface field map
 //!
 //! From pfss simulation, the last onion layer (generally 2.5)
 //! is used. The electron density is scaled on that value. The mag field 
@@ -165,16 +179,3 @@ class CModel40 : public CModelBase
 
 #endif
 
-/*
-* $Log: models31to40.h,v $
-* Revision 1.3  2009/02/09 20:51:16  thernis
-* - Clean up the code
-* - Change CModel::Density prototype
-* - Update documentation
-* - Implement multi-threading using boost thread
-* - Add new models
-*
-* Revision 1.2  2007/05/14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

@@ -1,4 +1,3 @@
-// $Id: voxinteg.h,v 1.2 2007-05-14 17:19:41 thernis Exp $
 
 {
     // ---- compute the vertices pos on the image
@@ -238,11 +237,3 @@
     }
 }
 
-
-
-/*
-* $Log: voxinteg.h,v $
-* Revision 1.2  2007-05-14 17:19:41  thernis
-* Add CVS id and log in all files
-*
-*/

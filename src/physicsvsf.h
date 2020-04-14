@@ -1,4 +1,6 @@
-// $Id$
+/** \file physicsvsf.h
+ * \brief Implements the Volume Scattering Function physics, for the modeling of the F corona.
+ */
 
 #ifndef PHYSICSVSF_H
 #define PHYSICSVSF_H
@@ -9,8 +11,7 @@
 #include "Cvec.h"
 #include "constant.h"
 
-/**
-Volume Scattering Function, for F-corona and zodiacal light
+/** \brief Volume Scattering Function, for F-corona and zodiacal light
 */
 class PhysicsVSF : public PhysicsBase
 {
