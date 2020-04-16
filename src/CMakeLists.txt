@@ -64,31 +64,13 @@ add_library(raytrace SHARED Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos
     rtcloud.cpp rtcloud.h 
     rtmiscfunc.h rtmiscfunc.cpp voxinteg.h ModelPosition.h)
 
-# add_library(raytraceStatic STATIC Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos.cpp    Clos.h 
-#     CModelBase.cpp  CModelBase.h    raytrace.cpp    Cvec.h  Cmat.h  constant.h 
-#     raytrace.h  CControlPoint.h CControlPoint.cpp   
-#     Cnurbs.h    Cnurbs.cpp  CModel46.cpp    CModel46.h  CModel48.cpp CModel48.h 
-#     models01to10.cpp    models01to10.h  models11to20.cpp    models11to20.h  
-#     models21to30.cpp    models21to30.h  models31to40.cpp    models31to40.h  
-#     models41to50.cpp    models41to50.h  models51to60.cpp    models51to60.h  
-#     models61to70.cpp    models61to70.h  models71to80.cpp    models71to80.h 
-#     Cdvoxel.cpp Cdvoxel.h Cvoxvert.cpp Cvoxvert.h 
-#     rtcloud.cpp rtcloud.h 
-#     rtmiscfunc.h rtmiscfunc.cpp voxinteg.h ModelPosition.h)
-# set_target_properties(raytraceStatic PROPERTIES OUTPUT_NAME raytrace_static)
-
-
-add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp 
+add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp
     camera.h camera.cpp physicsbase.h physicsbase.cpp 
     physicsthomson.h physicsthomson.cpp physicsuv.h physicsuv.cpp 
     physicsisotropic.h physicsisotropic.cpp physicsmie.h physicsmie.cpp 
     miehps.h miehps.cpp physicsvsf.cpp physicsvsf.h 
     physicsvsfvarydist.cpp physicsvsfvarydist.h)
-target_link_libraries(raytracethread raytrace  Boost::thread) # ${BoostThread}
-# target_link_libraries(raytracethread raytrace "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
-# target_link_libraries(raytracethread raytrace  ${Boost_THREAD_LIBRARY} )
-
-# link flag -Wl,-rpath,$ORIGIN
+target_link_libraries(raytracethread raytrace  Boost::thread)
 
 
 
@@ -97,11 +79,9 @@ target_link_libraries(raytracerun raytrace)
 
 add_executable(rtthread rtthreadmain.cpp)
 target_link_libraries(rtthread raytracethread)
-# target_link_libraries(rtthread ${Boost_THREAD_LIBRARY})
-# target_link_libraries(rtthread "-Wl,--whole-archive" ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
 
 add_executable(hpsmie oonewcallhpsmie.cpp)
-target_link_libraries(hpsmie raytrace raytracethread "-Wl,--whole-archive" Boost::thread ${Boost_THREAD_LIBRARY} "-Wl,--no-whole-archive")
+target_link_libraries(hpsmie raytrace raytracethread Boost::thread)
 
 # ---- tests
 add_executable(testmodel26 model26test.cpp)
