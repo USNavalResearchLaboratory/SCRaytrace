@@ -19,8 +19,10 @@ from astropy import units as u
 from astropy import wcs
 from matplotlib import pyplot as plt
 from astropy.constants import iau2015
+import pandas as pd
 
 import mathutil as mu
+from fcor_kl import fcor_kl
 
 import scraytrace as scrt
 
@@ -30,9 +32,10 @@ if __name__ == "__main__" :
     plt.close('all')
 
 #    runname = 'COR2'
-    runname = 'wispr'
+#    runname = 'wispr'
 #    runname = 'secchi'
 #    runname = 'disk'
+    runname = 'saito'
 
 
     if runname == 'COR2':
@@ -326,7 +329,74 @@ if __name__ == "__main__" :
         mu.dispim(sim1.btot, log=True, minmax=(1e-13, 8e-9),
                     units='B0', cmap='gray',
                     windowXYPos=(1100, 50))
- 
+
+#------------------------------------------------------------------------
+    elif runname == 'saito':
+        save = True
+        savePath = '/home/thernis/work/fcorona/'
+        
+        neang = np.deg2rad([0, 0, 0])
+        
+        profNbPix = 512
+        fovRadius_Rsun = 30.
+        sunAngRadius_deg = 0.27 
+        fovpix = np.deg2rad(fovRadius_Rsun * 2. * sunAngRadius_deg) / profNbPix
+        losrange = [0, 215. * 2]
+        
+        df = pd.DataFrame()
+        df['modelid'] = [19, 20, 21]
+        df['modelName'] = ['K, Equatorial Hole', 'K, Polar Regions (Hole)', 'K, Background (Equator)']
+        df['shortName'] = ['K-EquatHole', 'K-PolarRegionsHole', 'K-BackgroundEquator']
+                
+        sim = {}
+        
+        for i, row in df.iterrows():
+            s = scrt.scraytrace(losnbp=1000, 
+                                modelid=row.modelid,
+                                losrange=losrange,
+                                neang=neang,
+                                physics=0,
+                                imsize=[1, profNbPix],
+                                obspos=[0,0,-215],
+                                fovpix=fovpix)
+            s.raytrace()
+            sim[row.modelid] = s.btot
+            
+        
+        
+        r = np.linspace(-fovRadius_Rsun, fovRadius_Rsun, profNbPix)
+        m = r > 3
+        
+        fco = fcor_kl(r[m])
+
+        # --- save data to Excel
+        dfOut = pd.DataFrame({'Rsun': pd.Series(r[m]),
+                              'Fcorona': pd.Series(fco),
+                              df.loc[df.modelid == 19, 'shortName'].to_numpy()[0]: pd.Series(np.reshape(sim[19][m],                                                              fco.shape[0])),
+                              df.loc[df.modelid == 20, 'shortName'].to_numpy()[0]: pd.Series(np.reshape(sim[20][m], fco.shape[0])),
+                              df.loc[df.modelid == 21, 'shortName'].to_numpy()[0]: pd.Series(np.reshape(sim[21][m], fco.shape[0]))})
+        if save:
+            dfOut.to_excel(savePath + 'K-F-Models_01.xlsx')
+            
+        figsize = None
+        fig, ax = plt.subplots(figsize=figsize)
+        for i, row in df.iterrows():
+            p = ax.semilogy(r[m], sim[row.modelid][m], label=row.modelName)
+        
+        p = ax.semilogy(r[m], fco, label='F-Corona')
+        
+        ax.set_xlabel('Radial Distance [Rsun]')
+        ax.set_ylabel('Mean Solar Brightness [Bsun]')
+        ax.set_xlim((0, fovRadius_Rsun))
+        ax.grid(linestyle='--', which='minor')
+        ax.legend()
+
+        plt.show()
+        plt.tight_layout()
+        
+        if save:
+            fig.savefig(savePath + 'K-F-Models_01.png')
+    
     
     else:
         print('No runname for ', runname)
