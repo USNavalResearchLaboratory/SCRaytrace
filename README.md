@@ -26,7 +26,7 @@ For additional testing, you can run the following:
 
 Individual test:  
 `cd build/src`  
-`./testboosttest --log_level=message`, for example.
+`./testboosttest --log_level=message`  
 
 ## Clean up the build
 `rm -rf build` 
@@ -73,3 +73,9 @@ To generate the Sphinx documentation:
 
 The doc can be viewed in your browser here:  
 `sphinx/build/html/index.html`
+
+## Python wrapper
+The Python module is in the python folder. It's name is scraytrace. It can be imported like so:  
+`import scraytrace`  
+
+The scraytrace Python wrapper can be tested by running the `test.py` in the `tests` sub-folder of `python/scraytrace`.
