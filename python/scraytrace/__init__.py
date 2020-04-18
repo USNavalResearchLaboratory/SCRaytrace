@@ -9,6 +9,7 @@ Python interface for the solar corona ray-tracing tools.
 
 .. todo::
    * Dynamically find the compiled libraries based on the architechture
+   * output the C++cout to python interpreter
    
 """
 
@@ -17,6 +18,8 @@ import numpy as np
 from astropy import units as u
 from astropy import wcs
 from astropy.constants import iau2015
+import yaml
+import pathlib
 
 import mathutil as mu
 
@@ -77,7 +80,34 @@ def obsang2crval(obsang):
 
 class scraytraceLib:
     """Access point to the C++ library"""
-    st = ctypes.cdll.LoadLibrary("/home/thernis/work/cpp/fromgit/SCRaytrace/build/src/libraytracethread.so")
+
+    # -- read configuration file
+    #    Edit that file to point to the compiled scraytrace library
+    thisFilesPath = pathlib.Path(__file__).parents[0]
+    fnConfig = thisFilesPath.joinpath('RTLocalEnvPath.yaml')
+    
+    # -- check if local config file exist
+    if not fnConfig.exists():
+        # !!! DO NOT EDIT THE LINES BELOW. 
+        #     EDIT THE RTLocalEnvPath.yaml file instead
+        localConfTemplate = """
+rt_libpath: /path/to/SCRaytrace/build/src/
+rt_libfile: libraytracethread.so
+        
+        """
+        with open(fnConfig, 'w') as file:
+            file.write(localConfTemplate)
+    
+    with open(fnConfig) as f:    
+        localConf = yaml.load(f, Loader=yaml.FullLoader)
+
+    soFullFileName = pathlib.Path(localConf['rt_libpath']).joinpath(localConf['rt_libfile'])
+
+    try:
+        st = ctypes.cdll.LoadLibrary(soFullFileName)
+    except :
+        raise Exception('Cannot find the library. Please edit the RTLocalEnvPath.yaml configuration file.')
+
     st.rtthread.argtypes = [ctypes.c_int,          # sx
                             ctypes.c_int,           # sy
                             ctypes.c_float,       # fovpix
