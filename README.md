@@ -49,6 +49,7 @@ On a Mac installation, you may have to change a couple relative paths to be abso
 #### Tip for compiling and installing Boost
 `./bootstrap.sh --prefix=/Users/username/local --with-libraries=thread --with-libraries=test --with-libraries=date_time --with-libraries=headers`  
 `./b2`  
+`./b2 headers`  
 `./b2 install`  
     
 ### Documentation
