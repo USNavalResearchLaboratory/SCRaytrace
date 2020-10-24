@@ -24,7 +24,8 @@ import pathlib
 import mathutil as mu
 
 
-__all__ = ['rtrotmat2rxryrz', 'scraytrace']
+__all__ = ['rtrotmat2rxryrz', 'model54_calcLegHeight', 
+           'model54_calcLeadingEdgeHeight', 'scraytrace']
 
 __doc__ = "Python interface for the solar corona ray-tracing tools."
 
@@ -70,6 +71,41 @@ def rtrotmat2rxryrz(m):
     
     return np.array([rx, ry, rz])
 
+
+def model54_calcLegHeight(leadingEdgeHeight, k, alpha):
+    """Compute h, the leg height parameter of GCS model 54
+    
+    See Thernisien, A., "IMPLEMENTATION OF THE GRADUATED CYLINDRICAL SHELL MODEL FOR THETHREE-DIMENSIONAL RECONSTRUCTION OF CORONAL MASS EJECTIONS", ApJ Supplement Series, 194:33  (6pp), 2011 June
+    
+    args:
+        leadingEdgeHeight: height of the CME leading edge
+        k: kappa parameter
+        alpha: alpha angle in the publication, half croissant half angle
+        
+    return:
+        h
+    
+    """    
+    legHeight = leadingEdgeHeight * (1 - k) * np.cos(alpha) / (1 + np.sin(alpha))
+    return legHeight
+    
+
+def model54_calcLeadingEdgeHeight(legHeight, k, alpha):
+    """Compute the leading edge height of the GCS model 54
+    
+    See Thernisien, A., "IMPLEMENTATION OF THE GRADUATED CYLINDRICAL SHELL MODEL FOR THETHREE-DIMENSIONAL RECONSTRUCTION OF CORONAL MASS EJECTIONS", ApJ Supplement Series, 194:33  (6pp), 2011 June
+    
+    args:
+        legHeight: parameter h of the model
+        k: kappa parameter
+        alpha: alpha angle in the publication, half croissant half angle
+        
+    return:
+        eadingEdgeHeight
+    
+    """
+    eadingEdgeHeight = legHeight / ((1 - k) * np.cos(alpha) / (1 + np.sin(alpha)))
+    return eadingEdgeHeight
 
 
 def obsang2crval(obsang):
@@ -560,7 +596,7 @@ class scraytrace:
 
 
         # -- Trick to make things work:
-        #    Transpose the pc matrix before C++ call. Using the built-in nupy transpose makes it crash. Don't know why yet...
+        #    Transpose the pc matrix before C++ call. Using the built-in numpy transpose makes it crash. Don't know why yet...
         #    The pc matrix is transposed back after the C++ call. This means that there might be a problem in the C code...
 #        tmp = self.pc[0, 1]
 #        self.pc[0, 1] = self.pc[1, 0]
