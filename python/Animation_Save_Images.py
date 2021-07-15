@@ -53,9 +53,9 @@ def test_CME():
      #this is the time dependence
     kappa = 0.43 #0.4
     leadEdgeHeightInit_Rsun = 2. # starting height of the CME
-    leadingEdgeEndHeight_Rsun = 70
+    leadingEdgeEndHeight_Rsun = 70 # final height of the CME
 
-    sequenceNumberofImages = 10
+    sequenceNumberofImages = 3 # set the number of images of the movie sequence
 
     if sequenceNumberofImages > 1:
         leadEdgeSpeedPerImage = (leadingEdgeEndHeight_Rsun - leadEdgeHeightInit_Rsun) / (sequenceNumberofImages - 1) # "speed" of the CME, from one image to the other
@@ -181,18 +181,17 @@ def test_CME():
 
 
 
-
 if __name__ == "__main__" :
     test_CME()
 
 
     # check fits file
-    # print()
-    # print('Checking fits file...')
-    # fits_image_filename = pathlib.Path('/home/thernis/test01/Movie01/Movie01_im000.fits')
-    # with fits.open(fits_image_filename) as hdul:
-    #     print(repr(hdul[0].header))
-    #     fig, ax = mu.dispim(hdul[0].data, log=True, minmax=(1e-11, 1e-8))
+    print()
+    print('Checking fits file...')
+    fits_image_filename = pathlib.Path('/home/thernis/test01/Movie01/Movie01_im002.fits')
+    with fits.open(fits_image_filename) as hdul:
+        print(repr(hdul[0].header))
+        fig, ax = mu.dispim(hdul[0].data, log=True, minmax=(1e-11, 1e-8))
         
         
 
