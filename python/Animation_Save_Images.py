@@ -15,7 +15,7 @@ change code in mathutil.py (lines 215-217) for this to work.
 
 
 
-import unittest
+# import unittest
 import numpy as np
 import copy
 from matplotlib import pyplot as plt
@@ -23,12 +23,16 @@ from astropy.io import fits
 import pathlib
 import scraytrace as sc
 
+import mathutil as mu
+
 
 # ---- Define tests here
 
 
 def test_CME():
     """Raytrace and display a GCS CM model"""
+    
+    plt.close('all')
     
     imsize = [256, 256]
     modelid = 54
@@ -48,12 +52,28 @@ def test_CME():
     alpha = 0.53  #0.52
      #this is the time dependence
     kappa = 0.43 #0.4
-    h=0.5
-    modparam = [1.1, alpha, h, kappa, 1e6, 0.2, 0, 0.2, 0.2] #values correspond to description above. First value can be thought of as "time" - distance to sun - length of leg
+    leadEdgeHeightInit_Rsun = 2. # starting height of the CME
+    leadingEdgeEndHeight_Rsun = 70
+
+    sequenceNumberofImages = 10
+
+    if sequenceNumberofImages > 1:
+        leadEdgeSpeedPerImage = (leadingEdgeEndHeight_Rsun - leadEdgeHeightInit_Rsun) / (sequenceNumberofImages - 1) # "speed" of the CME, from one image to the other
+    else:
+        leadEdgeSpeedPerImage = leadingEdgeEndHeight_Rsun - leadEdgeHeightInit_Rsun
+
+    
+    # modparam = [1.1, alpha, h, kappa, 1e6, 0.2, 0, 0.2, 0.2] #values correspond to description above. First value can be thought of as "time" - distance to sun - length of leg
     physics = 0
     DisttoSun_Rsun = 215. #distance to sun
 
-    # compute CME leading edge height
+    fullFOV_deg = 10. # Field of view, edge to edge of the image, defined in deg
+
+    neang = np.deg2rad([180, 0, 30]) # CME 3D direction
+
+
+
+    movieName = 'Movie01'
 
 
     """
@@ -66,65 +86,116 @@ def test_CME():
     each iteration because, otherwise, the animation is too fast. """
 
 
+    # -- define display palette
+    palette = copy.copy(plt.cm.gray)
+    palette.set_under(color='black')
+    palette.set_bad(color='black')
+
+
+    # -- set output path
+    foldername = movieName
+    rootPath = pathlib.Path('/home/thernis/test01/')
+    pathlib.Path(rootPath).joinpath(foldername).mkdir(parents=True, exist_ok=True)
 
     
-    
-    for i in range(20):
+    for i in range(sequenceNumberofImages):
 
-    
-        leadingEdgeHeight = sc.model54_calcLeadingEdgeHeight(h, kappa, alpha) #This calculates the leading edge height
-
-        rt = sc.scraytrace(imsize=imsize,
-                        frontinteg=True,
-                        losrange=[215-10, 215+10], #slice of space where we perform integration. If CME is outside region, will not integrate
-                        losnbp=100, #How many points we sample for a slice. The more the better, but slower
-                        modelid=modelid, 
-                        modparam=modparam, 
-                        physics=physics, 
-                        fovpix=np.deg2rad(imsize[0] / imsize[0]), #FOV
-                        projtypecode=1,
-                        obsang=[0.,0,0],
-                        obspos=[0., 0., -DisttoSun_Rsun], 
-                        neang=np.deg2rad([30,220,0]), #How we orient CME in space
-                        nbthreads=16, 
-                        nbchunks=16,
-                        phyparam=[0.4])
-
-        rt.raytrace()
+        # leadingEdgeHeight = sc.model54_calcLeadingEdgeHeight(h, kappa, alpha) #This calculates the leading edge height
         
-        palette = copy.copy(plt.cm.gray)
-        palette.set_under(color='black')
-        palette.set_bad(color='black')
-
-        rt.dispim(cmap=palette, minmax=(1e-15, 1e-9))
-
-        print("Leading edge height {0} Rsun".format(leadingEdgeHeight))
-
-
-                #Below is where we set up the file saving part of the code
-
-        foldername = ""
-        for j in range(len(modparam)):
-            if j != 2:
-                foldername += str(modparam[j]) + "_"
-
-        filename = '#' + str(i) + '_' +str(h) + '.fits'
-
-        pathlib.Path('SCRaytrace_Output/' + foldername).mkdir(parents=True, exist_ok=True)
         
-        hdu = fits.PrimaryHDU()
-        hdul = fits.HDUList([hdu])
-        hdu.writeto('SCRaytrace_Output/' + foldername + '/' + filename, overwrite=False)
+        # -- compute the position of the CME leading edge for the current image ID
+        leadingEdgeHeight = leadEdgeHeightInit_Rsun + leadEdgeSpeedPerImage * i
+        
+        # -- compute the h parameter from the leadingEdgeHeight and other CME params
+        h = sc.model54_calcLegHeight(leadingEdgeHeight, kappa, alpha)
+        
+
 
         #Below is where we set a new modparam and h for the next iteration
-        
-        h = 1/2*sc.model54_calcLeadingEdgeHeight(h, kappa, alpha)
+        # Good practice is to have that at the beginning of the loop, not the end
             
         modparam = [1.1, alpha, h, kappa, 1e6, 0.2, 0, 0.2, 0.2]
 
 
+
+        rt = sc.scraytrace(imsize=imsize,
+                        frontinteg=True,
+                        losrange=[215-100, 215+50], #slice of space where we perform integration. If CME is outside region, will not integrate
+                        losnbp=100, #How many points we sample for a slice. The more the better, but slower
+                        modelid=modelid, 
+                        modparam=modparam, 
+                        physics=physics, 
+                        fovpix=np.deg2rad(fullFOV_deg / imsize[0]), #FOV
+                        projtypecode=1,
+                        obsang=[0.,0,0],
+                        obspos=[0., 0., -DisttoSun_Rsun], 
+                        neang=neang, #How we orient CME in space
+                        nbthreads=16, 
+                        nbchunks=16,
+                        phyparam=[0.58])
+
+        # -- Run the raytrace
+        rt.raytrace()
+        
+
+        # -- display image
+        # plt.close('all')
+        fig, ax = rt.dispim(cmap=palette, minmax=(1e-13, 1e-9))
+        
+        print("Leading edge height {0} Rsun".format(leadingEdgeHeight))
+
+                #Below is where we set up the file saving part of the code
+
+        # for j in range(len(modparam)):
+        #     if j != 2:
+        #         foldername += str(modparam[j]) + "_"
+
+        # filename = '#' + str(i) + '_' +str(h) + '.fits'
+        filename = '{0}_im{1:03d}.fits'.format(movieName, i)
+
+        hdu = fits.PrimaryHDU()
+        hdul = fits.HDUList([hdu])
+ 
+        
+ 
+        # You need to assign the data to the fits file, else you were saving an empty file
+        hdul[0].data = rt.btot
+        
+
+        # Then you can add keywords to the fits header. This saves the values in the file so that we know how it was generated later on
+        hdul[0].header['movname'] = (movieName, 'Movie name')
+        hdul[0].header['modelid'] = (modelid, 'Model ID')
+        for iii in range(len(modparam)):
+            hdul[0].header['mdpar{0:02d}'.format(iii)] = (modparam[iii], 'Model param. {0}'.format(iii))
+            
+        # TODO:
+            # add obsang, obspos, neang, fovpix, leadingEdgeHeight to the FITS header
+        #!!!! Important to remember for the fits header keywords: they are limited to 8 characters
+        
+        
+        
+        fullFilename = pathlib.Path(rootPath).joinpath(foldername).joinpath(filename)
+        print(fullFilename)
+        hdul.writeto(fullFilename, overwrite=True)
+        
+
+
+
+
 if __name__ == "__main__" :
     test_CME()
+
+
+    # check fits file
+    # print()
+    # print('Checking fits file...')
+    # fits_image_filename = pathlib.Path('/home/thernis/test01/Movie01/Movie01_im000.fits')
+    # with fits.open(fits_image_filename) as hdul:
+    #     print(repr(hdul[0].header))
+    #     fig, ax = mu.dispim(hdul[0].data, log=True, minmax=(1e-11, 1e-8))
+        
+        
+
 
 
 """
