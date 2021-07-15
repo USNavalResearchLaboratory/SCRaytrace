@@ -56,7 +56,7 @@ class TestScraytrace(unittest.TestCase):
                         neang=np.deg2rad([30,220,0]), 
                         nbthreads=16, 
                         nbchunks=16,
-                        phyparam=[0.4])
+                        phyparam=[0.58])
 
         rt.raytrace()
         
