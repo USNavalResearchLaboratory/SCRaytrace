@@ -25,7 +25,6 @@ import scraytrace as sc
 
 import mathutil as mu
 
-
 # ---- Define tests here
 
 
@@ -49,13 +48,13 @@ def test_CME():
     # ("skinsigmain","0.1","inner sigma","")
         
     # ("skinsigmafr","0.1","front sigma",""));
-    alpha = 0.53  #0.52
+    alpha = 0.52  #0.52
      #this is the time dependence
-    kappa = 0.43 #0.4
+    kappa = 0.4 #0.4
     leadEdgeHeightInit_Rsun = 2. # starting height of the CME
     leadingEdgeEndHeight_Rsun = 70 # final height of the CME
 
-    sequenceNumberofImages = 3 # set the number of images of the movie sequence
+    sequenceNumberofImages = 20 # set the number of images of the movie sequence
 
     if sequenceNumberofImages > 1:
         leadEdgeSpeedPerImage = (leadingEdgeEndHeight_Rsun - leadEdgeHeightInit_Rsun) / (sequenceNumberofImages - 1) # "speed" of the CME, from one image to the other
@@ -69,11 +68,21 @@ def test_CME():
 
     fullFOV_deg = 10. # Field of view, edge to edge of the image, defined in deg
 
-    neang = np.deg2rad([180, 0, 30]) # CME 3D direction
 
 
+    #Define variables we use in sc.scraytrace
+    obsang = [0.,0,0]
+    obspos = [0., 0., -DisttoSun_Rsun]
+    fovpix = np.deg2rad(fullFOV_deg / imsize[0])
+    neang = np.deg2rad([170, 5, 48]) # CME 3D direction
 
-    movieName = 'Movie01'
+
+    obsang_head = str('[') + str(obsang[0]) + ',' + str(obsang[1]) + ',' + str(obsang[2]) + str(']')
+    obspos_head = str('[') + str(obspos[0]) + ',' + str(obspos[1]) + ',' + str(obspos[2]) + str(']')
+    neang_head = str('[') + str(neang[0]) + ',' + str(neang[1]) + ',' + str(neang[2]) + str(']')
+
+
+    movieName = 'Movie05'
 
 
     """
@@ -94,7 +103,7 @@ def test_CME():
 
     # -- set output path
     foldername = movieName
-    rootPath = pathlib.Path('/home/thernis/test01/')
+    rootPath = pathlib.Path('/Users/BrandonBonifacio/SCRaytrace_real/python/Output/test01')
     pathlib.Path(rootPath).joinpath(foldername).mkdir(parents=True, exist_ok=True)
 
     
@@ -114,28 +123,38 @@ def test_CME():
         #Below is where we set a new modparam and h for the next iteration
         # Good practice is to have that at the beginning of the loop, not the end
             
+        #modparam = [1.1, alpha, h, kappa, 1e6, 0.2, 0, 0.2, 0.2]
         modparam = [1.1, alpha, h, kappa, 1e6, 0.2, 0, 0.2, 0.2]
 
 
+       # obsang = [0.,0,0]
+        #obspos = [0., 0., -DisttoSun_Rsun]
+       # fovpix = np.deg2rad(fullFOV_deg / imsize[0])
+        
 
         rt = sc.scraytrace(imsize=imsize,
                         frontinteg=True,
                         losrange=[215-100, 215+50], #slice of space where we perform integration. If CME is outside region, will not integrate
-                        losnbp=100, #How many points we sample for a slice. The more the better, but slower
+                        losnbp=2000, #How many points we sample for a slice. The more the better, but slower
                         modelid=modelid, 
                         modparam=modparam, 
                         physics=physics, 
-                        fovpix=np.deg2rad(fullFOV_deg / imsize[0]), #FOV
+                        fovpix=fovpix, #FOV
                         projtypecode=1,
-                        obsang=[0.,0,0],
-                        obspos=[0., 0., -DisttoSun_Rsun], 
+                        obsang=obsang,
+                        obspos=obspos, 
                         neang=neang, #How we orient CME in space
                         nbthreads=16, 
                         nbchunks=16,
                         phyparam=[0.58])
 
         # -- Run the raytrace
+
+        
+
+        
         rt.raytrace()
+        print('here')
         
 
         # -- display image
@@ -165,8 +184,9 @@ def test_CME():
         # Then you can add keywords to the fits header. This saves the values in the file so that we know how it was generated later on
         hdul[0].header['movname'] = (movieName, 'Movie name')
         hdul[0].header['modelid'] = (modelid, 'Model ID')
-        for iii in range(len(modparam)):
-            hdul[0].header['mdpar{0:02d}'.format(iii)] = (modparam[iii], 'Model param. {0}'.format(iii))
+        headparam = modparam + [obsang_head, obspos_head, neang_head, fovpix, leadingEdgeHeight]
+        for iii in range(len(headparam)):
+            hdul[0].header['mdpar{0:02d}'.format(iii)] = (headparam[iii], 'Model param. {0}'.format(iii))
             
         # TODO:
             # add obsang, obspos, neang, fovpix, leadingEdgeHeight to the FITS header
@@ -175,7 +195,6 @@ def test_CME():
         
         
         fullFilename = pathlib.Path(rootPath).joinpath(foldername).joinpath(filename)
-        print(fullFilename)
         hdul.writeto(fullFilename, overwrite=True)
         
 
@@ -188,7 +207,7 @@ if __name__ == "__main__" :
     # check fits file
     print()
     print('Checking fits file...')
-    fits_image_filename = pathlib.Path('/home/thernis/test01/Movie01/Movie01_im002.fits')
+    fits_image_filename = pathlib.Path('/Users/BrandonBonifacio/SCRaytrace_real/python/Output/test01/Movie05/Movie05_im002.fits')
     with fits.open(fits_image_filename) as hdul:
         print(repr(hdul[0].header))
         fig, ax = mu.dispim(hdul[0].data, log=True, minmax=(1e-11, 1e-8))

@@ -127,8 +127,8 @@ class scraytraceLib:
         # !!! DO NOT EDIT THE LINES BELOW. 
         #     EDIT THE RTLocalEnvPath.yaml file instead
         localConfTemplate = """
-rt_libpath: /path/to/SCRaytrace/build/src/
-rt_libfile: libraytracethread.so
+rt_libpath: /Users/BrandonBonifacio/build/src/
+rt_libfile: libraytracethread.dylib
         
         """
         with open(fnConfig, 'w') as file:
@@ -143,7 +143,6 @@ rt_libfile: libraytracethread.so
         st = ctypes.cdll.LoadLibrary(soFullFileName)
     except :
         raise Exception('Cannot find the library. Please edit the RTLocalEnvPath.yaml configuration file.')
-
     st.rtthread.argtypes = [ctypes.c_int,          # sx
                             ctypes.c_int,           # sy
                             ctypes.c_float,       # fovpix

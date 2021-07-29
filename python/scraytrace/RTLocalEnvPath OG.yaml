@@ -1,0 +1,5 @@
+
+rt_libpath: /path/to/SCRaytrace/build/src/
+rt_libfile: libraytracethread.so
+        
+        
