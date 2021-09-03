@@ -12,10 +12,10 @@ Using these two fits files, this code:
 - Overlays the images onto eachother to create one fits file
 - Resizes the images to H:2048, V:1920 pixels using opencv resize
 - Multiplies images by vignetting function
-- Convert the images from Bsun to photon per pixel
+- Convert the images from Bsun to electron per pixel per second
+- Convert the image to electron per pixel, exposure time is 5s
 - Add the photon noise
 - Convert the images to DN/s (digital number per second)
-- Convert the images to DN, exposure time is 5s.
 - Add the column bias
 - Save the images
 
@@ -26,8 +26,8 @@ import matplotlib.pyplot as plt
 from astropy.visualization import astropy_mpl_style
 from astropy.utils.data import get_pkg_data_filename
 from astropy.io import fits
-import FITS_tools
 import numpy as np
+import pathlib
 
 plt.style.use(astropy_mpl_style)
 
@@ -53,6 +53,7 @@ model_73 = get_pkg_data_filename('Model_F_Standard_im001.fits')
 fits.info(model_73)
 
 model_73_data = fits.getdata(model_73, ext=0)
+model_73_data = 430*model_73_data
 
 print(model_73_data.shape)
 
@@ -132,10 +133,94 @@ plt.colorbar()
 plt.show()
 
 
+#This section converts the image from Bsun to electron/pixel/second
+for i in range(len(convert_data)):
+    for j in range(len(convert_data[i])):
+        convert_data[i][j] = convert_data[i][j]*9.14*10**(12)
+        
+print(convert_data.shape)
+
+plt.figure()
+plt.imshow(convert_data, cmap='gray')
+plt.colorbar()
+plt.show()
 
 
+#This section calculates the number of electrons per pixel by multiplying by 5 seconds
+
+for i in range(len(convert_data)):
+    for j in range(len(convert_data[i])):
+        convert_data[i][j] = convert_data[i][j]*5
+        
+print(convert_data.shape)
+
+plt.figure()
+plt.imshow(convert_data, cmap='gray')
+plt.colorbar()
+plt.show()
 
 
+#This section converts electrons/pixel to photons/pixel by multiplying by quantum efficiency
 
 
+for i in range(len(convert_data)):
+    for j in range(len(convert_data[i])):
+        convert_data[i][j] = convert_data[i][j]/0.3
+        
+print(convert_data.shape)
 
+plt.figure()
+plt.imshow(convert_data, cmap='gray')
+plt.colorbar()
+plt.show()
+
+
+#This section adds the photon noise to our image
+
+rng = np.random.default_rng()
+convert_data = rng.poisson(convert_data, (2048, 1920))
+
+print(convert_data.shape)
+
+plt.figure()
+plt.imshow(convert_data, cmap='gray')
+plt.colorbar()
+plt.show()
+
+#In this section we convert back from photons to electrons 
+
+for i in range(len(convert_data)):
+    for j in range(len(convert_data[i])):
+        convert_data[i][j] = convert_data[i][j]*0.3
+        
+print(convert_data.shape)
+
+plt.figure()
+plt.imshow(convert_data, cmap='gray')
+plt.colorbar()
+plt.show()
+
+
+#This section converts electrons/pixel to DN/pixel 
+
+for i in range(len(convert_data)):
+    for j in range(len(convert_data[i])):
+        convert_data[i][j] = convert_data[i][j]/2
+        
+print(convert_data.shape)
+
+plt.figure()
+plt.imshow(convert_data, cmap='gray')
+plt.colorbar()
+plt.show()
+
+
+#Lastly, this section saves the image 
+
+filename = '.fits'.format('CME_DNPerPixel',1)
+hdu = fits.PrimaryHDU()
+hdul = fits.HDUList([hdu])
+hdul[0].data = convert_data
+rootPath = pathlib.Path('/Users/BrandonBonifacio/SCRaytrace/python/Output')
+fullFilename = pathlib.Path(rootPath).joinpath(filename)
+hdul.writeto(fullFilename, overwrite=True)
