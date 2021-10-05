@@ -21,7 +21,6 @@ PhysicsVSF::PhysicsVSF()
    ifstream file;
    file.open( filename.c_str(), ios_base::in | ios_base::binary);
 
-//    file.open("/home/thernis/work/mie/VSFLamyPerrinPlaneofSymInterp06.dat",ios_base::in |ios_base::binary);
   
   // -- First record is the size of the data
   int *pnbsamp;
