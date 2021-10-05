@@ -6,7 +6,7 @@ Solar Corona Raytracing tools
 - data: data files used by the C++ code.
 - python: python wrappers.
 - sphinx: sphinx documentation.
-- doxygen: doxygen code documentation.
+- documentation: contains the user manual, in Word. 
 
 ## Cloning the repository
 `git clone https://github.com/DrRaytrace/SCRaytrace.git`
