@@ -333,7 +333,7 @@ if __name__ == "__main__" :
 #------------------------------------------------------------------------
     elif runname == 'saito':
         save = True
-        savePath = '/home/thernis/work/fcorona/'
+        savePath = './'
         
         neang = np.deg2rad([0, 0, 0])
         
