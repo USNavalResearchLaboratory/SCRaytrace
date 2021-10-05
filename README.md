@@ -5,10 +5,8 @@ Solar Corona Raytracing tools
 - src: C++ source code.
 - data: data files used by the C++ code.
 - python: python wrappers.
-- idl: IDL wrappers. Empty for now. We will see if we transfer the SolarSoft IDL sources in here maybe, which would allow collaborative development, things that was not possible so far.
-- docbook: Docbook source files for the user manual. [Deprecated. Use Sphinx now. Migration ongoing.]
-- sphinx: sphinx documentation
-- doxygen: doxygen code documentation
+- sphinx: sphinx documentation.
+- doxygen: doxygen code documentation.
 
 ## Cloning the repository
 `git clone https://github.com/DrRaytrace/SCRaytrace.git`
