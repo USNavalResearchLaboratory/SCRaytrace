@@ -63,7 +63,7 @@ float CModel73::Density(const Cvec &v)
     // ---- compute BetaPi, the elevation above the plane of symmetry
     //      which is assumed to be the (O,y,z) plane. See Lamy Perrin 1986, Fig 1
     float absSinBetaPi = fabs(v[0] / v.mag());
-    float betapi = asin(absSinBetaPi);
+    // float betapi = asin(absSinBetaPi);
     
     // -- Express obs.o in the density reference frame
     Cvec obsPos_inNe = ChangetoDensityCoord(pparentscene->modelposition, pparentscene->obs.o);

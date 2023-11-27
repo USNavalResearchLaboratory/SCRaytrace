@@ -20,7 +20,9 @@ bool PhysicsIsotropic::computeRadiation(const Cvec &vs,const float &r,const floa
 //     float phi = atan2(cosTheta - x / distObs2Sun, sinTheta);
     
     // -- compute scattering: phase function is constant
-    float integrand = density / (x * x + r * r);
+    float integrand = density / (r * r);
+    // float integrand = density / (x * x + r * r);
+    // float integrand = density;
 
     btout = integrand;
     bpout = integrand;

@@ -9,6 +9,7 @@
 #include "physicsisotropic.h"
 #include "physicsvsf.h"
 #include "physicsvsfvarydist.h"
+#include "physicsvariablevsf.h"
 
 
 PhysicsBase* physicsSelect(PhysicsType phytype)
@@ -45,6 +46,11 @@ PhysicsBase* physicsSelect(PhysicsType phytype)
       PhysicsVSFVaryDist *pvsfvd;
       pvsfvd = new PhysicsVSFVaryDist;
       pphy = (PhysicsBase*) pvsfvd;
+      break;
+    case VARIVSF :
+      PhysicsVariableVSF *pvvsf;
+      pvvsf = new PhysicsVariableVSF;
+      pphy = (PhysicsBase*) pvvsf;
       break;
    default :
       ppthom = new PhysicsThomson;

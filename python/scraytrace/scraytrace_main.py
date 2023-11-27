@@ -372,7 +372,7 @@ if __name__ == "__main__" :
         # --- save data to Excel
         dfOut = pd.DataFrame({'Rsun': pd.Series(r[m]),
                               'Fcorona': pd.Series(fco),
-                              df.loc[df.modelid == 19, 'shortName'].to_numpy()[0]: pd.Series(np.reshape(sim[19][m],                                                              fco.shape[0])),
+                              df.loc[df.modelid == 19, 'shortName'].to_numpy()[0]: pd.Series(np.reshape(sim[19][m], fco.shape[0])),
                               df.loc[df.modelid == 20, 'shortName'].to_numpy()[0]: pd.Series(np.reshape(sim[20][m], fco.shape[0])),
                               df.loc[df.modelid == 21, 'shortName'].to_numpy()[0]: pd.Series(np.reshape(sim[21][m], fco.shape[0]))})
         if save:

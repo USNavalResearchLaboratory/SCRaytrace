@@ -20,6 +20,7 @@
 #include "models71to80.h"
 #include "CModel46.h"
 #include "CModel48.h"
+#include "models81to90.h"
 
 
 void CModelBase::dumpDefaultParamForIDL(std::vector<moddefparam>& vp,int& flagcase)
@@ -513,6 +514,24 @@ CModelBase* modelselect(int modelid)
       CModel80 *pmodel80;
       pmodel80 = new CModel80;
       pmod= (CModelBase*) pmodel80;
+      return pmod;
+      break;
+    case 81 :
+      CModel81 *pmodel81;
+      pmodel81 = new CModel81;
+      pmod = (CModelBase*) pmodel81;
+      return pmod;
+      break;
+    case 82 :
+      CModel82 *pmodel82;
+      pmodel82 = new CModel82;
+      pmod = (CModelBase*) pmodel82;
+      return pmod;
+      break;
+    case 83 :
+      CModel83 *pmodel83;
+      pmodel83 = new CModel83;
+      pmod = (CModelBase*) pmodel83;
       return pmod;
       break;
 

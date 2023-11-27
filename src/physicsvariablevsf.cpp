@@ -2,24 +2,23 @@
 #include <fstream>
 
 #include "config.h"
-#include "physicsvsfvarydist.h"
+#include "physicsvariablevsf.h"
 #include "rtmiscfunc.h"
 #include "Cvec.h"
 #include "scene.h"
 
 
-const std::string PhysicsVSFVaryDist::filename = SCRAYTRACE_DATA_DIR "/VSFLamyPerrinPlaneofSymInterp06.dat";
+const std::string PhysicsVariableVSF::filename = SCRAYTRACE_DATA_DIR "/VSFvariable.dat"; //NOTE: Make Sure to have this .dat file written before trying to create this object
 
 
-PhysicsVSFVaryDist::PhysicsVSFVaryDist()
+PhysicsVariableVSF::PhysicsVariableVSF()
 {
-  physicsName="VSF for zodiacal light simulation. VSF varies with distance. Validity is within 0.3AU to 1AU.";  
+  physicsName="VSF for Variable VSF Physics Model.";  
   printvar(physicsName);
   
   printvar(RSUN)
   
-  // ---- open file containing the LamyPerrin VSF
-  //      See Lamy and Perrin, A&A 163, pp269-286 (1986).
+  // ---- open file containing the chosen VSF
    ifstream file;
    file.open( filename.c_str(), ios_base::in | ios_base::binary);
 
@@ -50,7 +49,7 @@ PhysicsVSFVaryDist::PhysicsVSFVaryDist()
 
 
 
-PhysicsVSFVaryDist::~PhysicsVSFVaryDist()
+PhysicsVariableVSF::~PhysicsVariableVSF()
 {
     delete[] ang;
     delete[] vsf;
@@ -67,7 +66,7 @@ PhysicsVSFVaryDist::~PhysicsVSFVaryDist()
 
 
 
-bool PhysicsVSFVaryDist::computeRadiation(const Cvec &vs,const float &r,const float &rho,float &btout,float &bpout,float &density)
+bool PhysicsVariableVSF::computeRadiation(const Cvec &vs,const float &r,const float &rho,float &btout,float &bpout,float &density)
 {
     // -- compute density at point vs
     density = pparentscene->pmod->Density(ChangetoDensityCoord(pparentscene->modelposition, vs));
@@ -80,8 +79,8 @@ bool PhysicsVSFVaryDist::computeRadiation(const Cvec &vs,const float &r,const fl
     float cosAlpha = pscal(vs, vl) / (r * l);
     if (cosAlpha > 1.) cosAlpha = 1.;
     if (cosAlpha < -1.) cosAlpha = -1.;
-    float theta = acos(-cosAlpha);
-    // float theta = PI - acos(-cosAlpha);
+    // float theta = acos(-cosAlpha);
+    float theta = PI - acos(-cosAlpha);
     
     
     // -- get VSF in lookup table
@@ -109,7 +108,7 @@ bool PhysicsVSFVaryDist::computeRadiation(const Cvec &vs,const float &r,const fl
  * 
  * 
  */
-void PhysicsVSFVaryDist::getConstFactors(float &btf,float &bpf,float &nef, float rho)
+void PhysicsVariableVSF::getConstFactors(float &btf,float &bpf,float &nef, float rho)
 {
    
     float ds = pparentscene->los.ds;

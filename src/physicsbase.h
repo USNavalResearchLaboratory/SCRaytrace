@@ -14,7 +14,7 @@ using std::endl;
 #include "CModelBase.h"
              
 //! \brief Enumerate the different types of physics available
-enum PhysicsType {THOMSON, UV, MIE, ISOTROPIC, VSF, VSFVARYDIST};
+enum PhysicsType {THOMSON, UV, MIE, ISOTROPIC, VSF, VSFVARYDIST, VARIVSF};
 
 //! Forward declaration of class Scene
 class Scene;

@@ -226,8 +226,8 @@ class scraytrace:
     #int sx,                         //!> image size, x axis [in]
     #int sy,                         //!> image size, y axis [in]
     #float fovpix,                   //!> fov angle of one pixel in rad [in]
-    #float *obspos,                  //!> [x, y, z] position of the observer in the Sun basis [in]
-    #float *obsang,                  //!> [ax, ay, az] orientation of the observer. z is the optical axis. Rotation order is z, y, then x. [in]
+    #float *obspos,                  //!> [x, y, z] position of the observer in the Sun basis [in] (Units: Rsun)
+    #float *obsang,                  //!> [ax, ay, az] orientation of the observer. z is the optical axis. Rotation order is z, y, then x. [in] (Units: Radians)
     #float *nepos,                   //!> [x, y, z] position of the Ne reference in the Sun basis [in]
     #float *neang,                   //!> [ax, ay, az] orientation of the Ne [in]
     #int losnbp,                     //!> number of steps for the integration along the LOS [in]

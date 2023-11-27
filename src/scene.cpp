@@ -69,7 +69,7 @@ void Scene::setDumpIntegrand(bool flagrunDumpInteg, float *pintegrand)
     this->runDumpInteg = false;
   }
   
-  printvar(this->runDumpInteg);
+  if(quiet != 1) printvar(this->runDumpInteg);
   
 }
 
@@ -134,7 +134,7 @@ void Scene::losintegchunk(const unsigned int &chunkid,const unsigned int &thread
 
     }
 
-    cout << "Chunk "<< chunkid << " : 100% " << endl;
+    if(quiet != 1) cout << "Chunk "<< chunkid << " : 100% " << endl;
 	
     pisrunning[threadid]=0;
 
@@ -212,8 +212,10 @@ void Scene::computeImagebyChunk(float *btot,float *bpol,float *netot,const unsig
     this->bpol=bpol;
     this->netot=netot;
 
-    cout << "Obs dist to sun [Rsun] "<< obs.o.mag() << endl;
-    cout << "1 AU [Rsun] "<< ONEAU_RSUN << endl;
+    if(quiet != 1){
+      cout << "Obs dist to sun [Rsun] "<< obs.o.mag() << endl;
+      cout << "1 AU [Rsun] "<< ONEAU_RSUN << endl;
+    }
 
     boost::thread *pthread=new boost::thread[nbthread];
     pisrunning=new bool[nbthread];

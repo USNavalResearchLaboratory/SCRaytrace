@@ -48,10 +48,14 @@ class Scene
     friend class PhysicsIsotropic;
     friend class PhysicsVSF;
     friend class PhysicsVSFVaryDist;
+    friend class PhysicsVariableVSF;
 
     friend class CModelBase;
     friend class CModel73;
     friend class CModel80;
+    friend class CModel81;
+    friend class CModel82;
+    friend class CModel83;
     
     Scene();
     
@@ -78,7 +82,7 @@ class Scene
     void setobs(Cbasis obs)
     {
         this->obs=obs;
-        std::cout << "obs : " << obs << std::endl;
+        if(quiet != 1) std::cout << "obs : " << obs << std::endl;
     };
 
     

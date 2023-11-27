@@ -60,6 +60,7 @@ add_library(raytrace SHARED Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos
     models21to30.cpp    models21to30.h  models31to40.cpp    models31to40.h  
     models41to50.cpp    models41to50.h  models51to60.cpp    models51to60.h  
     models61to70.cpp    models61to70.h  models71to80.cpp    models71to80.h
+    models81to90.cpp    models81to90.h
     Cdvoxel.cpp Cdvoxel.h Cvoxvert.cpp Cvoxvert.h 
     rtcloud.cpp rtcloud.h 
     rtmiscfunc.h rtmiscfunc.cpp voxinteg.h ModelPosition.h)
@@ -69,7 +70,7 @@ add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp
     physicsthomson.h physicsthomson.cpp physicsuv.h physicsuv.cpp 
     physicsisotropic.h physicsisotropic.cpp physicsmie.h physicsmie.cpp 
     miehps.h miehps.cpp physicsvsf.cpp physicsvsf.h 
-    physicsvsfvarydist.cpp physicsvsfvarydist.h)
+    physicsvsfvarydist.cpp physicsvsfvarydist.h physicsvariablevsf.cpp physicsvariablevsf.h)
 target_link_libraries(raytracethread raytrace  Boost::thread)
 
 
