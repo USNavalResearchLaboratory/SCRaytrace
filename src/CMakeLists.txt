@@ -6,23 +6,34 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 
 set(Boost_USE_STATIC_LIBS OFF)
 set(BUILD_SHARED_LIBS ON)
+
 find_package(Boost 1.67.0 REQUIRED COMPONENTS thread unit_test_framework)
 
+include_directories(~/Documents/cpp/ntirpc-master/ntirpc) 
 
-# if(Boost_FOUND)
-#     include_directories(${Boost_INCLUDE_DIRS}) 
-#     message("Boost include directory: ${Boost_INCLUDE_DIRS}")
-# endif()
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS}) 
+    message("Boost include directory: ${Boost_INCLUDE_DIRS}")
+endif()
 
-find_library(BoostThread libboost_thread.dylib libboost_thread.so HINTS ~/local/lib ~/soft/lib)
-find_library(BoostTest libboost_unit_test_framework.dylib libboost_unit_test_framework.so HINTS ~/local/lib ~/soft/lib)
+find_library(BoostThread libboost_thread.dylib libboost_thread.so HINTS ~/local/lib ~/.local/lib ~/soft/lib )
+find_library(BoostTest libboost_unit_test_framework.dylib libboost_unit_test_framework.so HINTS ~/local/lib ~/.local/lib ~/soft/lib)
+find_library(NTIRPC_LIBRARY libntirpc.so HINTS ~/Documents/cpp/ntirpc-master/build/src REQUIRED)
+
+if(NTIRPC_LIBRARY)
+    message(STATUS "Found NTIRPC: ${NTIRPC_LIBRARY}")
+else()
+    message("Did not find NTIRPC")
+endif() 
+
+message(STATUS "BoostThread: ${BoostThread}")
 
 # ---- SCRaytrace requires boost/bind.hpp
 find_file(BoostBind NAMES bind.hpp PATHS
       ${Boost_INCLUDE_DIRS}/boost)
 
 if(BoostBind)
-    message("Found boost/bind.hpp")
+    message(STATUS "Found boost/bind.hpp")
 else()
     message(FATAL_ERROR "${PROJECT_NAME} requires boost/bind.hpp. Could not find it in ${Boost_INCLUDE_DIRS}")
 endif()
@@ -33,7 +44,7 @@ find_file(BoostUnitTest NAMES unit_test.hpp PATHS
       ${Boost_INCLUDE_DIRS}/boost/test)
 
 if(BoostUnitTest)
-    message("Found boost/test/unit_test.hpp")
+    message(STATUS "Found boost/test/unit_test.hpp")
 else()
     message(FATAL_ERROR "${PROJECT_NAME} requires boost/test/unit_test.hpp")
 endif()
@@ -48,8 +59,6 @@ configure_file(
     )
 include_directories(${PROJECT_BINARY_DIR})
 
-
-# set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wl,-rpath,$ORIGIN")
 
 
 add_library(raytrace SHARED Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos.cpp    Clos.h 
@@ -71,7 +80,7 @@ add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp
     physicsisotropic.h physicsisotropic.cpp physicsmie.h physicsmie.cpp 
     miehps.h miehps.cpp physicsvsf.cpp physicsvsf.h 
     physicsvsfvarydist.cpp physicsvsfvarydist.h physicsvariablevsf.cpp physicsvariablevsf.h)
-target_link_libraries(raytracethread raytrace  Boost::thread)
+target_link_libraries(raytracethread raytrace  Boost::thread ${NTIRPC_LIBRARY})
 
 
 

@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <iostream>
 #include <fstream>
-#include <rpc/rpc.h>
+#include <rpc/xdr.h>
 #include <string>
 #include <sstream>
 #include <cmath>
