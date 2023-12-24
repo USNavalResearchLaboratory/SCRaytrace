@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 
 # ---- Avoids warning with new policy when compiling on Mac OSX
 set(CMAKE_MACOSX_RPATH 1)
@@ -13,7 +13,7 @@ add_subdirectory(data)
 
 
 set (scraytrace_VERSION_MAJOR 3)
-set (scraytrace_VERSION_MINOR 0)
+set (scraytrace_VERSION_MINOR 1)
 set (scraytrace_VERSION_PATCH 0)
 
 
