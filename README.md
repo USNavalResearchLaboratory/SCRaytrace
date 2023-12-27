@@ -8,7 +8,7 @@ Solar Corona Raytracing tools
 - data: data files used by the C++ code.
 - python: python wrappers.
 - sphinx: sphinx documentation.
-- documentation: contains the user manual, in MS Word. 
+- documentation: contains the user manual, in MS Word.
 
 ## Cloning the repository
 
@@ -32,7 +32,7 @@ Individual test:
 
 ## Clean up the build
 
-`rm -rf build` 
+`rm -rf build`
 
 or maybe try  
 `make clean`
@@ -66,7 +66,6 @@ Using Boost 1.72.0:
 - doxygen
 - dot/graphviz
 - sphinx
-
 
 ## Generating the code documentation with Doxygen
 
