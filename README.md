@@ -97,4 +97,8 @@ The scraytrace Python wrapper can be tested by running the `test.py` in the `tes
 
 ### Version 3.1.0
 
-New dependency on ntirpc. This is to read xdr files. glibc does not provide this library anymore.
+- New dependency on ntirpc. This is to read xdr files. glibc does not provide this library anymore. Compiled using ntirpc: <https://github.com/linuxbox2/ntirpc.git>  
+
+- Now uses libwcs to compute projections. This allows using pretty much all projection types implemented in libwcs.
+
+- Use of libwcs implemented in the scraytrace python wrapper.

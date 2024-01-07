@@ -18,7 +18,9 @@ endif()
 
 find_library(BoostThread libboost_thread.dylib libboost_thread.so HINTS ~/local/lib ~/.local/lib ~/soft/lib )
 find_library(BoostTest libboost_unit_test_framework.dylib libboost_unit_test_framework.so HINTS ~/local/lib ~/.local/lib ~/soft/lib)
-find_library(NTIRPC_LIBRARY libntirpc.so HINTS ~/Documents/cpp/ntirpc-master/build/src REQUIRED)
+find_library(NTIRPC_LIBRARY libntirpc.so libntirpc.dylib HINTS ~/.local/lib REQUIRED)
+find_library(WCSLIB_LIBRARY libwcs.so)
+
 
 if(NTIRPC_LIBRARY)
     message(STATUS "Found NTIRPC: ${NTIRPC_LIBRARY}")
@@ -80,18 +82,21 @@ add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp
     physicsisotropic.h physicsisotropic.cpp physicsmie.h physicsmie.cpp 
     miehps.h miehps.cpp physicsvsf.cpp physicsvsf.h 
     physicsvsfvarydist.cpp physicsvsfvarydist.h physicsvariablevsf.cpp physicsvariablevsf.h)
-target_link_libraries(raytracethread raytrace  Boost::thread ${NTIRPC_LIBRARY})
+target_link_libraries(raytracethread raytrace  Boost::thread ${NTIRPC_LIBRARY} ${WCSLIB_LIBRARY})
 
 
 
 add_executable(raytracerun main.cpp)
-target_link_libraries(raytracerun raytrace)
+target_link_libraries(raytracerun raytrace ${WCSLIB_LIBRARY})
 
 add_executable(rtthread rtthreadmain.cpp)
-target_link_libraries(rtthread raytracethread)
+target_link_libraries(rtthread raytracethread ${WCSLIB_LIBRARY})
 
 add_executable(hpsmie oonewcallhpsmie.cpp)
-target_link_libraries(hpsmie raytrace raytracethread Boost::thread)
+target_link_libraries(hpsmie raytrace raytracethread Boost::thread ${WCSLIB_LIBRARY})
+
+add_executable(testwcs testwcs.cpp)
+target_link_libraries(testwcs raytracethread ${WCSLIB_LIBRARY})
 
 # ---- tests
 add_executable(testmodel26 model26test.cpp)

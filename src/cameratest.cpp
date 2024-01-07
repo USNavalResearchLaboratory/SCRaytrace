@@ -32,8 +32,8 @@ BOOST_AUTO_TEST_CASE(test_Detector)
   Detector c1;
   Detector c2;
   
-  BOOST_REQUIRE_EQUAL((unsigned int)0, c1.getSizePixX());
-  BOOST_REQUIRE_EQUAL((unsigned int)0, c1.getSizePixX());
+  BOOST_REQUIRE_EQUAL((unsigned int)128, c1.getSizePixX());
+  BOOST_REQUIRE_EQUAL((unsigned int)128, c1.getSizePixY());
   BOOST_REQUIRE_CLOSE((float)1., c1.getSizemmX(), 0.001);
   BOOST_REQUIRE_CLOSE((float)1., c1.getSizemmY(), 0.001);
 
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE(test_camera)
   Camera a;
   
   BOOST_REQUIRE_EQUAL((ProjType)ARC, a.getProjType());
-  BOOST_REQUIRE_CLOSE((float)0., a.getFovpix(), 0.001);
+  BOOST_REQUIRE_CLOSE((float)0.1, a.getFovpix(), 0.001);
   bool foo;
   foo = Detector()==a.getDetector();
   BOOST_TEST(foo);
@@ -106,5 +106,146 @@ BOOST_AUTO_TEST_CASE(test_camera)
   BOOST_REQUIRE_EQUAL(Cvec(0,0,1), vlosobs0);
 
   delete[] pc2;
+
+  static const int NPV=9;
+  int pv_i[NPV] = {1,1,1,2,2,2,2,2,2};
+  int pv_m[NPV] = {1,2,3,0,1,2,3,4,5};
+  float pv[NPV] = {0.0, 90., 180.,
+                      -1.98789997796E-08,
+                        1.00501000881,
+                        0.0729582980275,
+                        0.275292009115,
+                        -0.701880991459,
+                        1.97518002987};
+
+  Detector detB(2048, 1920, 20.48, 19.20);
+  float fovpix_deg = 0.0211525;
+
+  // Camera camB(fovpix_deg / RADEG,
+  //             ZPN,
+  //             detB,
+  //             crpix[0], crpix[1],
+  //             NPV,
+  //             pv, pv_i, pv_m);
+
+  // ---- Check between old computation of the los and the new which uses libwcs
+  int pv_iC[3] = {1,1,1};
+  int pv_mC[3] = {1,2,3};
+  float pvC[3] = {0.0, 90., 180.};
+
+  Detector detC(2048, 1920, 20.48, 19.20);
+  // -- Test ARC projection
+  BOOST_TEST_MESSAGE("Testing ARC projection");
+  Camera camC(fovpix_deg / RADEG,
+                ARC,
+                detC,
+                crpix[0], crpix[1],
+                3,
+                pvC, pv_iC, pv_mC);
+
+  Cvec v_wcs, v_rt;
+  v_wcs = camC.ij2loswcs(1024, 1024);
+  v_rt = camC.ij2losold(1024, 1024);
+  BOOST_REQUIRE_CLOSE(v_wcs[0], v_rt[0], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[1], v_rt[1], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[2], v_rt[2], 0.001);
+
+  v_wcs = camC.ij2loswcs(991.547, 1015.11);
+  v_rt = camC.ij2losold(991.547, 1015.11);
+  BOOST_REQUIRE_CLOSE(v_wcs[0], v_rt[0], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[1], v_rt[1], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[2], v_rt[2], 0.001);
+
+  v_wcs = camC.ij2loswcs(991.547, 1015.11 + 300);
+  v_rt = camC.ij2losold(991.547, 1015.11 + 300);
+  BOOST_REQUIRE_CLOSE(v_wcs[0], v_rt[0], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[1], v_rt[1], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[2], v_rt[2], 0.001);
+
+  v_wcs = camC.ij2loswcs(991.547, 1015.11 - 300);
+  v_rt = camC.ij2losold(991.547, 1015.11 - 300);
+  BOOST_REQUIRE_CLOSE(v_wcs[0], v_rt[0], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[1], v_rt[1], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[2], v_rt[2], 0.001);
+
+  v_wcs = camC.ij2loswcs(991.547 + 300, 1015.11);
+  v_rt = camC.ij2losold(991.547 + 300, 1015.11);
+  BOOST_REQUIRE_CLOSE(v_wcs[0], v_rt[0], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[1], v_rt[1], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[2], v_rt[2], 0.001);
+
+  v_wcs = camC.ij2loswcs(991.547 - 300, 1015.11);
+  v_rt = camC.ij2losold(991.547 - 300, 1015.11);
+  BOOST_REQUIRE_CLOSE(v_wcs[0], v_rt[0], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[1], v_rt[1], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[2], v_rt[2], 0.001);
+
+  // -- Test TAN projection
+  BOOST_TEST_MESSAGE("Testing TAN projection");
+  Camera camD(fovpix_deg / RADEG,
+                TAN,
+                detC,
+                crpix[0], crpix[1],
+                3,
+                pvC, pv_iC, pv_mC);
+
+  v_wcs = camD.ij2loswcs(1024, 1024);
+  v_rt = camD.ij2losold(1024, 1024);
+  BOOST_REQUIRE_CLOSE(v_wcs[0], v_rt[0], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[1], v_rt[1], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[2], v_rt[2], 0.001);
+
+  // -- Test SIN projection
+  BOOST_TEST_MESSAGE("Testing SIN projection");
+  Camera camE(fovpix_deg / RADEG,
+                SIN,
+                detC,
+                crpix[0], crpix[1],
+                3,
+                pvC, pv_iC, pv_mC);
+
+  v_wcs = camE.ij2loswcs(1024, 1024);
+  v_rt = camE.ij2losold(1024, 1024);
+  BOOST_REQUIRE_CLOSE(v_wcs[0], v_rt[0], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[1], v_rt[1], 0.001);
+  BOOST_REQUIRE_CLOSE(v_wcs[2], v_rt[2], 0.001);
+
+  // -- Test AZP projection
+  BOOST_TEST_MESSAGE("Testing AZP projection");
+  Camera camF(0.000369181, // fovpix, in rad/pix
+                AZP,
+                detC,
+                991, 1015, // crpix
+                0.3);  // pv2_1
+
+  v_wcs = camF.ij2loswcs(1024, 1024);
+  v_rt = camF.ij2losold(1024, 1024);
+  BOOST_REQUIRE_CLOSE(v_wcs[0], v_rt[0], 0.01);
+  BOOST_REQUIRE_CLOSE(v_wcs[1], v_rt[1], 0.01);
+  BOOST_REQUIRE_CLOSE(v_wcs[2], v_rt[2], 0.01);
+
 }
+
+
+
+
+// BOOST_AUTO_TEST_CASE(test_cam_wcs_proj)
+// {
+//   BOOST_TEST_MESSAGE("running test_cam_wcs_proj");
+ 
+
+//   float pc[4]={1,2,3,4};
+//   pc[0]=1; pc[1]=0; pc[2]=0; pc[3]=1;
+
+//   Camera cam2(0.01, ARC, Detector(512,512), 256., 255., 0.);
+//   Cvec vlosobs0 = cam2.ij2los(256., 255.);
+//   Cvec vlosobswcs = cam2.ij2loswcs(256., 255.);
+//   BOOST_REQUIRE_EQUAL(Cvec(0,0,1), vlosobs0);
+  
+// //TODO: test error throw NPV_MAX
+
+
+// }
+
+
 

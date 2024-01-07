@@ -43,8 +43,11 @@ extern "C" int rtthread(int sx,                         //!> image size, x axis 
                         float *phyparam,                //!> Extra parameters required depending on the chosen physics [in]
                         float fracmax,                  //!> Set it to the fraction of the maximum total B per LOS in order to compute the distance to that fraction of brightness. Disabled if set to 0 [default]. The distance is returned in the bpol image, in Rsun. [in]
                         int runDumpInteg,               //!> Set if you want to save all the integration points in the integrand variable. Note that this feature can require the allocation of a large amount of memory, typically a floating array of imsize[0] x imsize[1] x losnbp. Use this feature only if you have enough free memory. [in]
-                        float *pIntegrand);             //!> Contains the all the integration points if rundumpinteg is set [out]
-
+                        float *pIntegrand,              //!> Contains the all the integration points if rundumpinteg is set [out]
+                        int npv,                        //!> Number of pv values
+                        float *pv,                      //!> pv array of values. pv_i_m index given in pv_i and pv_m arrays.
+                        int *pv_i,                      //!> i index of the pv value, in the same order as the pv array
+                        int *pv_m);                     //!> m index of the pv value, in the same order as the pv array
 
 int rtthreadtest();
 

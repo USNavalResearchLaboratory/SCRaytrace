@@ -64,31 +64,31 @@ int main(int argc,char **argv) {
         modelid=atoi(*argv);
     }
 
-		Cvec vcall(10,20,30);
+    Cvec vcall(10,20,30);
 
-		if (modelid == -3) {
-				cout << "Call by value...:" << NBCALL <<endl;
-				for(unsigned int i=0;i<NBCALL;i++) callbyvalue(2*vcall);
-				return 0;
-		}
+    if (modelid == -3) {
+            cout << "Call by value...:" << NBCALL <<endl;
+            for(unsigned int i=0;i<NBCALL;i++) callbyvalue(2*vcall);
+            return 0;
+    }
 
-		if (modelid == -4) {
-				cout << "Call by reference...:" << NBCALL <<endl;
-				for(unsigned int i=0;i<NBCALL;i++) callbyreference(vcall);
-				return 0;
-		}
+    if (modelid == -4) {
+            cout << "Call by reference...:" << NBCALL <<endl;
+            for(unsigned int i=0;i<NBCALL;i++) callbyreference(vcall);
+            return 0;
+    }
 
-		if (modelid == -5) {
-				cout << "Call by pointer...:" << NBCALL <<endl;
-				for(unsigned int i=0;i<NBCALL;i++) callbypointer(&vcall);
-				return 0;
-		}
+    if (modelid == -5) {
+            cout << "Call by pointer...:" << NBCALL <<endl;
+            for(unsigned int i=0;i<NBCALL;i++) callbypointer(&vcall);
+            return 0;
+    }
 
-		if (modelid == -6) {
-				cout << "Call by const reference...:" << NBCALL <<endl;
-				for(unsigned int i=0;i<NBCALL;i++) callbyconstreference(2*vcall);
-				return 0;
-		}
+    if (modelid == -6) {
+            cout << "Call by const reference...:" << NBCALL <<endl;
+            for(unsigned int i=0;i<NBCALL;i++) callbyconstreference(2*vcall);
+            return 0;
+    }
 
     // -- development test is modelid == -1
     if (modelid == -1) {
@@ -322,20 +322,18 @@ int main(int argc,char **argv) {
         
         cout << "Chalut ! " << endl;
         
-	cout << atan2(1.,0.5)*RADEG << endl;
-	cout << atan2(0.,-1.)*RADEG << endl;
-	cout << atan2(-1.,-1.)*RADEG << endl;
-
-
+        cout << atan2(1.,0.5)*RADEG << endl;
+        cout << atan2(0.,-1.)*RADEG << endl;
+        cout << atan2(-1.,-1.)*RADEG << endl;
 
         dumpBuildInfo();
         
         
-#ifdef HAVE_LIBCCFITS
-cout << "CCfits enabled" << endl;
-#else
-cout << "No CCfits" << endl;
-#endif
+        #ifdef HAVE_LIBCCFITS
+        cout << "CCfits enabled" << endl;
+        #else
+        cout << "No CCfits" << endl;
+        #endif
         
         
         return 1;

@@ -5,7 +5,7 @@
 
 Detector::Detector()
 {
-  sxpix=0;sypix=0;
+  sxpix=128;sypix=128;
   sxmm=1.;symm=1.;
 }
 
@@ -18,6 +18,7 @@ Detector::Detector(const unsigned int &sxpix0,const unsigned int &sypix0,const f
 Detector::Detector(const unsigned int &sxpix0,const unsigned int &sypix0)
 {
   sxpix=sxpix0;sypix=sypix0;
+  sxmm=1.;symm=1.;
 }
 
 Detector::Detector(const Detector &detector0)

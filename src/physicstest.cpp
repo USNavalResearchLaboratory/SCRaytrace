@@ -20,16 +20,13 @@
 
 struct PhysicsTest {
    PhysicsBase base;
-   PhysicsBase *pthom,*puv;
-
 
 PhysicsTest() { 
-     puv = physicsSelect(UV);
 
 }
 
   ~PhysicsTest() { 
-     delete puv;
+
 }
 
 };
@@ -44,11 +41,11 @@ BOOST_FIXTURE_TEST_SUITE(s, PhysicsTest)
    
    BOOST_TEST_MESSAGE("running PhysicsTest");
    
-       string s1;
+    string s1;
     bool flagok;
     float bto,bpo,neo;
     Scene *pscene;
-    pscene=new Scene;
+    pscene = new Scene;
     
     base.setParentScene(pscene);
     
@@ -78,12 +75,20 @@ BOOST_FIXTURE_TEST_SUITE(s, PhysicsTest)
     flagok=base.computeRadiation(Cvec(0,0,0),1,1,bto,bpo,neo);
     BOOST_TEST(1 == flagok);
 
+
+   PhysicsBase *puv;
+   puv = physicsSelect(UV);
+   if (puv) {
+      cout<< "UV physics selected" << endl;
+   }
     puv->printParam();
     float phyparam=1;
     puv->setParam(&phyparam);
     puv->printParam();
-    
-    delete pscene;
+
+   if (puv) {delete puv;}
+
+   if (pscene) delete pscene;
     
     // -- test physicsVSF constructor
     PhysicsVSF vsf;
@@ -91,7 +96,6 @@ BOOST_FIXTURE_TEST_SUITE(s, PhysicsTest)
     // -- test physicsVSFVaryDist constructor
     PhysicsVSFVaryDist vsfvd;
   
-     
 }
 
 BOOST_AUTO_TEST_SUITE_END()

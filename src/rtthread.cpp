@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cstdlib>
 #include "rtthread.h"
-// #include "sun.h"
 #include "camera.h"
 #include "Cbasis.h"
 #include "scene.h"
@@ -46,7 +45,11 @@ extern "C" int rtthread(int sx,
                         float *phyparam,
                         float fracmax,
                         int runDumpInteg, 
-                        float *pIntegrand)
+                        float *pIntegrand,
+                        int npv,
+                        float *pv,
+                        int *pv_i,
+                        int *pv_m)
 {
   if (quiet!=1) {
   std::cout << "In rtthread..." << std::endl;
@@ -83,7 +86,11 @@ extern "C" int rtthread(int sx,
     printvar(fracmax);
     printvar(runDumpInteg);
     cout << "Compilation date : " << __DATE__ << " " << __TIME__ << endl; 
-
+  printvar(npv);
+  int i;
+  for (i=0; i<npv; i++){
+    printvarnoend(pv_i[i]);printvarnoend(pv_m[i]);printvar(pv[i]);
+  }
 }
   // ---- setup the scene
   // -- Camera parameters
@@ -94,6 +101,7 @@ extern "C" int rtthread(int sx,
   scene.camera.setCrpix(crpix[0],crpix[1]);
   scene.camera.setPv2_1(pv2_1);
   scene.camera.setPc(pc);
+  scene.camera.setPv(npv, pv, pv_i, pv_m);
 //   scene.csun.setLimbDarkening(limbdark);
   scene.setNeonly(neonly);
   scene.setFrontInteg(frontinteg);
@@ -256,8 +264,21 @@ extern "C" int rtthreadidl(int argc, void **argv)
   float fracmax=*((float*) argv[34]);
   int runDumpInteg = *((int*) argv[35]);
   float *pIntegrand=(float*) argv[36];
+  int npv=*((int*) argv[37]);
+  float *pv=(float*) argv[38];
+  int *pv_i=(int*) argv[39];
+  int *pv_m=(int*) argv[40];
 
-	int out=rtthread(sx,sy,fovpix,obspos,obsang,nepos,neang,losnbp,losrange,modelid,btot,bpol,netot,pmodparam,crpix,quiet,neonly,hlonlat,occrad,limbdark,obslonlat,obslonlatflag,projtypecode,pv2_1,pc,frontinteg,nbthreads,nbchunk,nerotcntr,nerotang,netranslation,nerotaxis,physics,phyparam,fracmax,runDumpInteg,pIntegrand);
+
+	int out=rtthread(sx,sy,
+    fovpix,obspos,obsang,nepos,neang,
+    losnbp,losrange,modelid,btot,bpol,netot,
+    pmodparam,crpix,quiet,neonly,hlonlat,
+    occrad,limbdark,obslonlat,obslonlatflag,
+    projtypecode,pv2_1,pc,frontinteg,nbthreads,
+    nbchunk,nerotcntr,nerotang,netranslation,
+    nerotaxis,physics,phyparam,fracmax,
+    runDumpInteg,pIntegrand, npv, pv, pv_i, pv_m);
 
 	return EXIT_SUCCESS;
 

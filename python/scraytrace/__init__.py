@@ -127,7 +127,7 @@ class scraytraceLib:
         # !!! DO NOT EDIT THE LINES BELOW. 
         #     EDIT THE RTLocalEnvPath.yaml file instead
         localConfTemplate = """
-rt_libpath: /Users/BrandonBonifacio/build/src/
+rt_libpath: build/src/
 rt_libfile: libraytracethread.dylib
         
         """
@@ -198,7 +198,15 @@ rt_libfile: libraytracethread.dylib
                             ctypes.c_float,         # fracmax
                             ctypes.c_int,           #runDumpInteg
                             np.ctypeslib.ndpointer(np.float32,    # pIntegrand
+                                                   flags='aligned, c_contiguous'),
+                            ctypes.c_int,           # npv
+                            np.ctypeslib.ndpointer(np.float32,    # pv
+                                                   flags='aligned, c_contiguous'),
+                            np.ctypeslib.ndpointer(np.int32,      # pv_i
+                                                   flags='aligned, c_contiguous'),
+                            np.ctypeslib.ndpointer(np.int32,      # pv_m
                                                    flags='aligned, c_contiguous')]
+    
 
 
 
@@ -208,13 +216,15 @@ class scraytrace:
     projtypecodehash = {'ARC':1,
                         'TAN':2,
                         'SIN':3,
-                        'AZP':4}
+                        'AZP':4,
+                        'ZPN':5}
 
         
     projtypenamehash = {1:'ARC',
                         2:'TAN',
                         3:'SIN',
-                        4:'AZP'}
+                        4:'AZP',
+                        5:'ZPN'}
     
     
     
@@ -259,9 +269,13 @@ class scraytrace:
     #float *phyparam,                //!> Extra parameters required depending on the chosen physics [in]
     #float fracmax,                  //!> Set it to the fraction of the maximum total B per LOS in order to compute the distance to that fraction of brightness. Disabled if set to 0 [default]. The distance is returned in the bpol image, in Rsun. [in]
     #int runDumpInteg,               //!> Set if you want to save all the integration points in the integrand variable. Note that this feature can require the allocation of a large amount of memory, typically a floating array of imsize[0] x imsize[1] x losnbp. Use this feature only if you have enough free memory. [in]
-    #float *pIntegrand);             //!> Contains the all the integration points if rundumpinteg is set [out]
-    
-    """
+    #float *pIntegrand;              //!> Contains the all the integration points if rundumpinteg is set [out]
+    #int npv                         //!> Number of pv values
+    #float *pv                       //!> pv array of values. pv_i_m index given in pv_i and pv_m arrays.
+    #int *pv_i                       //!> i index of the pv value, in the same order as the pv array
+    #int *pv_m                       //!> m index of the pv value, in the same order as the pv array
+ 
+"""
     
     lib = scraytraceLib()
 
@@ -296,7 +310,11 @@ class scraytrace:
                  physics=5,
                  phyparam=[0],
                  fracmax=0.,
-                 runDumpInteg=False):
+                 runDumpInteg=False,
+                 npv=0,
+                 pv=[0.],
+                 pv_i=[0],
+                 pv_m=[0]):
         
 
         if obslonlat is not None:
@@ -430,8 +448,12 @@ class scraytrace:
         self.crval = np.array([-self.obsang[0], self.obsang[1]])
 
         self.ctype = ['HPLN-' + self.projtypenamehash[self.projtypecode],
-                               'HPLT-' + self.projtypenamehash[self.projtypecode]]
+                    'HPLT-' + self.projtypenamehash[self.projtypecode]]
 
+        self.npv = npv
+        self.pv = pv
+        self.pv_i = pv_i
+        self.pv_m = pv_m
 
 
     def _computeObslonlat(self, obspos):
@@ -440,7 +462,6 @@ class scraytrace:
                      np.arcsin(obspos[0] / np.linalg.norm(obspos)),
                      np.linalg.norm(obspos)]
         return obslonlat
-
 
 
     def setParamFromWCS(self, fitsHeader, imsize, rollang=0.,
@@ -562,8 +583,10 @@ class scraytrace:
         print('phyparam : ', self.phyparam)        
         print('fracmax : ', self.fracmax)        
         print('runDumpInteg : ', self.runDumpInteg)        
-
-        
+        print('npv : ', self.npv)
+        print('pv : ', self.pv)
+        print('pv_i : ', self.pv_i)
+        print('pv_m : ', self.np_m)
         
         
         
@@ -583,7 +606,7 @@ class scraytrace:
         self.fitsrt['NAXIS2'] = self.sy
         self.fitsrt['PV2_1'] = self.pv2_1
         
-
+        # TODO: implement PV
 
     def raytrace(self):
         """Run the raytracing"""
@@ -640,7 +663,11 @@ class scraytrace:
                     np.array(self.phyparam, dtype=np.float32),
                     ctypes.c_float(self.fracmax),
                     ctypes.c_int(self.runDumpInteg),
-                    self.integrand)
+                    self.integrand,
+                    ctypes.c_int(self.npv),
+                    np.array(self.pv, dtype=np.float32),
+                    np.array(self.pv_i, dtype=np.int32),
+                    np.array(self.pv_m, dtype=np.int32))
 
         # -- Trick to make things work:
         #    See details before the C++ call
@@ -654,6 +681,7 @@ class scraytrace:
 
     def getWCS(self):
         """Returns a WCS header for the simulated image."""
+        # TODO
         pass
 
 

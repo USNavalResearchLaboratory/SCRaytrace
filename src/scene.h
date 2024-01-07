@@ -7,7 +7,6 @@
 
 #include <string>
 #include "camera.h"
-// #include "sun.h"
 #include "Cbasis.h"
 #include "Cvec.h"
 #include "Clos.h"
@@ -37,7 +36,6 @@ class Scene
     
   public:
     Camera camera;
-//     Sun csun;
     Clos los;
     ModelPosition modelposition; //!< model positioning
 
