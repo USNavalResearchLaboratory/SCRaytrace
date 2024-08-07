@@ -15,6 +15,7 @@
 #include "rtmiscfunc.h"
 #include "ModelPosition.h"
 #include "physicsbase.h"
+#include <cstdio>
 
 //! Defines the Scene: Camera + Sun + Density
 class Scene
@@ -56,6 +57,7 @@ class Scene
     friend class CModel81;
     friend class CModel82;
     friend class CModel83;
+    friend class CModel84;
     
     Scene();
     
@@ -171,6 +173,10 @@ private:
         
         unsigned int pos=i+j*camera.detector.sxpix;
 
+        // if(i < 130 && i > 125 && j < 130 && j > 125){ //(DEBUG)
+        //     printf("Pre: (%d, %d): BTOT: %f; WLOS: (%f, %f, %f); VS: (%f, %f, %f); obs.o: (%f, %f, %f)\n", i, j, btot[pos]*pow(10, 10), vlosabs[0], vlosabs[1], vlosabs[2], vs[0], vs[1], vs[2], obs.o[0], obs.o[1], obs.o[2]); //(DEBUG)
+        // } //(DEBUG)
+
         for (unsigned int k=0;k<los.nbp;k++,vs+=vlosstep)
         {
             // -- dist Sun cntr - LOS current pos
@@ -190,6 +196,10 @@ private:
 
             btot[pos] += btout;
             bpol[pos] += bpout;
+
+            // if(i == 128 && j == 128 && btout != 0){ //(DEBUG)
+                // printf("Intensity = (%f) at (%d, %d) with VS: (%f, %f, %f)\n", btout*pow(10, 10), i, j, vs[0], vs[1], vs[2]); //(DEBUG)
+            // } //(DEBUG)
         }
 
         // ---- multiply by the integral constant factor, depending on the physics
@@ -198,6 +208,7 @@ private:
         btot[pos]  *= btf;
         bpol[pos]  *= bpf;
         netot[pos] *= nef;
+        // printf("Post: (%d, %d): BTOT: %f; WLOS: (%f, %f, %f); VS: (%f, %f, %f); obs.o: (%f, %f, %f)\n", i, j, btot[pos]*pow(10, 10), vlosabs[0], vlosabs[1], vlosabs[2], vs[0], vs[1], vs[2], obs.o[0], obs.o[1], obs.o[2]); //(DEBUG)
     }
 
     //! Compute distance to the fraction of total brightness

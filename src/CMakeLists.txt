@@ -6,6 +6,7 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 
 set(Boost_USE_STATIC_LIBS OFF)
 set(BUILD_SHARED_LIBS ON)
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0") #Try without compiler optimizations (DEBUG)
 find_package(Boost 1.67.0 REQUIRED COMPONENTS thread unit_test_framework)
 
 
@@ -63,7 +64,8 @@ add_library(raytrace SHARED Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos
     models81to90.cpp    models81to90.h
     Cdvoxel.cpp Cdvoxel.h Cvoxvert.cpp Cvoxvert.h 
     rtcloud.cpp rtcloud.h 
-    rtmiscfunc.h rtmiscfunc.cpp voxinteg.h ModelPosition.h)
+    rtmiscfunc.h rtmiscfunc.cpp voxinteg.h ModelPosition.h
+    readDataScatteringTest.h)
 
 add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp
     camera.h camera.cpp physicsbase.h physicsbase.cpp 
@@ -112,6 +114,9 @@ target_link_libraries(testscene raytracethread Boost::unit_test_framework)
 add_executable(testphysics physicstest.cpp)
 target_link_libraries(testphysics raytracethread Boost::unit_test_framework)
 
+add_executable(testscattering scatteringTest.cpp)
+target_link_libraries(testscattering raytracethread Boost::unit_test_framework)
+
 
 add_executable(testboosttest boostTestTest.cpp)
 target_link_libraries(testboosttest Boost::unit_test_framework) # ${BoostTest}
@@ -127,5 +132,6 @@ add_test(NAME testcamera COMMAND testcamera)
 add_test(NAME testCbasis COMMAND testCbasis)
 add_test(NAME testscene COMMAND testscene)
 add_test(NAME testphysics COMMAND testphysics)
+add_test(NAME testscattering COMMAND testscattering)
 add_test(NAME boostTestTest COMMAND testboosttest)
 

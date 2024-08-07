@@ -602,7 +602,6 @@ class scraytrace:
 #        self.pc[1, 0] = tmp
         
 
-
         # ---- Call rtthread
         self.lib.st.rtthread(ctypes.c_int(self.sx),
                     ctypes.c_int(self.sy),

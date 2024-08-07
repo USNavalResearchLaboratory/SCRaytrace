@@ -8,7 +8,8 @@
 #include "scene.h"
 
 
-const std::string PhysicsVariableVSF::filename = SCRAYTRACE_DATA_DIR "/VSFvariable.dat"; //NOTE: Make Sure to have this .dat file written before trying to create this object
+// const std::string PhysicsVariableVSF::filename = SCRAYTRACE_DATA_DIR "/VSFvariable.dat"; //NOTE: Make Sure to have this .dat file written before trying to create this object
+const std::string PhysicsVariableVSF::filename = SCRAYTRACE_DATA_DIR "/VSFvariable_New_Lamy.dat"; //NOTE: Make Sure to have this .dat file written before trying to create this object
 
 
 PhysicsVariableVSF::PhysicsVariableVSF()
@@ -44,6 +45,21 @@ PhysicsVariableVSF::PhysicsVariableVSF()
 
   printvar(ang[0]);
   printvar(vsf[0]);
+
+//   ofstream debug_log; //(DEBUG)
+//   debug_log.open("/Users/smidt/Documents/PythonSol/Avery/debug_log.txt", ios_base::out); //(DEBUG)
+//   streambuf* oldErrStrm = cerr.rdbuf(debug_log.rdbuf()); //(DEBUG)
+//   std::cerr << nbsamp << std::endl; //(DEBUG)
+//   std::cerr << "\n" << std::endl; //(DEBUG)
+//   for(int i = 0; i < nbsamp; i++){ //(DEBUG)
+//     std::cerr << "ang[" << i << "]: " << ang[i] << std::endl; //(DEBUG)
+//   } //(DEBUG)
+//   std::cerr << "\n" << std::endl; //(DEBUG)
+//   for(int i = 0; i < nbsamp; i++){ //(DEBUG)
+//     std::cerr << "vsf[" << i << "]: " << vsf[i] << std::endl; //(DEBUG)
+//   } //(DEBUG)
+//   cerr.rdbuf(oldErrStrm); //(DEBUG)
+//   debug_log.close(); //(DEBUG)
   
 }
 
@@ -68,7 +84,7 @@ PhysicsVariableVSF::~PhysicsVariableVSF()
 
 bool PhysicsVariableVSF::computeRadiation(const Cvec &vs,const float &r,const float &rho,float &btout,float &bpout,float &density)
 {
-    // -- compute density at point vs
+    // -- compute density at point vs, transforming vs to a frame centered at the Sun; the vector from the Sun to the point
     density = pparentscene->pmod->Density(ChangetoDensityCoord(pparentscene->modelposition, vs));
     
     // ---- compute elongation
@@ -80,7 +96,19 @@ bool PhysicsVariableVSF::computeRadiation(const Cvec &vs,const float &r,const fl
     if (cosAlpha > 1.) cosAlpha = 1.;
     if (cosAlpha < -1.) cosAlpha = -1.;
     // float theta = acos(-cosAlpha);
-    float theta = PI - acos(-cosAlpha);
+    float theta = PI - acos(cosAlpha);
+
+    // //For Debugging forward/backscattering START
+    // // btout = density; bpout = 1;
+
+    // // return 0;
+
+    // if(theta < PI/2 && theta >= 0.0) { btout = density * 1; bpout = 1; }
+    // else if(density != 0.0){ btout = density * 0.5; bpout = 0.5; }
+    // else { btout = 0; bpout = 0;}
+
+    // return 0;
+    // //END DEBUG
     
     
     // -- get VSF in lookup table
@@ -91,6 +119,7 @@ bool PhysicsVariableVSF::computeRadiation(const Cvec &vs,const float &r,const fl
     btout = density * pow(pparentscene->obs.o.mag() / ONEAU_RSUN, -0.3) * vsf[idx] / ( r * r );
     bpout = vsf[idx];
     
+    // std::cerr << "Btout: " << btout << "; Density: " << density << std::endl; //(DEBUG)
 //     cout << "idx : " << idx << ", theta [deg] : " << theta * 180 / PI << ", vsf : " << vsf[idx] << endl;
      
     return 0;

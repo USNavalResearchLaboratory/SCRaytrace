@@ -72,7 +72,7 @@ float CModel73::Density(const Cvec &v)
     Cvec OV = v - obsPos_inNe;
     
     // -- Compute beta angle: see Lamy Perrin 1986, Fig 1
-    sinBeta = fabs(sin(atan2(OV[0], sqrt(OV[1] * OV[1] + OV[2] * OV[2]))));
+    float sinBeta = fabs(sin(atan2(OV[0], sqrt(OV[1] * OV[1] + OV[2] * OV[2]))));
     
     // -- Lamy Perrin 1986, page 282, section 7.1
     float dens = C / v.mag() * exp(-3.5 * pow(absSinBetaPi, 0.775 + 0.624 * sinBeta));

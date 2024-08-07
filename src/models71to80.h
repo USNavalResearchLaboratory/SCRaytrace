@@ -41,7 +41,7 @@ public:
     void initParam(float* pparam);
     void dumpDefaultParamForIDL(std::vector<moddefparam>& vp, int& flagcase);
 protected:
-    float sinBeta;           //!> Beta: angle plane of symmetry - Observer LOS. See Fig 1 of Lamy, Perrin
+    // float sinBeta0;           //!> Beta: angle plane of symmetry - Observer LOS. See Fig 1 of Lamy, Perrin
     float C;                 //!> density constant factor
     float dustFreeStart;     //!> Start of the dust free zone, in Rsun
     float dustFreeEnd;       //!> End of the dust free zone (inner radial dist, where N_dust=0), in Rsun
