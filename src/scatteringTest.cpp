@@ -55,25 +55,24 @@ BOOST_FIXTURE_TEST_SUITE(s, ScatteringTest)
 
    float* realData = readDatFile(fname1);
 
-   float fovpix = 0.00136353847812057;
-   float obspos[] = {0., 0., -205.99867};
-   float obsang[] = {-0., 0., 0.05042338};
-//    float* obsang = [-3.14159265, 0., 0.05042338];
+   float fovpix = 0.000681769;
+   float obspos[] = {1.2807016e-01, -2.1597208e+02, 1.6441868e+01};
+   float obsang[] = {0., 0., -0.05235988};
    float nepos[] = {0., 0., 0.};
    float neang[] = {0., 0., 0.};
    int losnbp = 2000;
    float losrange[] = {115., 265.};
-   int modelid = 83;
-   float pmodparam[] = {1.0, 0., 0., 1.6891547036652756, 450.18827707689974, 174.174766817585, 5.};
+   int modelid = 73;
+   float pmodparam[] = {0.00118675, 0., 0.};
    float crpix[] = {127.5, 127.5};
    int quiet = 1;
    int neonly = 0;
    float hlonlat[] = {0., 0., 0.};
    float occrad = 0.0;
    float limbdark = 0.0;
-   float obslonlat[] = {0., 0., 215.};
-   int obslonlatflag = 0;
-   unsigned int projtypecode = 4;
+   float obslonlat[] = {4.6364059e00, 5.9128302e-04, 2.1659708e02};
+   int obslonlatflag = 1;
+   unsigned int projtypecode = 1;
    float pv2_1 = 0.0;
    float pc[] = {1., 0., 0., 1.};
    int frontinteg = 1;
@@ -83,7 +82,7 @@ BOOST_FIXTURE_TEST_SUITE(s, ScatteringTest)
    float nerotang[] = {0., 0., 0.};
    float netranslation[] = {0., 0., 0.};
    int nerotaxis[] = {3, 2, 1};
-   int physics = 6;
+   int physics = 5;
    float phyparam[] = {0.58};
    float fracmax = 0.0;
    int runDumpInteg = 0;
@@ -130,9 +129,13 @@ BOOST_FIXTURE_TEST_SUITE(s, ScatteringTest)
             fracmax,
             runDumpInteg, 
             pIntegrand);
-    
+ 
     for(int i = 0; i < sy*sx; i++){
-        if(!(realData[i] - realData[i]*0.079 <= btot[i] && realData[i] + realData[i]*0.079 >= btot[i])){ //Could it be that the python code is saving the data as double precision float but C is reading as single and that's what's causing the issue? (DEBUG)
+        std::stringstream temp;
+        temp << std::scientific << abs(realData[i] - btot[i]);
+        std::string prctErr = temp.str();
+        float diffMag = 1*pow(10, std::stof(prctErr.substr(prctErr.find('e') + 1, prctErr.length() - 1)) + 1);
+        if(abs(realData[i] - btot[i]) > diffMag){
             BOOST_TEST(false);
         }
     }

@@ -67,16 +67,20 @@ float* readDatFile(const char* fname){
     fsize = reverseIntBytes(bytes);
 
     float* realData = (float*)calloc(fsize*fsize, sizeof(float));
+    float* realData2 = (float*)calloc(fsize*fsize, sizeof(float));
 
     for(int i = 0; i < fsize*fsize; i++){
         file.read(reinterpret_cast<char*>(&bytes), sizeof(float));
-        realData[i] = reverseFloatBytes(bytes);
+        realData2[i] = reverseFloatBytes(bytes);
     }
 
-    // printf("%d\n", fsize);
-    // for(int i = 0; i < fsize*fsize; i++){
-    //     printf("%.20f\n", realData[i]);
-    // }
+    for(int i = 0; i < fsize; i++){
+        for(int j = 0; j < fsize; j++){
+            realData[i*fsize + j] = realData2[i*fsize + (fsize - j - 1)];
+        }
+    }
+
+    free(realData2);
 
     file.close();
     return realData;
