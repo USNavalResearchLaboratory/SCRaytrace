@@ -8,11 +8,10 @@ set(Boost_USE_STATIC_LIBS OFF)
 set(BUILD_SHARED_LIBS ON)
 find_package(Boost 1.67.0 REQUIRED COMPONENTS thread unit_test_framework)
 
-
-# if(Boost_FOUND)
-#     include_directories(${Boost_INCLUDE_DIRS}) 
-#     message("Boost include directory: ${Boost_INCLUDE_DIRS}")
-# endif()
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS}) 
+    message("Boost include directory: ${Boost_INCLUDE_DIRS}")
+endif()
 
 find_library(BoostThread libboost_thread.dylib libboost_thread.so HINTS ~/local/lib ~/soft/lib)
 find_library(BoostTest libboost_unit_test_framework.dylib libboost_unit_test_framework.so HINTS ~/local/lib ~/soft/lib)
