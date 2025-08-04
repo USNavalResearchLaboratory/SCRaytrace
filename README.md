@@ -15,8 +15,11 @@ Solar Corona Raytracing tools
 SCraytrace now uses cmake. To compile the project once cloned from github, run the following:  
 `cmake -H. -Bbuild`  
 If the Boost library is not found by cmake, you might try to pass the BOOST_ROOT environment variable with the path to your Boost library, like so:  
-`cmake -H. -Bbuild -DBOOST_ROOT=/you_path_to_boost/boost`  
+`cmake -H. -Bbuild -DBOOST_ROOT=/path_to_boost/boost`  
 `cmake --build build -- -j3`
+
+Hint: in my case, `/path_to_boost/boost` was `~/soft/lib/cmake/Boost-1.88.0`
+
 
 The compiled code will be generated in the build folder.  
 
