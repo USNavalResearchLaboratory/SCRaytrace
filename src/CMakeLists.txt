@@ -69,10 +69,10 @@ add_library(raytrace SHARED Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos
 
 add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp
     camera.h camera.cpp physicsbase.h physicsbase.cpp 
-    physicsthomson.h physicsthomson.cpp physicsuv.h physicsuv.cpp 
+    physicsthomson.h physicsthomson.cpp  
     physicsisotropic.h physicsisotropic.cpp physicsmie.h physicsmie.cpp 
     miehps.h miehps.cpp physicsvsf.cpp physicsvsf.h 
-    physicsvsfvarydist.cpp physicsvsfvarydist.h physicsvariablevsf.cpp physicsvariablevsf.h)
+    physicsvsfvarydist.cpp physicsvsfvarydist.h physicsvariablevsf.cpp physicsvariablevsf.h) # physicsuv.h physicsuv.cpp
 target_link_libraries(raytracethread raytrace  Boost::thread)
 
 

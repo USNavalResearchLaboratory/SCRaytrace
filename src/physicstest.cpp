@@ -8,7 +8,7 @@
 
 #include "physicsbase.h"
 #include "physicsthomson.h"
-#include "physicsuv.h"
+// #include "physicsuv.h"
 #include "physicsvsf.h"
 #include "physicsvsfvarydist.h"
 
@@ -20,16 +20,16 @@
 
 struct PhysicsTest {
    PhysicsBase base;
-   PhysicsBase *pthom,*puv;
+   PhysicsBase *pthom; //,*puv;
 
 
 PhysicsTest() { 
-     puv = physicsSelect(UV);
+     //puv = physicsSelect(UV);
 
 }
 
   ~PhysicsTest() { 
-     delete puv;
+     //delete puv;
 }
 
 };
@@ -78,10 +78,10 @@ BOOST_FIXTURE_TEST_SUITE(s, PhysicsTest)
     flagok=base.computeRadiation(Cvec(0,0,0),1,1,bto,bpo,neo);
     BOOST_TEST(1 == flagok);
 
-    puv->printParam();
-    float phyparam=1;
-    puv->setParam(&phyparam);
-    puv->printParam();
+//     puv->printParam();
+//     float phyparam=1;
+//     puv->setParam(&phyparam);
+//     puv->printParam();
     
     delete pscene;
     

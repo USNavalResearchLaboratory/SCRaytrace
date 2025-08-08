@@ -332,7 +332,7 @@ if __name__ == "__main__" :
 
 #------------------------------------------------------------------------
     elif runname == 'saito':
-        save = True
+        save = False
         savePath = './'
         
         neang = np.deg2rad([0, 0, 0])

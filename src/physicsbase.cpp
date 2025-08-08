@@ -4,7 +4,7 @@
 
 #include "physicsbase.h"
 #include "physicsthomson.h"
-#include "physicsuv.h"
+// #include "physicsuv.h"
 #include "physicsmie.h"
 #include "physicsisotropic.h"
 #include "physicsvsf.h"
@@ -22,11 +22,11 @@ PhysicsBase* physicsSelect(PhysicsType phytype)
       ppthom = new PhysicsThomson;
       pphy = (PhysicsBase*) ppthom;
       break;
-    case UV :
-      PhysicsUV *ppuv;
-      ppuv = new PhysicsUV;
-      pphy = (PhysicsBase*) ppuv;
-      break;
+//     case UV :
+//       PhysicsUV *ppuv;
+//       ppuv = new PhysicsUV;
+//       pphy = (PhysicsBase*) ppuv;
+//       break;
     case MIE :
       PhysicsMie *pmie;
       pmie = new PhysicsMie;

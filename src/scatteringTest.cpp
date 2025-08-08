@@ -3,13 +3,14 @@
 #include <string>
 #include "Cvec.h"
 #include <fstream>
+#include "config.h"
 
 #include "scene.h"
 #include "CModelBase.h"
 
 #include "physicsbase.h"
 #include "physicsthomson.h"
-#include "physicsuv.h"
+// #include "physicsuv.h"
 #include "physicsvsf.h"
 #include "physicsvsfvarydist.h"
 #include "rtthread.h"
@@ -26,16 +27,16 @@ const char* fname2 = SCRAYTRACE_DATA_DIR "/ScatteringTest/Test2.dat";
 
 struct ScatteringTest {
    PhysicsBase base;
-   PhysicsBase *pthom,*puv;
+   PhysicsBase *pthom; //,*puv;
 
 
 ScatteringTest() { 
-     puv = physicsSelect(UV);
+//      puv = physicsSelect(UV);
 
 }
 
   ~ScatteringTest() { 
-     delete puv;
+//      delete puv;
 }
 
 };

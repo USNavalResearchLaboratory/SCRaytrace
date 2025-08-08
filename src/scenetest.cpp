@@ -50,15 +50,15 @@ BOOST_FIXTURE_TEST_SUITE(s, SceneTest)
    BOOST_TEST_MESSAGE("running SceneTest");
      
    
-       string st;
+    string st;
     st=pscene->getPhysics();
     std::cout << st << std::endl;
     BOOST_TEST(string("Thomson Scattering").compare(st) == 0);
     
-    pscene->setPhysics(UV);
-    st=pscene->getPhysics();
-    std::cout << st << std::endl;
-    BOOST_TEST(string("UV emission").compare(st) == 0);
+//     pscene->setPhysics(UV);
+//     st=pscene->getPhysics();
+//     std::cout << st << std::endl;
+//     BOOST_TEST(string("UV emission").compare(st) == 0);
     
     pscene->camera.setDetector(Detector(sx,sy));
     pscene->camera.setProjType(ARC);
@@ -81,9 +81,9 @@ BOOST_FIXTURE_TEST_SUITE(s, SceneTest)
     pscene->setPhysicsParam(&phyparam);
     
     pscene->computeImagebyRay(btot,bpol,netot,2);
-    pscene->computeImagebyChunk(btot,bpol,netot,8,4);
+    pscene->computeImagebyChunk(btot,bpol,netot, 8, 8);
     
-    BOOST_TEST(string("UV emission").compare(pscene->getPhysics()) == 0);
+//     BOOST_TEST(string("UV emission").compare(pscene->getPhysics()) == 0);
 
 
 }

@@ -127,7 +127,7 @@ class scraytraceLib:
         # !!! DO NOT EDIT THE LINES BELOW. 
         #     EDIT THE RTLocalEnvPath.yaml file instead
         localConfTemplate = """
-rt_libpath: /Users/BrandonBonifacio/build/src/
+rt_libpath: /path/to/build/src/
 rt_libfile: libraytracethread.dylib
         
         """
