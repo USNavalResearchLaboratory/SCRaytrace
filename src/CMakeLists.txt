@@ -48,7 +48,42 @@ configure_file(
 include_directories(${PROJECT_BINARY_DIR})
 
 
-# set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wl,-rpath,$ORIGIN")
+# Check for GCC or Clang
+message("Compiler is ${CMAKE_CXX_COMPILER_ID}")
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    # Common flags for GCC and Clang
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
+
+    # Specific flags for GCC
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fstack-protector-strong")
+    endif()
+
+    # Specific flags for Clang
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcolor-diagnostics -std=c++20")
+    endif()
+
+# Check for MSVC
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    # Flags for MSVC
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
+
+# Handle other compilers or provide default flags
+else()
+    message(STATUS "Unknown C++ compiler: ${CMAKE_CXX_COMPILER_ID}. Using default flags.")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2") # Example default flag
+endif()
+
+# You can also set flags based on build type (Debug/Release)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -DDEBUG")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
+endif()
+
+message("CMAKE_CXX_FLAGS is set to ${CMAKE_CXX_FLAGS}")
 
 
 add_library(raytrace SHARED Cmat.cpp    Cvec.cpp    Cbasis.cpp  Cbasis.h    Clos.cpp    Clos.h 
@@ -70,8 +105,8 @@ add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp
     physicsisotropic.h physicsisotropic.cpp physicsmie.h physicsmie.cpp 
     miehps.h miehps.cpp physicsvsf.cpp physicsvsf.h 
     physicsvsfvarydist.cpp physicsvsfvarydist.h physicsvariablevsf.cpp physicsvariablevsf.h)
-target_link_libraries(raytracethread raytrace  Boost::thread)
 
+target_link_libraries(raytracethread raytrace  Boost::thread)
 
 
 add_executable(raytracerun main.cpp)
