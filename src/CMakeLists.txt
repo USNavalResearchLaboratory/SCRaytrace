@@ -38,8 +38,11 @@ else()
 endif()
 
 # Add tirpc include directory and library
-include_directories(/usr/include/tirpc)
-link_libraries(tirpc)
+#include_directories(/usr/include/tirpc)
+#link_libraries(tirpc)
+find_library(TIRPC_LIBRARY NAMES tirpc)
+find_path(TIRPC_INCLUDE_DIR NAMES tirpc/rpc/rpc.h)
+
 
 set(SCRAYTRACE_DATA_DIR "${CMAKE_SOURCE_DIR}/data")
 
@@ -110,6 +113,13 @@ add_library(raytracethread SHARED scene.h scene.cpp rtthread.h rtthread.cpp
     physicsvsfvarydist.cpp physicsvsfvarydist.h physicsvariablevsf.cpp physicsvariablevsf.h)
 
 target_link_libraries(raytracethread raytrace  Boost::thread)
+
+# Link with tirpc only if it was found
+if(TIRPC_LIBRARY)
+    target_link_libraries(raytracethread raytrace ${TIRPC_LIBRARY})
+    # If you also checked for TIRPC_INCLUDE_DIR:
+    # target_include_directories(myapp PRIVATE ${TIRPC_INCLUDE_DIR})
+endif()
 
 
 add_executable(raytracerun main.cpp)
