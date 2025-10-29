@@ -20,7 +20,7 @@ Clos::~Clos()
       \param en End distance from reference point (either Obs or plane of sky)
       \sa setLOS()
     */
-Clos::Clos(int n,float st,float en) {
+Clos::Clos(unsigned int n,float st,float en) {
 setLOS(n,st,en);
 
   }
@@ -35,7 +35,7 @@ Clos::Clos(const Clos &a)
 }
 
 
-void Clos::setLOS(int n,float st,float en)
+void Clos::setLOS(unsigned int n,float st,float en)
 {
 
     this->nbp = n;
