@@ -13,7 +13,7 @@ add_subdirectory(data)
 
 
 set (scraytrace_VERSION_MAJOR 3)
-set (scraytrace_VERSION_MINOR 0)
+set (scraytrace_VERSION_MINOR 1)
 set (scraytrace_VERSION_PATCH 0)
 
 
