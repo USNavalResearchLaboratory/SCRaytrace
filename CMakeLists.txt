@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 # ---- Avoids warning with new policy when compiling on Mac OSX
 set(CMAKE_MACOSX_RPATH 1)
