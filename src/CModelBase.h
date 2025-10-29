@@ -51,7 +51,7 @@ public:
      \param temperature Returns the temperature at position v, when calculated in the model.
      \return The electron density at position v.
     */
-    virtual float Density(const Cvec &v,float &temperature)
+    virtual float Density(const Cvec,float &temperature)
     {
         temperature=0.;
         return 0.;
@@ -62,7 +62,7 @@ public:
      \param v Position where to calculate the electron density in the density model coordinate system.
      \return The electron density at position v.
     */
-    virtual float Density(const Cvec &v)
+    virtual float Density(const Cvec)
     {
         return 0.;
     };

@@ -29,17 +29,17 @@ class PhysicsBase{
 
     
     //! Compute the radiation for the given physics, geometry, model    
-    virtual bool computeRadiation(const Cvec &vs,   /**< [in] Point on the LOS, in Abs coordinates. */
-                                  const float &r,   /**< [in] Distance LOS position to Sun center. */
-                                  const float &rho, /**< [in] Impact parameter. */
-                                  float &btout,     /**< [out] Total brightness. */
-                                  float &bpout,     /**< [out] Polarized brightness. */
-                                  float &neout)     /**< [out] Density. */
+    virtual bool computeRadiation(const Cvec ,   /**< [in] Point on the LOS, in Abs coordinates. */
+                                  const float,   /**< [in] Distance LOS position to Sun center. */
+                                  const float,   /**< [in] Impact parameter. */
+                                  float      ,   /**< [out] Total brightness. */
+                                  float      ,   /**< [out] Polarized brightness. */
+                                  float      )   /**< [out] Density. */
     {return 1;}
 
     
     //! Return the integration constant factor
-    virtual void getConstFactors(float &btf,float &bpf,float &nef, float rho)
+    virtual void getConstFactors(float &btf,float &bpf,float &nef, float)
     {
         btf=1.;
         bpf=1.;
@@ -54,7 +54,7 @@ class PhysicsBase{
     
     
     string getPhysics(){return physicsName;}
-    virtual void setParam(float *phyparam) {};
+    virtual void setParam(float*) {};
     virtual void printParam() {std::cout << "No PhyParam." << std::endl;};
 
     void setParentScene(Scene *pparentscene) {this->pparentscene=pparentscene;};

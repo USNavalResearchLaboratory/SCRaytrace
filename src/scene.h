@@ -142,7 +142,7 @@ private:
     inline void losinteg(const unsigned int &i,const unsigned int &j)
     {
       
-        Cvec vlosobs=camera.ij2los(float(i),float(j));
+        Cvec vlosobs=camera.ij2los(float(i), float(j));
         Cvec vlosabs=obs.ui * vlosobs;
         
         float btout,bpout,neout;
