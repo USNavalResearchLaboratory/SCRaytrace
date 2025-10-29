@@ -61,6 +61,8 @@ Using Boost 1.72.0:
 - dot/graphviz
 - sphinx
 
+### Missing rpc/rpc.h 
+On some Linux distro, the rpc/rpc.h is missing. I manage to remedy this by installing the `libtirpc-devel`. On Fedora, I ran `sudo dnf install libtirpc-devel`.  
 
 ## Generating the code documentation with Doxygen
 Run  
