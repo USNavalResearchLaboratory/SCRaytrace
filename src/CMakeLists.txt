@@ -6,7 +6,7 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 
 set(Boost_USE_STATIC_LIBS OFF)
 set(BUILD_SHARED_LIBS ON)
-find_package(Boost 1.67.0 REQUIRED COMPONENTS thread unit_test_framework)
+find_package(Boost 1.67 CONFIG REQUIRED COMPONENTS thread unit_test_framework)
 
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS}) 
@@ -37,6 +37,9 @@ else()
     message(FATAL_ERROR "${PROJECT_NAME} requires boost/test/unit_test.hpp")
 endif()
 
+# Add tirpc include directory and library
+include_directories(/usr/include/tirpc)
+link_libraries(tirpc)
 
 set(SCRAYTRACE_DATA_DIR "${CMAKE_SOURCE_DIR}/data")
 
