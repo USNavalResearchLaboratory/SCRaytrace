@@ -93,11 +93,6 @@ BOOST_AUTO_TEST_CASE(test_camera)
   BOOST_REQUIRE_CLOSE((float)3., cam.getPc(2), 0.001);
   BOOST_REQUIRE_CLOSE((float)4., cam.getPc(3), 0.001);
 
-  float crpix[2] = {256.,255.};
-  float fovpix = 0.01;
-  float *fp;
-  fp = &fovpix;
-
   float *pc2 = new float[4];
   pc[0]=1; pc[1]=0; pc[2]=0; pc[3]=1;
 
