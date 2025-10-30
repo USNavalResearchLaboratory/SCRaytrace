@@ -37,11 +37,8 @@ else()
     message(FATAL_ERROR "${PROJECT_NAME} requires boost/test/unit_test.hpp")
 endif()
 
-# Add tirpc include directory and library
-#include_directories(/usr/include/tirpc)
-#link_libraries(tirpc)
+# Check for tirpc library
 find_library(TIRPC_LIBRARY NAMES tirpc)
-find_path(TIRPC_INCLUDE_DIR NAMES tirpc/rpc/rpc.h)
 
 
 set(SCRAYTRACE_DATA_DIR "${CMAKE_SOURCE_DIR}/data")
@@ -116,9 +113,11 @@ target_link_libraries(raytracethread raytrace  Boost::thread)
 
 # Link with tirpc only if it was found
 if(TIRPC_LIBRARY)
-    target_link_libraries(raytracethread raytrace ${TIRPC_LIBRARY})
-    # If you also checked for TIRPC_INCLUDE_DIR:
-    # target_include_directories(myapp PRIVATE ${TIRPC_INCLUDE_DIR})
+    message("Linked tirpc library: ${TIRPC_LIBRARY}")
+    include_directories(/usr/include/tirpc)
+    link_libraries(tirpc)
+    #    target_link_libraries(raytracethread raytrace ${TIRPC_LIBRARY})
+    #    target_include_directories(raytracethread PRIVATE ${TIRPC_INCLUDE_DIR})
 endif()
 
 
