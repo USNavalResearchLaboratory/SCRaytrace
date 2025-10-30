@@ -71,7 +71,6 @@ BOOST_FIXTURE_TEST_SUITE(s, SceneTest)
     pscene->los.setLOS(losnbp,losrange[0],losrange[1]);
 
     // -- density model
-    int modelid=14;
     float *pmodparam;
     pmodparam=NULL;
     pscene->setDensityModel(14,pmodparam);
